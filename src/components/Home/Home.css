@@ -1,0 +1,10 @@
+.navbar {
+    display: flex;
+    color: white;
+    font-family: Helvetica;
+    font-weight: 300;
+}
+
+.linkedin-img{
+    height: 250px;
+}
