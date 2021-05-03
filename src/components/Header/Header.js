@@ -6,6 +6,8 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import ChatIcon from "@material-ui/icons/Chat";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import { withCookies } from "react-cookie";
+import { Link } from "react-router-dom";
 
 import React, { Component } from "react";
 
@@ -31,11 +33,17 @@ class Header extends Component {
           <HeaderOption Icon={BusinessCenterIcon} title="Jobs" />
           <HeaderOption Icon={ChatIcon} title="Messaging" />
           <HeaderOption Icon={NotificationsIcon} title="Notifications" />
-          <HeaderOption avatar= {true} title ="Log Out"/>  
+          <Link to={"/"}>
+            <HeaderOption
+              avatar={true}
+              title="Log Out"
+              onClick={() => this.props.cookies.remove("auth-token")}
+            />
+          </Link>
         </div>
       </div>
     );
   }
 }
 
-export default Header;
+export default withCookies(Header);
