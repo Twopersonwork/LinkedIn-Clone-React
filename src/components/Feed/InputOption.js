@@ -1,13 +1,18 @@
-import React from 'react'
-import './InputOption.css'
+import "./InputOption.css";
+import React, { Component } from "react";
 
-function InputOption({Icon,title,color}) {
+class InputOption extends Component {
+  render() {
+    const { Icon, title, color, text } = this.props;
     return (
-        <div className="inputOption">
-            <Icon style = {{color:color}}/>
-            <span className="pl-2">{title}</span>
-        </div>
-    )
+      <div className="inputOption">
+        <Icon style={{ color: color }} />
+
+        <span className="pl-2">{title}</span>
+        <span className="pl-2">{text}</span>
+      </div>
+    );
+  }
 }
 
-export default InputOption
+export default InputOption;
