@@ -1,0 +1,192 @@
+/* Main profile */
+.profile {
+  position: sticky;
+  top: 80px;
+  flex: 0.65;
+  text-align: center;
+  height: fit-content;
+  margin-bottom: 50px;
+  margin-left: 15px;
+}
+
+.profile__top {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 15px;
+  background-color: white;
+  padding-bottom: 10px;
+  /* min-height: 600px; */
+  /* height: 600px; */
+  max-height: 100%;
+}
+.profile__top > img {
+  margin-bottom: -115px;
+  width: 100%;
+  height: 190px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover;
+}
+
+.profile__top > .MuiAvatar-root {
+  margin-left: 20px;
+  width: 170px;
+  height: 170px;
+  border: 2px solid rgb(255, 255, 255);
+  justify-content: left;
+}
+
+.profile__stats {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.profile__stat {
+  padding-left: 20px;
+  /* margin-top: -40px; */
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.profile__stat_connections {
+  padding-left: 20px;
+  display: flex;
+  color: #0c66c2;
+  font-weight: bold;
+}
+
+/* About */
+
+.profile__about {
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 15px;
+  background-color: white;
+  padding-bottom: 10px;
+  min-height: 300px;
+  max-height: 100%;
+}
+
+.profile__about_header {
+  padding-left: 20px;
+  padding-right: 30px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+
+.profile__stat_about {
+  padding-left: 20px;
+  text-align: left;
+}
+
+/* Dashboard */
+.profile__dashboard {
+  margin-top: 20px;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 15px;
+  background-color: #dce6f1;
+  padding-bottom: 10px;
+  height: 400px;
+}
+
+.profile__dashboard_header {
+  padding-left: 20px;
+  padding-right: 30px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+
+.profile__dashboard_card_1 {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 9px;
+  background-color: white;
+  padding-bottom: 10px;
+  height: 100px;
+}
+
+.profile__dashboard_card_2 {
+  margin-top: 13px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 9px;
+  background-color: white;
+  padding-bottom: 10px;
+  height: 150px;
+}
+
+/* Activity */
+
+.profile__activity {
+  margin-top: 20px;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 15px;
+  background-color: white;
+  padding-bottom: 10px;
+  min-height: 220px;
+  max-height: 100%;
+}
+
+.profile__activity_header {
+  padding-left: 20px;
+  padding-right: 30px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+
+.profile__activity_followers {
+  padding-left: 20px;
+  display: flex;
+  color: #0c66c2;
+  font-weight: bold;
+}
+
+/* Education and Licenses & certifications */
+
+.profile__education_certificate {
+  margin-top: 20px;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 15px;
+  background-color: white;
+  padding-bottom: 10px;
+  min-height: 250px;
+  max-height: 100%;
+}
+
+.profile__education_certificate_header {
+  padding-left: 20px;
+  padding-right: 30px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+
+/* skills & endorsements */
+.profile__skills {
+  margin-top: 20px;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 15px;
+  background-color: white;
+  padding-bottom: 10px;
+  min-height: 200px;
+  max-height: 100%;
+}
+
+.profile__skills_header {
+  padding-left: 20px;
+  padding-right: 30px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+

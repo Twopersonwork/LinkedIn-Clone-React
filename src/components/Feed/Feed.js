@@ -10,6 +10,7 @@ import { Link, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import { withCookies } from "react-cookie";
 import CreatePost from "./CreatePost";
+// import { Button } from "react-bootstrap";
 
 class Feed extends Component {
   constructor(props) {
@@ -37,7 +38,6 @@ class Feed extends Component {
       );
     }
 
-    console.log(form_data);
     fetch(`${process.env.REACT_APP_API_URL}/papi/create_post/`, {
       method: "POST",
       headers: {
@@ -50,8 +50,6 @@ class Feed extends Component {
         this.setState({ modalPost: false }, function () {
           window.location.reload();
         });
-
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
   };
@@ -62,10 +60,7 @@ class Feed extends Component {
     });
   };
 
-  handleBody = (e) =>
-    this.setState({ body: e.target.value }, function () {
-      console.log(this.state.body);
-    });
+  handleBody = (e) => this.setState({ body: e.target.value }, function () {});
 
   componentDidMount() {
     fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
@@ -77,12 +72,9 @@ class Feed extends Component {
     })
       .then((resp) => resp.json())
       .then((res) =>
-        this.setState(
-          {
-            posts: res,
-          },
-          console.log(res)
-        )
+        this.setState({
+          posts: res,
+        })
       )
       .catch((error) => console.log(error));
   }

@@ -36,7 +36,6 @@ class Post extends Component {
       )
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log(resp);
           if (resp.result) {
             this.setState({
               has_liked: true,
@@ -45,7 +44,6 @@ class Post extends Component {
         })
         .catch((errors) => console.log(errors));
     } else {
-      console.log("disliked");
       fetch(
         `http://127.0.0.1:8000/papi/posts/${this.props.post.id}/dislikePost/`,
         {
@@ -125,11 +123,11 @@ class Post extends Component {
             <Avatar src={this.state.user.profile_pic} alt="Profile" />
           ) : (
             <Avatar
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP9xCw-TO3d5DvvvTaUE2dx6VLYNO52xxG5A&usqp=CAU"
+              className="post__image"
+              src="/images/user.svg"
               alt="Profile"
             />
           )}
-          {/* {this.fetchUser(user)} */}
 
           <div className="post__info">
             <span style={{ fontWeight: "bold" }}>
@@ -157,7 +155,6 @@ class Post extends Component {
             Icon={ThumbUpIcon}
             title="Like"
             color={this.state.has_liked ? "blue" : "gray"}
-            // color={this.state.color}
             post={post}
           />
           <InputOption Icon={ChatOutlinedIcon} title="Comment" color="gray" />

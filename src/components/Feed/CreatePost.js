@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import { withCookies } from "react-cookie";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import "./CreatePost.css";
+import { Avatar } from "@material-ui/core";
 
 export class CreatePost extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ export class CreatePost extends Component {
     return (
       <div>
         <Modal
+          scrollable={true}
           show={this.state.modalPost}
           size="md"
           aria-labelledby="contained-modal-title-vcenter"
@@ -70,10 +72,35 @@ export class CreatePost extends Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <input
-              placeholder="What do you want to talk about?"
-              onChange={this.handleBody}
-            />
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>
+                <div className="post__header">
+                  {this.props.cookies.get("auth-token").user.profile_pic ? (
+                    <Avatar
+                      src={
+                        this.props.cookies.get("auth-token").user.profile_pic
+                      }
+                      alt="Profile"
+                    />
+                  ) : (
+                    <Avatar
+                      className="post__image"
+                      src="/images/user.svg"
+                      alt="Profile"
+                    />
+                  )}
+                  {this.props.cookies.get("auth-token").user.username}
+                </div>
+              </Form.Label>
+              <Form.Control
+                style={{ border: "none" }}
+                placeholder="What do you want to talk about?"
+                onChange={this.handleBody}
+                as="textarea"
+                rows={3}
+              />
+            </Form.Group>
+
             {this.state.image ? (
               <img className="post__image" src={this.state.image} />
             ) : null}
@@ -84,13 +111,10 @@ export class CreatePost extends Component {
               type="file"
               id="file"
               onChange={(e) =>
-                this.setState(
-                  {
-                    image: URL.createObjectURL(e.target.files[0]),
-                    imageAsFile: e.target.files[0],
-                  },
-                  console.log(this.state.image)
-                )
+                this.setState({
+                  image: URL.createObjectURL(e.target.files[0]),
+                  imageAsFile: e.target.files[0],
+                })
               }
             />
             <label htmlFor="file">
@@ -98,14 +122,15 @@ export class CreatePost extends Component {
             </label>
             <Button
               style={{
-                // paddingLeft: "25px",
-                // paddingRight: "25px",
+                paddingLeft: "20px",
+                paddingRight: "20px",
+                marginTop: "10px",
+                marginLeft: "10px",
                 fontWeight: "bold",
                 borderRadius: "50px",
-                background: "#FFFFFF",
-                color: "#0c66c2",
-                // marginTop: "-100px",
-                marginLeft: "12px",
+                display: "flex",
+                background: "#0c66c2",
+                color: "white",
                 border: "solid 1px #0c66c2",
               }}
               disabled={this.state.body.length < 1}
