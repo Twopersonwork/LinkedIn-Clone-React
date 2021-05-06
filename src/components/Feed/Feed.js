@@ -6,7 +6,7 @@ import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import CalendarViewDayIcon from "@material-ui/icons/CalendarViewDay";
 import FlipMove from "react-flip-move";
-
+import { Link, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import { withCookies } from "react-cookie";
 import CreatePost from "./CreatePost";
@@ -140,58 +140,10 @@ class Feed extends Component {
           {this.state.posts.length > 0 &&
             this.state.posts.map((post) => <Post key={post.id} post={post} />)}
         </FlipMove>
-        <CreatePost modalPost={this.state.modalPost} />
 
-        {/* {this.state.modalPost ? (
-          <Modal
-            show={this.state.modalPost}
-            size="md"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-          >
-            <Modal.Header
-              closeButton
-              onClick={() => {
-                this.setState({ modalPost: false });
-              }}
-            >
-              <Modal.Title id="contained-modal-title-vcenter">
-                Create a Post
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <input
-                placeholder="What do you want to talk about?"
-                onChange={this.handleBody}
-              />
-              {this.state.image ? (
-                <img className="post__image" src={this.state.image} />
-              ) : null}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                disabled={this.state.body.length < 1}
-                type="submit"
-                onClick={this.submitPost}
-              >
-                Post
-              </Button>
-              <input
-                type="file"
-                id="file"
-                onChange={(e) =>
-                  this.setState(
-                    {
-                      image: URL.createObjectURL(e.target.files[0]),
-                      imageAsFile: e.target.files[0],
-                    },
-                    console.log(this.state.image)
-                  )
-                }
-              />
-            </Modal.Footer>
-          </Modal>
-        ) : null} */}
+        {this.state.modalPost ? (
+          <Link component={() => <CreatePost />} />
+        ) : null}
       </div>
     );
   }

@@ -29,11 +29,9 @@ export class CreatePost extends Component {
         this.state.imageAsFile,
         this.state.imageAsFile.name
       );
-    } else {
-      form_data.append("image", null);
     }
 
-    console.log(form_data);
+    console.log(this.props.cookies.get("auth-token").token);
     fetch(`${process.env.REACT_APP_API_URL}/papi/create_post/`, {
       method: "POST",
       headers: {
@@ -53,8 +51,6 @@ export class CreatePost extends Component {
   };
 
   render() {
-    // this.state.modalPost = this.props.modalPost;
-    console.log(this.props.modalPost, this.state.modalPost);
     return (
       <div>
         <Modal
@@ -65,23 +61,15 @@ export class CreatePost extends Component {
         >
           <Modal.Header
             closeButton
-            onClick={() => {
-              this.setState({ modalPost: false });
-            }}
+            onClick={() => this.setState({ modalPost: false })}
           >
             <Modal.Title id="contained-modal-title-vcenter">
               Create a Post
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {/* <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo
-                odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
-                risus, porta ac consectetur ac, vestibulum at eros.
-              </p> */}
             <input
               placeholder="What do you want to talk about?"
-              // value={this.state.body}
               onChange={this.handleBody}
             />
             {this.state.image ? (
@@ -99,8 +87,6 @@ export class CreatePost extends Component {
             <input
               type="file"
               id="file"
-              // value={this.state.image}
-
               onChange={(e) =>
                 this.setState(
                   {

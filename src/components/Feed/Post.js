@@ -8,6 +8,8 @@ import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 import React, { Component } from "react";
 import Count from "./Count";
 import { withCookies } from "react-cookie";
+import { Link, Redirect } from "react-router-dom";
+import Feed from "./Feed";
 
 class Post extends Component {
   constructor(props) {
@@ -15,13 +17,13 @@ class Post extends Component {
 
     this.state = {
       user: "",
-
+      no_of_like: null,
       has_liked: false,
+      post: this.props.post,
     };
   }
 
   submitLike = () => {
-    // this.setState({ color: "blue" });
     if (!this.state.has_liked) {
       fetch(
         `http://127.0.0.1:8000/papi/posts/${this.props.post.id}/likePost/`,
@@ -35,11 +37,18 @@ class Post extends Component {
           },
         }
       )
+        .then((resp) => resp.json())
         .then((resp) => {
-          this.setState({ has_liked: true });
+          console.log(resp);
+          if (resp.result) {
+            this.setState({
+              has_liked: true,
+            });
+          }
         })
         .catch((errors) => console.log(errors));
     } else {
+      console.log("disliked");
       fetch(
         `http://127.0.0.1:8000/papi/posts/${this.props.post.id}/dislikePost/`,
         {
@@ -52,7 +61,9 @@ class Post extends Component {
           },
         }
       )
-        .then(this.setState({ has_liked: false }))
+        .then(() => {
+          this.setState({ has_liked: false });
+        })
         .catch((errors) => console.log(errors));
     }
   };
@@ -72,6 +83,7 @@ class Post extends Component {
       )
       .catch((error) => console.log(error));
   };
+
   componentDidMount() {
     this.fetchUser(this.props.post.user);
     if (
@@ -79,10 +91,33 @@ class Post extends Component {
         (e) => e.user == this.props.cookies.get("auth-token").user.id
       )
     ) {
-      this.setState({ has_liked: true });
+      this.state.has_liked = true;
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.has_liked != this.state.has_liked) {
+      fetch(
+        `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((res) =>
+          this.setState({
+            post: res,
+          })
+        )
+        .catch((error) => console.log(error));
+    }
+  }
   render() {
     const { post } = this.props;
 
@@ -116,7 +151,8 @@ class Post extends Component {
         <div className="post__body">
           <p>{post.body}</p>
           <img className="post__image" src={post.image} />
-          <Count post={post} />
+
+          <Count post={this.state.post} />
         </div>
         <div className="post__buttons">
           <InputOption

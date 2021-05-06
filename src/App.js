@@ -10,6 +10,7 @@ import "./App.css";
 import { withCookies } from "react-cookie";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "./components/Login/Login";
+import Count from "./components/Feed/Count";
 
 class App extends Component {
   render() {
