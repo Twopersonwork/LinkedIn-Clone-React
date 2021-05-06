@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { BiPlus } from "react-icons/bi";
 import { Button as Btn } from "react-bootstrap";
 import EditIntroModal from "./EditIntroModal";
+import { withCookies } from "react-cookie";
 
 class Profile extends Component {
   constructor(props) {
@@ -13,11 +14,39 @@ class Profile extends Component {
 
     this.state = {
       profileModalShow: false,
+      profileCredentials: {},
     };
   }
 
   onProfileModal = () => {
     this.setState({ profileModalShow: true });
+  };
+
+  updateProfile = () => {
+    console.log("This is update profiel");
+    fetch(
+      `${
+        process.env.REACT_APP_API_URL
+      }/profile/user_profile/${this.props.cookies.get("profile-id")}/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        this.setState({ profileCredentials: resp });
+        this.setState({ profileModalShow: false });
+
+      })
+      .catch((error) => console.log(error));
+  };
+
+  componentDidMount = () => {
+    this.updateProfile();
   };
 
   render() {
@@ -41,24 +70,38 @@ class Profile extends Component {
               width: "50px",
               height: "50px",
               background: "grey",
+              marginTop:"-40px"
             }}
             onClick={this.onProfileModal}
           >
             <FaEdit />
           </Btn>
 
+          {/* For get User information */}
           {this.state.profileModalShow ? (
-              <EditIntroModal profileModalShow={this.state.profileModalShow} setProfileModal={(e) => this.setState({profileModalShow:e})}/>
+            <Link
+              component={() => (
+                <EditIntroModal updateProfile={() => this.updateProfile()} />
+              )}
+            />
           ) : null}
-          <div className="profile__stats" style={{ marginTop: "-20px" }}>
+
+          <div className="profile__stats" style={{ marginTop: "-10px" }}>
             <div className="profile__stat">
-              <h4>Malav Mevada</h4>
+              <h4>
+                {this.state.profileCredentials.firstName
+                  ? this.state.profileCredentials.firstName
+                  : `${this.props.cookies.get("auth-token").user.username}`}
+                {/* {!this.state.profileCredentials.firstName ?  : null}{" "} */}{" "}
+                {this.state.profileCredentials.lastName}
+              </h4>
             </div>
             <Typography className="profile__stat">
-              Student | Python Developer
+              {this.state.profileCredentials.headLine}
             </Typography>
             <Typography className="profile__stat">
-              Ahmedabad , India{" "}
+              {this.state.profileCredentials.location}{" "}
+              {this.state.profileCredentials.country}
               <Typography className="profile__stat_connections">
                 +500 Connections
               </Typography>
@@ -221,5 +264,4 @@ const profile_button = {
   border: "solid 1px #0c66c2",
 };
 
-
-export default Profile;
+export default withCookies(Profile);

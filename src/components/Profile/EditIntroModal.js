@@ -9,13 +9,15 @@ class EditIntroModal extends Component {
     super(props);
 
     this.state = {
+      modelShow: true,
       credentials: {
         firstName: "",
         lastName: "",
-        headline: "",
+        headLine: "",
         education: "",
         country: "",
         industry: "",
+        location: "",
         user: this.props.cookies.get("auth-token").user.id,
       },
     };
@@ -28,8 +30,8 @@ class EditIntroModal extends Component {
     this.setState({ credentials: cred });
   };
 
-  createProfile = () => {
-    fetch(`http://127.0.0.1:8000/profile/user_profile/`, {
+  createProfile = (e) => {
+    fetch(`${process.env.REACT_APP_API_URL}/profile/user_profile/`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -38,15 +40,23 @@ class EditIntroModal extends Component {
       body: JSON.stringify(this.state.credentials),
     })
       .then((resp) => resp.json())
-      .then((resp) => console.log(resp))
+      .then((resp) => {
+        console.log(resp);
+        this.props.cookies.set("profile", true);
+        this.props.cookies.set("profile-id", resp.id);
+        this.props.updateProfile(true);
+      })
       .catch((error) => console.log(error));
+
+    e.preventDefault();
+    this.getUserData();
   };
 
-  editProfile = () => {
+  editProfile = (e) => {
     fetch(
-      `http://127.0.0.1:8000/profile/user_profile/${
-        this.props.cookies.get("auth-token").user.user_profile.id
-      }/`,
+      `${
+        process.env.REACT_APP_API_URL
+      }/profile/user_profile/${this.props.cookies.get("profile-id")}/`,
       {
         method: "PUT",
         headers: {
@@ -57,42 +67,67 @@ class EditIntroModal extends Component {
       }
     )
       .then((resp) => resp.json())
-      .then((resp) => console.log(resp))
+      .then((resp) => {
+        this.setState({ modelShow: false }); 
+        this.props.updateProfile(true);
+      })
+      .catch((error) => console.log(error));
+
+    e.preventDefault();
+    this.getUserData();
+  };
+
+  getUserData = () => {
+    fetch(
+      `${process.env.REACT_APP_API_URL}/uapi/users/${
+        this.props.cookies.get("auth-token").user.id
+      }/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        // console.log(resp)
+        if (resp.user_profile) {
+          this.setState({
+            credentials: {
+              firstName: resp.user_profile.firstName,
+              lastName: resp.user_profile.lastName,
+              headLine: resp.user_profile.headLine,
+              education: resp.user_profile.education,
+              country: resp.user_profile.country,
+              location: resp.user_profile.location,
+              industry: resp.user_profile.industry,
+              user: this.props.cookies.get("auth-token").user.id,
+            },
+          });
+        }
+      })
       .catch((error) => console.log(error));
   };
 
+  UNSAFE_componentWillMount() {
+    this.getUserData();
+  }
+
   componentDidMount = () => {
     if (this.props.cookies.get("auth-token").user.user_profile) {
-      this.setState({
-        credentials: {
-          firstName: this.props.cookies.get("auth-token").user.user_profile
-            .firstName,
-          lastName: this.props.cookies.get("auth-token").user.user_profile
-            .lastName,
-          headline: this.props.cookies.get("auth-token").user.user_profile
-            .headline,
-          education: this.props.cookies.get("auth-token").user.user_profile
-            .education,
-          country: this.props.cookies.get("auth-token").user.user_profile
-            .country,
-          location: this.props.cookies.get("auth-token").user.user_profile
-            .location,
-          industry: this.props.cookies.get("auth-token").user.user_profile
-            .industry,
-        },
-      });
+      this.getUserData();
     }
   };
 
   render() {
-    console.log(this.props.cookies.get("auth-token").user.user_profile);
     return (
       <Modal
-        show={this.props.profileModalShow}
+        show={this.state.modelShow}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        onHide={() => this.props.setProfileModal(false)}
+        onHide={() => this.setState({ modelShow: false })}
       >
         <Modal.Header closeButton>Edit intro</Modal.Header>
         <Modal.Body className="profile__modal">
@@ -135,10 +170,10 @@ class EditIntroModal extends Component {
             size="small"
             type="text"
             fullWidth
-            id="headline"
-            value={this.state.credentials.headline}
-            label="Headline"
-            name="headline"
+            id="headLine"
+            value={this.state.credentials.headLine}
+            label="HeadLine"
+            name="headLine"
             onChange={this.inputChanged}
             required
             className="mb-3"
@@ -190,13 +225,13 @@ class EditIntroModal extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          {this.props.cookies.get("auth-token").user.user_profile ? (
+          {this.props.cookies.get("profile") === "true" ? (
             <Button
               onClick={this.editProfile}
               style={save_button}
               type="submit"
             >
-              Save
+              save
             </Button>
           ) : (
             <Button

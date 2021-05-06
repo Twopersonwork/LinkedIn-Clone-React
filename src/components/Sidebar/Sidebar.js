@@ -46,7 +46,6 @@ class Sidebar extends Component {
             </span>
           </Link>
 
-          {/* <h4>@gmail.com</h4> */}
         </div>
 
         <div className="sidebar__stats">
