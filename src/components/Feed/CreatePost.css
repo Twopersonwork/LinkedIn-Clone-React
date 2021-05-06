@@ -1,0 +1,11 @@
+.button_modal {
+  padding-left: "25px";
+  padding-right: "25px";
+  font-weight: "bold";
+  border-radius: "50px";
+  background: "rgb(0; 65; 130)";
+  color: "#0c66c2";
+  margin-top: "-100px";
+  margin-left: "12px";
+  border: "solid 1px #0c66c2";
+}

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { withCookies } from "react-cookie";
+import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import "./CreatePost.css";
 
 export class CreatePost extends Component {
   constructor(props) {
@@ -77,14 +79,8 @@ export class CreatePost extends Component {
             ) : null}
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              disabled={this.state.body.length < 1}
-              type="submit"
-              onClick={this.submitPost}
-            >
-              Post
-            </Button>
             <input
+              style={{ display: "none" }}
               type="file"
               id="file"
               onChange={(e) =>
@@ -97,6 +93,27 @@ export class CreatePost extends Component {
                 )
               }
             />
+            <label htmlFor="file">
+              <InsertPhotoIcon style={{ color: "gray" }} />
+            </label>
+            <Button
+              style={{
+                // paddingLeft: "25px",
+                // paddingRight: "25px",
+                fontWeight: "bold",
+                borderRadius: "50px",
+                background: "#FFFFFF",
+                color: "#0c66c2",
+                // marginTop: "-100px",
+                marginLeft: "12px",
+                border: "solid 1px #0c66c2",
+              }}
+              disabled={this.state.body.length < 1}
+              type="submit"
+              onClick={this.submitPost}
+            >
+              Post
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

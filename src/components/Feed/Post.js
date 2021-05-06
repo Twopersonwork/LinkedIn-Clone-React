@@ -8,8 +8,6 @@ import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 import React, { Component } from "react";
 import Count from "./Count";
 import { withCookies } from "react-cookie";
-import { Link, Redirect } from "react-router-dom";
-import Feed from "./Feed";
 
 class Post extends Component {
   constructor(props) {
@@ -17,7 +15,6 @@ class Post extends Component {
 
     this.state = {
       user: "",
-      no_of_like: null,
       has_liked: false,
       post: this.props.post,
     };
