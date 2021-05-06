@@ -1,20 +1,24 @@
 import { Avatar } from "@material-ui/core";
 import { FaHashtag } from "react-icons/fa";
 import "./Sidebar.css";
+import { withCookies } from "react-cookie";
+import { Link} from "react-router-dom";
+
 
 import React, { Component } from "react";
 
 class Sidebar extends Component {
   componentDidMount() {
-    fetch("http://127.0.0.1:8000/auth/", {
-        method:"POST",
-        headers : {
-            "Content-Type":"application/json",
-            "Authorization":"Token 4bd66226919d32a577ff458b35244cc034d4f586",
-        },
-    }).then((resp) => resp.json())
-    .then((res) => console.log(res))
-    .catch((error) => console.log(error))
+    console.log(this.props.cookies.get("username"));
+    // fetch("http://127.0.0.1:8000/auth/", {
+    //     method:"POST",
+    //     headers : {
+    //         "Content-Type":"application/json",
+    //         "Authorization":"Token 4bd66226919d32a577ff458b35244cc034d4f586",
+    //     },
+    // }).then((resp) => resp.json())
+    // .then((res) => console.log(res))
+    // .catch((error) => console.log(error))
   }
 
   recentItem = (topic) => (
@@ -36,8 +40,12 @@ class Sidebar extends Component {
             src="https://static.hollywoodreporter.com/sites/default/files/2019/03/avatar-publicity_still-h_2019-compressed.jpg"
             className="sidebar__avatar"
           ></Avatar>
-          <span style={{ fontWeight: "bold" }}>Malav</span>
-          {/* <h4>@gmail.com</h4> */}
+          <Link to={'/profile'}>
+            <span style={{ fontWeight: "bold" }}>
+              {this.props.cookies.get("auth-token").user.username}
+            </span>
+          </Link>
+
         </div>
 
         <div className="sidebar__stats">
@@ -70,4 +78,4 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+export default withCookies(Sidebar);

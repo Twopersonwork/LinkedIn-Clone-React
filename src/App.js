@@ -11,6 +11,7 @@ import { withCookies } from "react-cookie";
 
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "./components/Login/Login";
+import Profile from "./components/Profile/Profile";
 
 class App extends Component {
   render() {
@@ -19,13 +20,20 @@ class App extends Component {
         <div>
           <Switch>
             {this.props.cookies.get("auth-token") ? (
-              <Route exact path="/main">
+              <Route>
                 <div className="app">
                   <Header />
                   <div className="app__body">
-                    <Sidebar />
-                    <Feed />
-                    <Widgets />
+                    <Route exact path="/main">
+                      <Sidebar />
+                      <Feed />
+                      <Widgets />
+                    </Route>
+                    <Route
+                      exact
+                      path="/profile"
+                      component={() => <Profile />}
+                    />
                   </div>
                 </div>
               </Route>
