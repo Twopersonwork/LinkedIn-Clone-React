@@ -12,14 +12,19 @@ import { Link } from "react-router-dom";
 import React, { Component } from "react";
 
 class Header extends Component {
+  removeallCookies = () => {
+    this.props.cookies.remove("auth-token");
+  };
+
   render() {
     return (
       <div className="header">
         <div className="header__left">
-          <img
-            src="https://www.flaticon.com/svg/static/icons/svg/174/174857.svg"
-            alt="linkedin logo"
-          />
+            <img
+              src="https://www.flaticon.com/svg/static/icons/svg/174/174857.svg"
+              alt="linkedin logo"
+              onClick={() => window.location.href="/main"}
+            />
 
           <div className="header__search">
             <SearchIcon style={{ color: "black" }} />
@@ -37,7 +42,7 @@ class Header extends Component {
             <HeaderOption
               avatar={true}
               title="Log Out"
-              onClick={() => this.props.cookies.remove("auth-token")}
+              onClick={this.removeallCookies}
             />
           </Link>
         </div>

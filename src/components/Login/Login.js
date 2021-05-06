@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Login.css";
 import { Container, Row } from "react-bootstrap";
 import { Typography, Button, Card, TextField } from "@material-ui/core";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withCookies } from "react-cookie";
 
 class Login extends Component {
@@ -39,7 +39,8 @@ class Login extends Component {
       .then((resp) => {
         console.log(resp);
         if (resp.token) {
-          this.props.cookies.set("auth-token", resp.token);
+          this.props.cookies.set("auth-token", resp);
+          window.location.href = "/main"  
         } else if (resp.user_not_found) {
           this.setState({ emailError: resp.user_not_found });
         } else if (resp.chk_uname_or_pwd) {
@@ -54,7 +55,6 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        {this.props.cookies.get("auth-token") ? <Redirect to={"/main"} /> : null}
         <Row>
           <img
             className="linkedin-img-login"

@@ -5,6 +5,8 @@
     font-weight: 300;
 }
 
-.linkedin-img{
+.linkedin-img-home{
+    width: 200px;
     height: 250px;
+    margin-top: -90px;
 }
