@@ -1,11 +1,21 @@
 import "./InputOption.css";
 import React, { Component } from "react";
+import { withCookies } from "react-cookie";
 
 class InputOption extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      color: "grey",
+    };
+  }
+
   render() {
-    const { Icon, title, color, text } = this.props;
+    // console.log("auth-user ", this.props.cookies.get("auth-user"));
+    const { Icon, title, color, text, post } = this.props;
     return (
-      <div className="inputOption">
+      <div onClick={this.props.submitLike} className="inputOption">
         <Icon style={{ color: color }} />
 
         <span className="pl-2">{title}</span>
@@ -15,4 +25,4 @@ class InputOption extends Component {
   }
 }
 
-export default InputOption;
+export default withCookies(InputOption);

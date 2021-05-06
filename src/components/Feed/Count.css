@@ -1,0 +1,10 @@
+.user {
+  background-color: white;
+  padding-left: 20px;
+}
+.user__header {
+  display: flex;
+}
+
+.comment {
+}

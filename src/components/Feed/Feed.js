@@ -1,22 +1,15 @@
 import "./Feed.css";
 import InputOption from "./InputOption";
 import Post from "./Post";
-import CreateIcon from "@material-ui/icons/Create";
 import ImageIcon from "@material-ui/icons/Image";
 import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import CalendarViewDayIcon from "@material-ui/icons/CalendarViewDay";
-import { Modal, Button } from "react-bootstrap";
-import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
-import axios from "axios";
-
-// import { useSelector } from 'react-redux';
-// import { selectUser } from '../../features/userSlice';
-// import { db } from '../../firebase';
-// import firebase from "firebase";
 import FlipMove from "react-flip-move";
 
 import React, { Component } from "react";
+import { withCookies } from "react-cookie";
+import CreatePost from "./CreatePost";
 
 class Feed extends Component {
   constructor(props) {
@@ -33,36 +26,40 @@ class Feed extends Component {
   }
 
   submitPost = () => {
-    let form_data = new FormData();
+    var form_data = new FormData();
 
-    form_data.append(
-      "image",
-      this.state.imageAsFile,
-      this.state.imageAsFile.name
-    );
-    form_data.append("body", this.state.body);
-    form_data.append("user", 1);
-    let url = `${process.env.REACT_APP_API_URL}/papi/posts/`;
-    axios
-      .post(url, form_data, {
-        headers: {
-          "content-type": "multipart/form-data",
-          Authorization: "Token d194a979f94b27587f743071a64f8d5c7d3dfb01",
-        },
-      })
+    form_data.set("body", this.state.body);
+    if (this.state.image) {
+      form_data.set(
+        "image",
+        this.state.imageAsFile,
+        this.state.imageAsFile.name
+      );
+    }
+
+    console.log(form_data);
+    fetch(`${process.env.REACT_APP_API_URL}/papi/create_post/`, {
+      method: "POST",
+      headers: {
+        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+      },
+      body: form_data,
+    })
+      .then((res) => res.json())
       .then((res) => {
+        this.setState({ modalPost: false }, function () {
+          window.location.reload();
+        });
+
         console.log(res.data);
       })
       .catch((err) => console.log(err));
   };
 
   createPost = () => {
-    this.setState(
-      {
-        modalPost: true,
-      },
-      console.log(this.state.modalPost)
-    );
+    this.setState({
+      modalPost: true,
+    });
   };
 
   handleBody = (e) =>
@@ -75,7 +72,7 @@ class Feed extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Token d194a979f94b27587f743071a64f8d5c7d3dfb01",
+        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
       },
     })
       .then((resp) => resp.json())
@@ -84,28 +81,40 @@ class Feed extends Component {
           {
             posts: res,
           },
-          console.log(this.state.posts)
+          console.log(res)
         )
       )
       .catch((error) => console.log(error));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.posts.length != this.state.posts.length) {
+      fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      })
+        .then((resp) => resp.json())
+        .then((res) =>
+          this.setState({
+            posts: res,
+          })
+        )
+        .catch((error) => console.log(error));
+    }
   }
 
   render() {
     return (
       <div className="feed">
         <div className="feed__inputContainer">
-          {/* <div className="feed__input"> */}
-          {/* <CreateIcon /> */}
-          {/* <form>
-              <input
-                value={this.state.input}
-                onChange={(e) => this.setState({ input: e.target.value })}
-                type="text"
-                placeholder="Start a post"
-              /> */}
-          {/* <button onClick={sendPost} type="submit">Send</button> */}
-          {/* </form> */}
-          <button onClick={this.createPost} className="feed__input">
+          <button
+            style={{ width: "100%" }}
+            onClick={this.createPost}
+            className="feed__input"
+          >
             Start a Post
           </button>
           {/* </div> */}
@@ -128,23 +137,12 @@ class Feed extends Component {
 
         {/* Posts */}
         <FlipMove>
-          {this.state.posts.map((post) => (
-            <Post
-              key={post.id}
-              body={post.body}
-              // description={description}
-              // message={message}
-              user={post.user}
-              image={post.image}
-              no_of_like={post.no_of_like}
-              no_of_comment={post.no_of_comment}
-              likes={post.likes}
-              comments={post.comments}
-            />
-          ))}
+          {this.state.posts.length > 0 &&
+            this.state.posts.map((post) => <Post key={post.id} post={post} />)}
         </FlipMove>
+        <CreatePost modalPost={this.state.modalPost} />
 
-        {this.state.modalPost ? (
+        {/* {this.state.modalPost ? (
           <Modal
             show={this.state.modalPost}
             size="md"
@@ -162,14 +160,8 @@ class Feed extends Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {/* <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo
-                odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
-                risus, porta ac consectetur ac, vestibulum at eros.
-              </p> */}
               <input
                 placeholder="What do you want to talk about?"
-                // value={this.state.body}
                 onChange={this.handleBody}
               />
               {this.state.image ? (
@@ -186,7 +178,7 @@ class Feed extends Component {
               </Button>
               <input
                 type="file"
-                // value={this.state.image}
+                id="file"
                 onChange={(e) =>
                   this.setState(
                     {
@@ -199,10 +191,10 @@ class Feed extends Component {
               />
             </Modal.Footer>
           </Modal>
-        ) : null}
+        ) : null} */}
       </div>
     );
   }
 }
 
-export default Feed;
+export default withCookies(Feed);
