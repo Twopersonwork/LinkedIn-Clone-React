@@ -42,12 +42,14 @@ class Login extends Component {
           this.props.cookies.set("auth-token", resp);
           console.log(resp.user.user_profile);
           if (resp.user.user_profile) {
-            this.props.cookies.set("profile", true);
             this.props.cookies.set("profile-id", resp.user.user_profile.id);
           } else {
             this.props.cookies.set("profile", false);
           }
-          // window.location.href = "/main";
+          if (resp.user.user_about) {
+            this.props.cookies.set("about-id",resp.user.user_about.id)
+          }
+          window.location.href = "/main";
         } else if (resp.user_not_found) {
           this.setState({ emailError: resp.user_not_found });
         } else if (resp.chk_uname_or_pwd) {
