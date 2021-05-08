@@ -23,7 +23,7 @@ class About extends Component {
     this.setState({ credentials: cred });
   };
 
-  createProfile = (e) => {
+  createAbout = (e) => {
     fetch(`${process.env.REACT_APP_API_URL}/profile/about/`, {
       method: "POST",
       headers: {
@@ -36,9 +36,6 @@ class About extends Component {
       .then((resp) => {
         console.log(resp);
         this.props.cookies.set("about-id", resp.id);
-        // this.props.cookies.set("profile", true);
-        // this.props.cookies.set("profile-id", resp.id);
-        // this.props.updateProfile(true);
         this.props.updateAbout();
       })
       .catch((error) => console.log(error));
@@ -47,7 +44,7 @@ class About extends Component {
     this.props.onAboutModal(false);
   };
 
-  editProfile = (e) => {
+  editAbout = (e) => {
     fetch(
       `${process.env.REACT_APP_API_URL}/profile/about/${this.props.cookies.get(
         "about-id"
@@ -65,7 +62,6 @@ class About extends Component {
       .then((resp) => {
         console.log(resp);
         this.setState({ modelShow: false });
-        // this.props.updateProfile(true);
         this.props.updateAbout();
       })
       .catch((error) => console.log(error));
@@ -136,7 +132,7 @@ class About extends Component {
         <Modal.Footer>
           {this.props.cookies.get("about-id") ? (
             <Button
-              onClick={this.editProfile}
+              onClick={this.editAbout}
               style={save_button}
               type="submit"
             >
@@ -144,7 +140,7 @@ class About extends Component {
             </Button>
           ) : (
             <Button
-              onClick={this.createProfile}
+              onClick={this.createAbout}
               style={save_button}
               type="submit"
             >
