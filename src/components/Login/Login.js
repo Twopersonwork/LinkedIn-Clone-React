@@ -42,11 +42,15 @@ class Login extends Component {
           console.log(resp.token);
           if (resp.user.user_profile) {
             this.props.cookies.set("profile-id", resp.user.user_profile.id);
-          } else {
-            this.props.cookies.set("profile", false);
           }
           if (resp.user.user_about) {
             this.props.cookies.set("about-id", resp.user.user_about.id);
+          }
+          if (resp.user.user_education) {
+            this.props.cookies.set("education-id", resp.user.user_education.id);
+          }
+          if (resp.user.user_license) {
+            this.props.cookies.set("license-id", resp.user.user_license.id);
           }
           window.location.href = "/main";
         } else if (resp.user_not_found) {

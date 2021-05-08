@@ -6,13 +6,6 @@
   display: flex;
 }
 
-/* a,
-a:link {
-  color: #fff;
-  cursor: pointer;
-  font-size: small;
-  margin-left: 10px;
-} */
 .links a {
   color: gray;
   /* background-color: #778899; */

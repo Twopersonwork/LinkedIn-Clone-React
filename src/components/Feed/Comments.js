@@ -75,10 +75,18 @@ class Comments extends Component {
                   </span>
 
                   <br />
-                  <span style={{ fontSize: "18px" }}>
-                    {this.props.comment.comment}
-                  </span>
-                  <MoreHorizIcon onClick={(e) => this.moreOptions(e)} />
+                  <div className="mt-2">
+                    <span
+                      className="wrap"
+                      style={{
+                        fontSize: "18px",
+                      }}
+                    >
+                      {this.props.comment.comment}
+                    </span>
+                  </div>
+                  {/* reseverd for future use */}
+                  {/* <MoreHorizIcon onClick={(e) => this.moreOptions(e)} />
                   <Menu
                     id="simple-menu"
                     anchorEl={this.state.anchorEl}
@@ -89,7 +97,7 @@ class Comments extends Component {
                     <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                     <MenuItem onClick={this.handleClose}>My account</MenuItem>
                     <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-                  </Menu>
+                  </Menu> */}
                 </div>
               </div>
             </div>

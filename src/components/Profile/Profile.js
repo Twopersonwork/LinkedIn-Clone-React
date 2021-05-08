@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import "./Profile.css";
 import { Avatar, Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
-import { BiPlus } from "react-icons/bi";
-import { Button as Btn } from "react-bootstrap";
+import { BiPlus, BiEdit } from "react-icons/bi";
 import EditIntroModal from "./EditIntroModal";
 import { withCookies } from "react-cookie";
 import About from "./About";
+import Education from "./Education";
+import License from "./License";
 
 class Profile extends Component {
   constructor(props) {
@@ -16,10 +16,20 @@ class Profile extends Component {
     this.state = {
       profileModalShow: false, // for display modal for user info.
       profileCredentials: {}, // user credentials
-      no_of_followers: "",
+      no_of_followers: "", // store the user followers.
 
-      aboutModalShow: false,
-      AboutCredentials: {},
+      aboutModalShow: false, // for display modal for user about.
+      AboutCredentials: {}, // about credentiaks.
+
+      educationModalShow: false, // for display modal for user education.
+      EducationCredentials: [], // education credentials
+      createEducation: false, // for check if it is create education or edit education
+      editEducation_id: "", // id for particular education
+
+      licenseModalShow: false, // for display modalfor user license and certificate
+      LicenseCredentials: [], // license credentials
+      createLicense: false, // for check if it is create license or edit license
+      editLicense_id: "", // id for particular license
     };
   }
 
@@ -28,6 +38,8 @@ class Profile extends Component {
     console.log("this is profileModalShow");
     this.setState({ profileModalShow: e });
     this.setState({ aboutModalShow: false });
+    this.setState({ educationModalShow: false });
+    this.setState({ licenseModalShow: false });
   };
 
   // for change the value of aboutModalShow
@@ -35,6 +47,30 @@ class Profile extends Component {
     console.log("this is aboutModalShow");
     this.setState({ aboutModalShow: e });
     this.setState({ profileModalShow: false });
+    this.setState({ educationModalShow: false });
+    this.setState({ licenseModalShow: false });
+  };
+
+  // for change the value if educationModalShow
+  onEducationModal = (e) => {
+    console.log("this is educationModalShow");
+    this.setState({ educationModalShow: e });
+    this.setState({ profileModalShow: false });
+    this.setState({ aboutModalShow: false });
+    this.setState({ licenseModalShow: false });
+
+    this.setState({ createEducation: true }); // when user create education this becomes true
+  };
+
+  // for change the value if licenseModalShow
+  onLicenseModal = (e) => {
+    console.log("this is licenseModalShow");
+    this.setState({ licenseModalShow: e });
+    this.setState({ aboutModalShow: false });
+    this.setState({ createEducation: true });
+    this.setState({ educationModalShow: false });
+
+    this.setState({ createLicense: true }); // when user create license this becomes true
   };
 
   // for update the user credentials.
@@ -105,10 +141,59 @@ class Profile extends Component {
       .catch((error) => console.log(error));
   };
 
+  // for update the education
+  updateEducation = () => {
+    console.log("This is Education.");
+    fetch(
+      `${process.env.REACT_APP_API_URL}/uapi/users/${
+        this.props.cookies.get("auth-token").user.id
+      }/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log(resp.user_education);
+        this.setState({ EducationCredentials: resp.user_education });
+        this.setState({ educationModalShow: false });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  updateLicense = () => {
+    console.log("This is License.");
+    fetch(
+      `${process.env.REACT_APP_API_URL}/uapi/users/${
+        this.props.cookies.get("auth-token").user.id
+      }/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log(resp.user_license);
+        this.setState({ LicenseCredentials: resp.user_license });
+        this.setState({ licenseModalShow: false });
+      })
+      .catch((error) => console.log(error));
+  };
+
   componentDidMount = () => {
     this.updateProfile(); // for update the user info.
     this.getUserFollowers(); // for get the user followes.
     this.updateAbout(); // for update the user about.
+    this.updateEducation(); // for update the user education
+    this.updateLicense(); // for update the user license and certification
   };
 
   render() {
@@ -124,20 +209,11 @@ class Profile extends Component {
             className="sidebar__avatar"
           ></Avatar>
           {/* Create model for user,for add the profile info. */}
-          <Btn
+          <BiEdit
             className="ml-auto mr-4"
-            style={{
-              display: "block",
-              borderRadius: "50%",
-              width: "50px",
-              height: "50px",
-              background: "grey",
-              marginTop: "-40px",
-            }}
+            style={{ fontSize: "30px" }}
             onClick={() => this.onProfileModal(true)}
-          >
-            <FaEdit />
-          </Btn>
+          />
 
           {/* For get User information */}
           {this.state.profileModalShow ? (
@@ -181,7 +257,6 @@ class Profile extends Component {
 
             <div className="profile__stat">
               <Button style={profile_button}>Open To</Button>
-
               <Button style={profile_button}>Add profile section</Button>
               <Button style={profile_button}>More</Button>
             </div>
@@ -192,18 +267,10 @@ class Profile extends Component {
         <div className="profile__about mt-3">
           <div className="profile__about_header d-flex justify-content-between">
             <h4>About</h4>
-            <Btn
-              style={{
-                display: "block",
-                borderRadius: "50%",
-                width: "50px",
-                height: "50px",
-                background: "grey",
-              }}
+            <BiEdit
+              style={{ fontSize: "30px" }}
               onClick={() => this.onAboutModal(true)}
-            >
-              <FaEdit />
-            </Btn>
+            />
 
             {this.state.aboutModalShow ? (
               <Link
@@ -280,18 +347,127 @@ class Profile extends Component {
           </div>
         </div>
 
-        {/* Education and License & certifications */}
-        <div className="profile__education_certificate">
-          {/* Education */}
-          <div className="profile__education_certificate_header d-flex justify-content-between">
+        {/* Education  */}
+        <div className="profile__education">
+          <div className="profile__education_header d-flex justify-content-between">
             <h4>Education</h4>
-            <BiPlus style={{ fontSize: "30px" }} />
+            <BiPlus
+              onClick={() => this.onEducationModal(true)}
+              style={{ fontSize: "40px" }}
+            />
+
+            {this.state.educationModalShow ? (
+              <Link
+                component={() => (
+                  <Education
+                    onEducationModal={(e) => this.onEducationModal(e)}
+                    updateEducation={(e) => this.updateEducation()}
+                    onCreateEducation={this.state.createEducation}
+                    editEducation_id={this.state.editEducation_id}
+                  />
+                )}
+              />
+            ) : null}
           </div>
-          {/* License & Certificate */}
-          <hr />
-          <div className="profile__education_certificate_header d-flex justify-content-between">
+
+          <div>
+            {this.state.EducationCredentials.map((education) => (
+              <div>
+                <div className="profile__education_header d-flex justify-content-between">
+                  <span style={{ fontWeight: "bold", fontSize: "25px" }}>
+                    {education.school}
+                  </span>
+                  <BiEdit
+                    style={{ fontSize: "25px" }}
+                    onClick={() =>
+                      this.setState({
+                        educationModalShow: true,
+                        createEducation: false,
+                        editEducation_id: education.id,
+                      })
+                    }
+                  />
+                </div>
+                <span
+                  style={{ fontSize: "18px", marginTop: "-15px" }}
+                  className="d-flex ml-3"
+                >
+                  {education.degree}
+                </span>
+                <div>
+                  <span
+                    style={{ fontSize: "15px", color: "#686868" }}
+                    className="d-flex ml-3"
+                  >
+                    {education.start_year}-{education.end_year}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* License & Certificate */}
+
+        <div className="profile__license">
+          <div className="profile__license_header d-flex justify-content-between">
             <h4>Licenses & certifications</h4>
-            <BiPlus style={{ fontSize: "30px" }} />
+            <BiPlus
+              style={{ fontSize: "40px" }}
+              onClick={() => this.onLicenseModal(true)}
+            />
+
+            {this.state.licenseModalShow ? (
+              <Link
+                component={() => (
+                  <License
+                    onLicenseModal={(e) => this.onLicenseModal(e)}
+                    updateLicense={(e) => this.updateLicense()}
+                    onCreateLicense={this.state.createLicense}
+                    editLicense_id={this.state.editLicense_id}
+                  />
+                )}
+              />
+            ) : null}
+          </div>
+
+          <div>
+            {this.state.LicenseCredentials.map((license) => (
+              <div>
+                <div className="profile__education_header d-flex justify-content-between">
+                  <span style={{ fontWeight: "bold", fontSize: "25px" }}>
+                    {license.name}
+                  </span>
+                  <BiEdit
+                    style={{ fontSize: "25px" }}
+                    onClick={() =>
+                      this.setState({
+                        licenseModalShow: true,
+                        createLicense: false,
+                        editLicense_id: license.id,
+                      })
+                    }
+                  />
+                </div>
+                <span
+                  style={{ fontSize: "18px", marginTop: "-15px" }}
+                  className="d-flex ml-3"
+                >
+                  {license.issuing_org}
+                </span>
+                <div>
+                  {license.issue_date ? (
+                    <span
+                      style={{ fontSize: "15px", color: "#686868" }}
+                      className="d-flex ml-3"
+                    >
+                      Issued {license.issue_date} - Expiration{" "}
+                      {license.expiration_date}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -306,17 +482,7 @@ class Profile extends Component {
             >
               Add a new skill
             </Button>
-            <Btn
-              style={{
-                display: "block",
-                borderRadius: "50%",
-                width: "50px",
-                height: "50px",
-                background: "grey",
-              }}
-            >
-              <FaEdit onClick={() => console.log("1")}></FaEdit>
-            </Btn>
+            <BiEdit style={{ fontSize: "30px" }} />
           </div>
         </div>
       </div>

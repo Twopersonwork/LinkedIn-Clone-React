@@ -77,7 +77,8 @@ class Feed extends Component {
       )
       .catch((error) => console.log(error));
   }
-
+  // to display post instantly w/o refreshing after
+  // creating the post.
   componentDidUpdate(prevProps, prevState) {
     if (prevState.posts.length != this.state.posts.length) {
       fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {

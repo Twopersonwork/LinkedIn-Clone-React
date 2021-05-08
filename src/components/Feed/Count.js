@@ -3,7 +3,6 @@ import { Modal } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
 import "./Count.css";
 import { withCookies } from "react-cookie";
-import Comments from "./Comments";
 
 class Count extends Component {
   constructor(props) {
@@ -21,37 +20,6 @@ class Count extends Component {
       likes: this.props.post.no_of_like,
     };
   }
-
-  // componentDidMount() {
-  // fetch(`http://127.0.0.1:8000/uapi/users/`, {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // })
-  //   .then((resp) => resp.json())
-  //   .then((res) =>
-  //     this.setState({
-  //       all_users: res,
-  //     })
-  //   )
-  //   .catch((error) => console.log(error));
-  //   this.fetchUser = (id) => {
-  //     fetch(`http://127.0.0.1:8000/uapi/users/${id}/`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((resp) => resp.json())
-  //       .then((res) =>
-  //         this.setState({
-  //           user: res,
-  //         })
-  //       )
-  //       .catch((error) => console.log(error));
-  //   };
-  // }
 
   modalShowLike = () => {
     this.setState({ users: [] });

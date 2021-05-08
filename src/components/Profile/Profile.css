@@ -153,7 +153,7 @@
 
 /* Education and Licenses & certifications */
 
-.profile__education_certificate {
+.profile__education {
   margin-top: 20px;
   border: 1px solid lightgray;
   border-bottom: 0;
@@ -164,7 +164,26 @@
   max-height: 100%;
 }
 
-.profile__education_certificate_header {
+.profile__education_header {
+  padding-left: 20px;
+  padding-right: 30px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+
+/* License and Certificate */
+.profile__license {
+  margin-top: 20px;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-radius: 15px;
+  background-color: white;
+  padding-bottom: 10px;
+  min-height: 250px;
+  max-height: 100%;
+}
+
+.profile__license_header {
   padding-left: 20px;
   padding-right: 30px;
   margin-top: 35px;

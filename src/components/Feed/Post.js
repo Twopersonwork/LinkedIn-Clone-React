@@ -113,6 +113,7 @@ class Post extends Component {
   };
 
   componentDidMount() {
+    // will highlight like blue if current use has liked the post
     this.fetchUser(this.props.post.user);
     if (
       this.props.post.likes.some(
@@ -121,15 +122,8 @@ class Post extends Component {
     ) {
       this.state.has_liked = true;
     }
-    if (
-      this.props.post.comments.some(
-        (e) => e.user == this.props.cookies.get("auth-token").user.id
-      )
-    ) {
-      this.state.user_commented = true;
-    }
   }
-
+  // to instantly getting the comments and likes w/o refreshing
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.has_liked != this.state.has_liked ||
@@ -157,7 +151,6 @@ class Post extends Component {
     }
   }
   modalShowComment = () => {
-    // this.FetchComment();
     this.setState({ showComment: !this.state.showComment });
   };
   render() {
@@ -211,7 +204,7 @@ class Post extends Component {
             Icon={ChatOutlinedIcon}
             function={this.modalShowComment}
             title="Comment"
-            color={this.state.user_commented ? "blue" : "gray"}
+            color="gray"
           />
           <InputOption Icon={ShareOutlinedIcon} title="Share" color="gray" />
           <InputOption Icon={SendOutlinedIcon} title="Send" color="gray" />
