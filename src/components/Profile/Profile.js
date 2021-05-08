@@ -461,7 +461,8 @@ class Profile extends Component {
                       style={{ fontSize: "15px", color: "#686868" }}
                       className="d-flex ml-3"
                     >
-                      Issued {license.issue_date}  -  Expiration { license.expiration_date}
+                      Issued {license.issue_date} - Expiration{" "}
+                      {license.expiration_date}
                     </span>
                   ) : null}
                 </div>

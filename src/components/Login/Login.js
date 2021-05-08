@@ -37,10 +37,9 @@ class Login extends Component {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
         if (resp.token) {
           this.props.cookies.set("auth-token", resp);
-          console.log(resp.user.user_profile);
+          console.log(resp.token);
           if (resp.user.user_profile) {
             this.props.cookies.set("profile-id", resp.user.user_profile.id);
           }

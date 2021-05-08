@@ -2,14 +2,13 @@ import { Avatar } from "@material-ui/core";
 import { FaHashtag } from "react-icons/fa";
 import "./Sidebar.css";
 import { withCookies } from "react-cookie";
-import { Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 import React, { Component } from "react";
 
 class Sidebar extends Component {
   componentDidMount() {
-    console.log(this.props.cookies.get("username"));
+    // console.log(this.props.cookies.get("username"));
     // fetch("http://127.0.0.1:8000/auth/", {
     //     method:"POST",
     //     headers : {
@@ -40,12 +39,11 @@ class Sidebar extends Component {
             src="https://static.hollywoodreporter.com/sites/default/files/2019/03/avatar-publicity_still-h_2019-compressed.jpg"
             className="sidebar__avatar"
           ></Avatar>
-          <Link to={'/profile'}>
+          <Link to={"/profile"}>
             <span style={{ fontWeight: "bold" }}>
               {this.props.cookies.get("auth-token").user.username}
             </span>
           </Link>
-
         </div>
 
         <div className="sidebar__stats">

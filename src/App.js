@@ -8,7 +8,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home/Home";
 import "./App.css";
 import { withCookies } from "react-cookie";
-
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "./components/Login/Login";
 import Profile from "./components/Profile/Profile";
