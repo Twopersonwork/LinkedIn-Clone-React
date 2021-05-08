@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 import "./EditIntroModal.css";
 import { withCookies } from "react-cookie";
 
-class EditIntroModal extends Component {
+class EditinfoModal extends Component {
   constructor(props) {
     super(props);
 
@@ -262,4 +262,4 @@ const save_button = {
   border: "solid 1px #0c66c2",
 };
 
-export default withCookies(EditIntroModal);
+export default withCookies(EditinfoModal);
