@@ -15,7 +15,7 @@ class InputOption extends Component {
     // console.log("auth-user ", this.props.cookies.get("auth-user"));
     const { Icon, title, color, text, post } = this.props;
     return (
-      <div onClick={this.props.submitLike} className="inputOption">
+      <div onClick={this.props.function} className="inputOption">
         <Icon style={{ color: color }} />
 
         <span className="pl-2">{title}</span>

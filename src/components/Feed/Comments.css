@@ -1,0 +1,11 @@
+.comment__header {
+  margin-left: 50%;
+}
+.auth__comment__header {
+}
+.comment__container {
+  background-color: gray;
+  padding: 0 16px 12px 12px;
+  border-radius: 50%;
+  /* transition: background-color 1s ease; */
+}

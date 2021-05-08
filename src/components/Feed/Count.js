@@ -77,8 +77,9 @@ class Count extends Component {
         })
         .catch((error) => console.log(error));
     }
-
-    this.setState({ show: true, showLike: true });
+    if (this.props.post.likes.length) {
+      this.setState({ show: true, showLike: true });
+    }
   };
 
   render() {

@@ -9,6 +9,7 @@ import React, { Component } from "react";
 import Count from "./Count";
 import { withCookies } from "react-cookie";
 import Comments from "./Comments";
+import { Button } from "react-bootstrap";
 
 class Post extends Component {
   constructor(props) {
@@ -17,11 +18,40 @@ class Post extends Component {
     this.state = {
       user: "",
       has_liked: false,
+      has_commented: false,
       post: this.props.post,
       showComment: false,
+      comment: "",
     };
   }
+  handleComment = (e) => {
+    console.log(e.target.value);
+    this.setState({ comment: e.target.value });
+  };
+  submitComment = () => {
+    this.setState({ has_commented: false });
+    fetch(`http://127.0.0.1:8000/papi/posts/${this.props.post.id}/comment/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+      },
+      body: JSON.stringify({
+        comment: this.state.comment,
+      }),
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        if (resp.result) {
+          this.setState({ has_commented: true });
+        }
+      })
 
+      .catch((error) => console.log(error));
+    this.setState({
+      comment: "",
+    });
+  };
   submitLike = () => {
     if (!this.state.has_liked) {
       fetch(
@@ -93,7 +123,10 @@ class Post extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.has_liked != this.state.has_liked) {
+    if (
+      prevState.has_liked != this.state.has_liked ||
+      prevState.has_commented != this.state.has_commented
+    ) {
       fetch(
         `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/`,
         {
@@ -160,22 +193,65 @@ class Post extends Component {
         </div>
         <div className="post__buttons">
           <InputOption
-            submitLike={this.submitLike}
+            function={this.submitLike}
             Icon={ThumbUpIcon}
             title="Like"
             color={this.state.has_liked ? "blue" : "gray"}
             post={post}
           />
-          <InputOption Icon={ChatOutlinedIcon} title="Comment" color="gray" />
+          <InputOption
+            Icon={ChatOutlinedIcon}
+            function={this.modalShowComment}
+            title="Comment"
+            color="gray"
+          />
           <InputOption Icon={ShareOutlinedIcon} title="Share" color="gray" />
           <InputOption Icon={SendOutlinedIcon} title="Send" color="gray" />
         </div>
         {this.state.showComment &&
-          post.comments.map((comment) => <Comments comment={comment} />)}
+          this.state.post.comments.map((comment) => (
+            <Comments
+              key={comment.id}
+              post={this.state.post}
+              comment={comment}
+            />
+          ))}
+        {this.state.showComment ? (
+          <div style={{ display: "flex" }}>
+            {this.state.user.profile_pic ? (
+              <Avatar src={this.state.user.profile_pic} alt="Profile" />
+            ) : (
+              <Avatar src="/images/user.svg" alt="Profile" />
+            )}
+
+            <input
+              value={this.state.comment}
+              onChange={(e) => this.handleComment(e)}
+              style={{ width: "100%", marginLeft: "10px", outline: "none" }}
+              className="feed__input"
+            />
+            {this.state.comment.length > 0 ? (
+              <Button style={post_button} onClick={this.submitComment}>
+                Post
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     );
   }
 }
+const post_button = {
+  paddingLeft: "10px",
+  paddingRight: "10px",
+  marginLeft: "10px",
+  fontWeight: "bold",
+  borderRadius: "50px",
+  display: "flex",
+  background: "#0c66c2",
+  color: "white",
+  border: "solid 1px #0c66c2",
+};
 
 export default withCookies(Post);
 
