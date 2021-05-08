@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import { Avatar } from "@material-ui/core";
 import "./Comments.css";
 import { withCookies } from "react-cookie";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
 class Comments extends Component {
   constructor(props) {
@@ -10,6 +15,7 @@ class Comments extends Component {
     this.state = {
       user: "",
       has_commented: false,
+      anchorEl: false,
     };
   }
 
@@ -23,6 +29,17 @@ class Comments extends Component {
       this.state.has_commented = true;
     }
   }
+  moreOptions = (e) => {
+    console.log("more clicked");
+    this.setState({
+      anchorEl: e.currentTarget,
+    });
+  };
+  handleClose = () => {
+    this.setState({
+      anchorEl: null,
+    });
+  };
 
   fetchUser = (id) => {
     fetch(`http://127.0.0.1:8000/uapi/users/${id}/`, {
@@ -43,48 +60,41 @@ class Comments extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.user.username !=
-        this.props.cookies.get("auth-token").user.username ? (
-          <div className="user">
-            <div className="comment__header">
-              {/* <h4>{this.fetchUser(this.props.comment.user)}</h4> */}
-              {this.state.user.profile_pic ? (
-                <Avatar src={this.state.user.profile_pic} alt="Profile" />
-              ) : (
-                <Avatar src="/images/user.svg" alt="Profile" />
-              )}
-              <div className="post__info">
-                <span style={{ fontWeight: "bold" }}>
-                  {this.state.user.username}
-                </span>
-                <br />
-                <span className="text-muted" style={{ fontSize: "17px" }}>
-                  {this.props.comment.comment}
-                </span>
+        <div className="comment">
+          <div className="comment__header">
+            {this.state.user.profile_pic ? (
+              <Avatar src={this.state.user.profile_pic} alt="Profile" />
+            ) : (
+              <Avatar src="/images/user.svg" alt="Profile" />
+            )}
+            <div className="comment__info">
+              <div class="option_wrp">
+                <div>
+                  <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                    {this.state.user.username}
+                  </span>
+
+                  <br />
+                  <span style={{ fontSize: "18px" }}>
+                    {this.props.comment.comment}
+                  </span>
+                  <MoreHorizIcon onClick={(e) => this.moreOptions(e)} />
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={this.state.anchorEl}
+                    keepMounted
+                    open={Boolean(this.state.anchorEl)}
+                    onClose={this.handleClose}
+                  >
+                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                    <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                  </Menu>
+                </div>
               </div>
             </div>
           </div>
-        ) : (
-          <div className="user">
-            <div className="user__header">
-              {/* <h4>{this.fetchUser(this.props.comment.user)}</h4> */}
-              {this.state.user.profile_pic ? (
-                <Avatar src={this.state.user.profile_pic} alt="Profile" />
-              ) : (
-                <Avatar src="/images/user.svg" alt="Profile" />
-              )}
-              <div className="auth__comment__header">
-                <span style={{ fontWeight: "bold" }}>
-                  {this.state.user.username}
-                </span>
-                <br />
-                <span className="text-muted" style={{ fontSize: "17px" }}>
-                  {this.props.comment.comment}
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
+        </div>
       </React.Fragment>
     );
   }

@@ -22,6 +22,7 @@ class Post extends Component {
       post: this.props.post,
       showComment: false,
       comment: "",
+      user_commented: false,
     };
   }
   handleComment = (e) => {
@@ -43,7 +44,7 @@ class Post extends Component {
       .then((resp) => resp.json())
       .then((resp) => {
         if (resp.result) {
-          this.setState({ has_commented: true });
+          this.setState({ has_commented: true, user_commented: true });
         }
       })
 
@@ -119,6 +120,13 @@ class Post extends Component {
       )
     ) {
       this.state.has_liked = true;
+    }
+    if (
+      this.props.post.comments.some(
+        (e) => e.user == this.props.cookies.get("auth-token").user.id
+      )
+    ) {
+      this.state.user_commented = true;
     }
   }
 
@@ -203,21 +211,14 @@ class Post extends Component {
             Icon={ChatOutlinedIcon}
             function={this.modalShowComment}
             title="Comment"
-            color="gray"
+            color={this.state.user_commented ? "blue" : "gray"}
           />
           <InputOption Icon={ShareOutlinedIcon} title="Share" color="gray" />
           <InputOption Icon={SendOutlinedIcon} title="Send" color="gray" />
         </div>
-        {this.state.showComment &&
-          this.state.post.comments.map((comment) => (
-            <Comments
-              key={comment.id}
-              post={this.state.post}
-              comment={comment}
-            />
-          ))}
+
         {this.state.showComment ? (
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex" }} className="mt-3">
             {this.state.user.profile_pic ? (
               <Avatar src={this.state.user.profile_pic} alt="Profile" />
             ) : (
@@ -225,6 +226,7 @@ class Post extends Component {
             )}
 
             <input
+              placeholder="Add a comment..."
               value={this.state.comment}
               onChange={(e) => this.handleComment(e)}
               style={{ width: "100%", marginLeft: "10px", outline: "none" }}
@@ -237,20 +239,30 @@ class Post extends Component {
             ) : null}
           </div>
         ) : null}
+        {this.state.showComment &&
+          this.state.post.comments.map((comment) => (
+            <Comments
+              key={comment.id}
+              post={this.state.post}
+              comment={comment}
+            />
+          ))}
       </div>
     );
   }
 }
 const post_button = {
+  marginTop: "-10px",
   paddingLeft: "10px",
   paddingRight: "10px",
   marginLeft: "10px",
   fontWeight: "bold",
   borderRadius: "50px",
-  display: "flex",
+  // display: "flex",
   background: "#0c66c2",
   color: "white",
   border: "solid 1px #0c66c2",
+  width: "110px",
 };
 
 export default withCookies(Post);
