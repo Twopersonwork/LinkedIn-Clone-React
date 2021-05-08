@@ -1,0 +1,16 @@
+.img_wrp {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+.close__image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 40px;
+  opacity: 80%;
+  background-color: white;
+  border-radius: 50%;
+  margin: 10px;
+}

@@ -1,0 +1,35 @@
+.comment {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.comment__header {
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.comment__info {
+  padding: 10px;
+  margin-left: 10px;
+  background-color: rgb(242, 242, 242);
+  width: 100%;
+  /* width: 450px; */
+  /* height: 100px; */
+  /* border-radius: 2.5%; */
+  border-radius: 0 8px 8px 8px;
+}
+li-icon {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.option__image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-left: 500px;
+}
+.option_wrp {
+  display: inline-block;
+  position: relative;
+  word-break: break-all;
+}

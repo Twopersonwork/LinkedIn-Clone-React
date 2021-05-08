@@ -1,13 +1,28 @@
-import React from 'react'
-import './InputOption.css'
+import "./InputOption.css";
+import React, { Component } from "react";
+import { withCookies } from "react-cookie";
 
-function InputOption({Icon,title,color}) {
+class InputOption extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      color: "grey",
+    };
+  }
+
+  render() {
+    // console.log("auth-user ", this.props.cookies.get("auth-user"));
+    const { Icon, title, color, text, post } = this.props;
     return (
-        <div className="inputOption">
-            <Icon style = {{color:color}}/>
-            <span className="pl-2">{title}</span>
-        </div>
-    )
+      <div onClick={this.props.function} className="inputOption">
+        <Icon style={{ color: color }} />
+
+        <span className="pl-2">{title}</span>
+        <span className="pl-2">{text}</span>
+      </div>
+    );
+  }
 }
 
-export default InputOption
+export default withCookies(InputOption);

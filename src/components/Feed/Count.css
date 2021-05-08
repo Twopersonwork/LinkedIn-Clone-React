@@ -1,0 +1,42 @@
+.user {
+  background-color: white;
+  padding-left: 20px;
+}
+.user__header {
+  display: flex;
+}
+
+.links a {
+  color: gray;
+  /* background-color: #778899; */
+  cursor: pointer;
+  font-size: x-small;
+}
+a {
+  margin-left: 3px;
+}
+a:hover {
+  color: rgb(79, 160, 235);
+}
+
+.hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 3px;
+  margin-bottom: 0;
+}
+
+.reaction_icons {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  vertical-align: middle;
+  height: 18px;
+  width: 18px;
+  margin: 3px;
+}
+
+.count {
+  margin-top: 10px;
+}

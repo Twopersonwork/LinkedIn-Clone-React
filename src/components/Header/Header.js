@@ -22,7 +22,7 @@ class Header extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ position: "relative" }}>
         <Content>
           <Logo>
             <a href="/main">

@@ -1,18 +1,15 @@
 import "./Feed.css";
 import InputOption from "./InputOption";
 import Post from "./Post";
-import CreateIcon from "@material-ui/icons/Create";
 import ImageIcon from "@material-ui/icons/Image";
 import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import CalendarViewDayIcon from "@material-ui/icons/CalendarViewDay";
-// import { useSelector } from 'react-redux';
-// import { selectUser } from '../../features/userSlice';
-// import { db } from '../../firebase';
-// import firebase from "firebase";
-// import FlipMove from "react-flip-move";
-
+import FlipMove from "react-flip-move";
+import { Link, Redirect } from "react-router-dom";
 import React, { Component } from "react";
+import { withCookies } from "react-cookie";
+import CreatePost from "./CreatePost";
 
 class Feed extends Component {
   constructor(props) {
@@ -20,25 +17,99 @@ class Feed extends Component {
 
     this.state = {
       input: "",
+      posts: [],
+      modalPost: false,
+      body: "",
+      image: "",
+      imageAsFile: null,
     };
+  }
+
+  submitPost = () => {
+    var form_data = new FormData();
+
+    form_data.set("body", this.state.body);
+    if (this.state.image) {
+      form_data.set(
+        "image",
+        this.state.imageAsFile,
+        this.state.imageAsFile.name
+      );
+    }
+
+    fetch(`${process.env.REACT_APP_API_URL}/papi/create_post/`, {
+      method: "POST",
+      headers: {
+        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+      },
+      body: form_data,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        this.setState({ modalPost: false }, function () {
+          window.location.reload();
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  createPost = () => {
+    this.setState({
+      modalPost: true,
+    });
+  };
+
+  handleBody = (e) => this.setState({ body: e.target.value });
+
+  componentDidMount() {
+    fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((res) =>
+        this.setState({
+          posts: res,
+        })
+      )
+      .catch((error) => console.log(error));
+  }
+  // to display post instantly w/o refreshing after
+  // creating the post.
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.posts.length != this.state.posts.length) {
+      fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      })
+        .then((resp) => resp.json())
+        .then((res) =>
+          this.setState({
+            posts: res,
+          })
+        )
+        .catch((error) => console.log(error));
+    }
   }
 
   render() {
     return (
       <div className="feed">
         <div className="feed__inputContainer">
-          <div className="feed__input">
-            <CreateIcon />
-            <form>
-              <input
-                value={this.state.input}
-                onChange={(e) => this.setState({ input: e.target.value })}
-                type="text"
-                placeholder="Start a post"
-              />
-              {/* <button onClick={sendPost} type="submit">Send</button> */}
-            </form>
-          </div>
+          <button
+            style={{ width: "100%" }}
+            onClick={this.createPost}
+            className="feed__input"
+          >
+            Start a Post
+          </button>
+          {/* </div> */}
           <div className="feed__inputOptions">
             <InputOption Icon={ImageIcon} title="Photo" color="#70B5F9" />
             <InputOption
@@ -57,26 +128,17 @@ class Feed extends Component {
         <hr />
 
         {/* Posts */}
-        {/* <FlipMove>
-                {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
-                    <Post
-                        key={id}
-                        name={name}
-                        description={description}
-                        message={message}
-                        photoUrl={photoUrl}
-                    />
-                ))}
-            </FlipMove> */}
+        <FlipMove>
+          {this.state.posts.length > 0 &&
+            this.state.posts.map((post) => <Post key={post.id} post={post} />)}
+        </FlipMove>
 
-        <Post
-          name="Your name"
-          description="This is a test "
-          message="I hope this is working"
-        />
+        {this.state.modalPost ? (
+          <Link component={() => <CreatePost />} />
+        ) : null}
       </div>
     );
   }
 }
 
-export default Feed;
+export default withCookies(Feed);
