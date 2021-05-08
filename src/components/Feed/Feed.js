@@ -10,7 +10,6 @@ import { Link, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import { withCookies } from "react-cookie";
 import CreatePost from "./CreatePost";
-// import { Button } from "react-bootstrap";
 
 class Feed extends Component {
   constructor(props) {
@@ -60,7 +59,7 @@ class Feed extends Component {
     });
   };
 
-  handleBody = (e) => this.setState({ body: e.target.value }, function () {});
+  handleBody = (e) => this.setState({ body: e.target.value });
 
   componentDidMount() {
     fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {

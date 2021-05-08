@@ -42,7 +42,6 @@ class EditIntroModal extends Component {
       .then((resp) => resp.json())
       .then((resp) => {
         console.log(resp);
-        this.props.cookies.set("profile", true);
         this.props.cookies.set("profile-id", resp.id);
         this.props.updateProfile(true);
       })
@@ -50,6 +49,7 @@ class EditIntroModal extends Component {
 
     e.preventDefault();
     this.getUserData();
+    this.props.onProfileModal(false);
   };
 
   editProfile = (e) => {
@@ -68,13 +68,14 @@ class EditIntroModal extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        this.setState({ modelShow: false }); 
+        this.setState({ modelShow: false });
         this.props.updateProfile(true);
       })
       .catch((error) => console.log(error));
 
     e.preventDefault();
     this.getUserData();
+    this.props.onProfileModal(false);
   };
 
   getUserData = () => {
@@ -225,7 +226,7 @@ class EditIntroModal extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          {this.props.cookies.get("profile") === "true" ? (
+          {this.props.cookies.get("profile-id") ? (
             <Button
               onClick={this.editProfile}
               style={save_button}

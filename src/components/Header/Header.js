@@ -16,6 +16,8 @@ class Header extends Component {
   removeallCookies = () => {
     this.props.cookies.remove("auth-token");
     this.props.cookies.remove("profile");
+    this.props.cookies.remove("profile-id");
+    this.props.cookies.remove("about-id");
   };
 
   render() {

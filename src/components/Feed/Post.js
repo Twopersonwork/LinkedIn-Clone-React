@@ -8,6 +8,7 @@ import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 import React, { Component } from "react";
 import Count from "./Count";
 import { withCookies } from "react-cookie";
+import Comments from "./Comments";
 
 class Post extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Post extends Component {
       user: "",
       has_liked: false,
       post: this.props.post,
+      showComment: false,
     };
   }
 
@@ -113,6 +115,10 @@ class Post extends Component {
         .catch((error) => console.log(error));
     }
   }
+  modalShowComment = () => {
+    // this.FetchComment();
+    this.setState({ showComment: !this.state.showComment });
+  };
   render() {
     const { post } = this.props;
 
@@ -147,7 +153,10 @@ class Post extends Component {
           <p>{post.body}</p>
           <img className="post__image" src={post.image} />
 
-          <Count post={this.state.post} />
+          <Count
+            post={this.state.post}
+            modalShowComment={this.modalShowComment}
+          />
         </div>
         <div className="post__buttons">
           <InputOption
@@ -161,6 +170,8 @@ class Post extends Component {
           <InputOption Icon={ShareOutlinedIcon} title="Share" color="gray" />
           <InputOption Icon={SendOutlinedIcon} title="Send" color="gray" />
         </div>
+        {this.state.showComment &&
+          post.comments.map((comment) => <Comments comment={comment} />)}
       </div>
     );
   }

@@ -4,7 +4,8 @@ import { withCookies } from "react-cookie";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import "./CreatePost.css";
 import { Avatar } from "@material-ui/core";
-
+import CloseIcon from "@material-ui/icons/Close";
+import { AiFillCloseCircle } from "react-icons/ai";
 export class CreatePost extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +17,13 @@ export class CreatePost extends Component {
       imageAsFile: null,
     };
   }
+  removeImage = () => {
+    console.log("clicked");
+    this.setState({
+      image: "",
+      imageAsFile: null,
+    });
+  };
 
   handleBody = (e) =>
     this.setState({ body: e.target.value }, function () {
@@ -57,6 +65,9 @@ export class CreatePost extends Component {
     return (
       <div>
         <Modal
+          style={{
+            height: "700px",
+          }}
           scrollable={true}
           show={this.state.modalPost}
           size="md"
@@ -65,9 +76,15 @@ export class CreatePost extends Component {
         >
           <Modal.Header
             closeButton
+            autoFocus
             onClick={() => this.setState({ modalPost: false })}
           >
-            <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Title
+              style={{
+                fontSize: "1.2rem",
+              }}
+              id="contained-modal-title-vcenter"
+            >
               Create a Post
             </Modal.Title>
           </Modal.Header>
@@ -89,7 +106,9 @@ export class CreatePost extends Component {
                       alt="Profile"
                     />
                   )}
-                  {this.props.cookies.get("auth-token").user.username}
+                  <span className="ml-2" style={{ fontWeight: "bold" }}>
+                    {this.props.cookies.get("auth-token").user.username}
+                  </span>
                 </div>
               </Form.Label>
               <Form.Control
@@ -102,7 +121,20 @@ export class CreatePost extends Component {
             </Form.Group>
 
             {this.state.image ? (
-              <img className="post__image" src={this.state.image} />
+              <React.Fragment>
+                <div class="img_wrp">
+                  <img
+                    className="post__image"
+                    style={{ borderRadius: "10px" }}
+                    src={this.state.image}
+                  />
+                  <AiFillCloseCircle
+                    className="close__image"
+                    onClick={this.removeImage}
+                  />
+                  {/* <Icon  /> */}
+                </div>
+              </React.Fragment>
             ) : null}
           </Modal.Body>
           <Modal.Footer>
@@ -117,22 +149,11 @@ export class CreatePost extends Component {
                 })
               }
             />
-            <label htmlFor="file">
+            <label className="mr-auto" htmlFor="file">
               <InsertPhotoIcon style={{ color: "gray" }} />
             </label>
             <Button
-              style={{
-                paddingLeft: "20px",
-                paddingRight: "20px",
-                marginTop: "10px",
-                marginLeft: "10px",
-                fontWeight: "bold",
-                borderRadius: "50px",
-                display: "flex",
-                background: "#0c66c2",
-                color: "white",
-                border: "solid 1px #0c66c2",
-              }}
+              style={post_button}
               disabled={this.state.body.length < 1}
               type="submit"
               onClick={this.submitPost}
@@ -145,5 +166,24 @@ export class CreatePost extends Component {
     );
   }
 }
+
+const post_button = {
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "10px",
+  marginLeft: "10px",
+  fontWeight: "bold",
+  borderRadius: "50px",
+  display: "flex",
+  background: "#0c66c2",
+  color: "white",
+  border: "solid 1px #0c66c2",
+};
+const closeImg = {
+  cursor: "pointer",
+  float: "right",
+  marginTop: "5px",
+  width: "20px",
+};
 
 export default withCookies(CreatePost);

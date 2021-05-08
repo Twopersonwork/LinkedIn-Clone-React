@@ -15,7 +15,7 @@ class Count extends Component {
       show: false,
       users: [],
       showLike: false,
-      showComment: false,
+
       userComment: [],
       comments: [],
       likes: this.props.post.no_of_like,
@@ -81,11 +81,6 @@ class Count extends Component {
     this.setState({ show: true, showLike: true });
   };
 
-  modalShowComment = () => {
-    // this.FetchComment();
-    this.setState({ showComment: !this.state.showComment });
-  };
-
   render() {
     const { post } = this.props;
 
@@ -108,19 +103,29 @@ class Count extends Component {
             className="reaction_icons"
             src="https://www.userflow.nl/images/Linkedin-Celebrate-Icon-ClappingHands500.png"
           />
-
           <a className="button" onClick={this.modalShowLike}>
             {post.no_of_like}
           </a>
-
-          <a className="button" onClick={this.modalShowComment}>
-            {post.no_of_comment}
-          </a>
+          {post.no_of_comment > 0 ? (
+            <React.Fragment>
+              <span className="ml-1" style={{ color: "gray" }}>
+                ·
+              </span>
+              {post.no_of_comment == 1 ? (
+                <a className="button" onClick={this.props.modalShowComment}>
+                  {post.no_of_comment} comment
+                </a>
+              ) : (
+                <a className="button" onClick={this.props.modalShowComment}>
+                  {post.no_of_comment} comments
+                </a>
+              )}
+            </React.Fragment>
+          ) : null}
         </div>
 
         <hr className="hr" />
-        {this.state.showComment &&
-          post.comments.map((comment) => <Comments comment={comment} />)}
+
         {post.likes.length > 0 && this.state.show ? (
           <Modal
             style={{
@@ -153,10 +158,7 @@ class Count extends Component {
                     {user.profile_pic ? (
                       <Avatar src={user.profile_pic} alt="Profile" />
                     ) : (
-                      <Avatar
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP9xCw-TO3d5DvvvTaUE2dx6VLYNO52xxG5A&usqp=CAU"
-                        alt="Profile"
-                      />
+                      <Avatar src="/images/user.svg" alt="Profile" />
                     )}
                     <span className="ml-2" style={{ fontWeight: "bold" }}>
                       {user.username}
@@ -166,7 +168,6 @@ class Count extends Component {
                 </div>
               ))}
             </Modal.Body>
-            {/* <Modal.Footer></Modal.Footer> */}
           </Modal>
         ) : null}
       </div>

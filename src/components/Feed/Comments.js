@@ -37,10 +37,7 @@ class Comments extends Component {
           {this.state.user.profile_pic ? (
             <Avatar src={this.state.user.profile_pic} alt="Profile" />
           ) : (
-            <Avatar
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP9xCw-TO3d5DvvvTaUE2dx6VLYNO52xxG5A&usqp=CAU"
-              alt="Profile"
-            />
+            <Avatar src="/images/user.svg" alt="Profile" />
           )}
 
           <div className="post__info">

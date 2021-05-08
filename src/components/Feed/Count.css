@@ -20,10 +20,10 @@ a:link {
   font-size: x-small;
 }
 a {
-  margin-left: 7px;
+  margin-left: 3px;
 }
 a:hover {
-  color: blue;
+  color: rgb(79, 160, 235);
 }
 
 .hr {

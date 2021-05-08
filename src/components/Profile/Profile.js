@@ -7,21 +7,37 @@ import { BiPlus } from "react-icons/bi";
 import { Button as Btn } from "react-bootstrap";
 import EditIntroModal from "./EditIntroModal";
 import { withCookies } from "react-cookie";
+import About from "./About";
 
 class Profile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      profileModalShow: false,
-      profileCredentials: {},
+      profileModalShow: false, // for display modal for user info.
+      profileCredentials: {}, // user credentials
+      no_of_followers: "",
+
+      aboutModalShow: false,
+      AboutCredentials: {},
     };
   }
 
-  onProfileModal = () => {
-    this.setState({ profileModalShow: true });
+  // for change the value of profileModalShow
+  onProfileModal = (e) => {
+    console.log("this is profileModalShow");
+    this.setState({ profileModalShow: e });
+    this.setState({ aboutModalShow: false });
   };
 
+  // for change the value of aboutModalShow
+  onAboutModal = (e) => {
+    console.log("this is aboutModalShow");
+    this.setState({ aboutModalShow: e });
+    this.setState({ profileModalShow: false });
+  };
+
+  // for update the user credentials.
   updateProfile = () => {
     console.log("This is update profiel");
     fetch(
@@ -40,13 +56,59 @@ class Profile extends Component {
       .then((resp) => {
         this.setState({ profileCredentials: resp });
         this.setState({ profileModalShow: false });
+      })
+      .catch((error) => console.log(error));
+  };
 
+  // for get the user followers
+  getUserFollowers = () => {
+    fetch(
+      `${process.env.REACT_APP_API_URL}/uapi/follow/${
+        this.props.cookies.get("auth-token").user.id
+      }/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        // console.log(resp)
+        this.setState({ no_of_followers: resp.followers.length });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // for update the about
+  updateAbout = () => {
+    console.log("This is about.");
+    fetch(
+      `${process.env.REACT_APP_API_URL}/profile/about/${this.props.cookies.get(
+        "about-id"
+      )}/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        this.setState({ AboutCredentials: resp });
+        this.setState({ aboutModalShow: false });
       })
       .catch((error) => console.log(error));
   };
 
   componentDidMount = () => {
-    this.updateProfile();
+    this.updateProfile(); // for update the user info.
+    this.getUserFollowers(); // for get the user followes.
+    this.updateAbout(); // for update the user about.
   };
 
   render() {
@@ -70,9 +132,9 @@ class Profile extends Component {
               width: "50px",
               height: "50px",
               background: "grey",
-              marginTop:"-40px"
+              marginTop: "-40px",
             }}
-            onClick={this.onProfileModal}
+            onClick={() => this.onProfileModal(true)}
           >
             <FaEdit />
           </Btn>
@@ -81,7 +143,10 @@ class Profile extends Component {
           {this.state.profileModalShow ? (
             <Link
               component={() => (
-                <EditIntroModal updateProfile={() => this.updateProfile()} />
+                <EditIntroModal
+                  updateProfile={() => this.updateProfile()}
+                  onProfileModal={(e) => this.onProfileModal(e)}
+                />
               )}
             />
           ) : null}
@@ -103,7 +168,7 @@ class Profile extends Component {
               {this.state.profileCredentials.location}{" "}
               {this.state.profileCredentials.country}
               <Typography className="profile__stat_connections">
-                +500 Connections
+                {this.state.no_of_followers} Connections
               </Typography>
             </Typography>
 
@@ -135,17 +200,24 @@ class Profile extends Component {
                 height: "50px",
                 background: "grey",
               }}
+              onClick={() => this.onAboutModal(true)}
             >
-              <FaEdit onClick={() => console.log("1")}></FaEdit>
+              <FaEdit />
             </Btn>
+
+            {this.state.aboutModalShow ? (
+              <Link
+                component={() => (
+                  <About
+                    updateAbout={() => this.updateAbout()}
+                    onAboutModal={(e) => this.onAboutModal(e)}
+                  />
+                )}
+              />
+            ) : null}
           </div>
           <p className="profile__stat_about">
-            I'm currently pursuing my bachelor's degree in computer science. I
-            like to code. I know languages like Python, Java, frameworks like
-            Django, flask, and libraries like React.js. I also know Machine
-            learning, Deep Learning, and Natural Language Processing(NLP). I
-            like to solve challenging problems. I want to solve some real-world
-            problems.
+            {this.state.AboutCredentials.about}
           </p>
         </div>
 
@@ -186,7 +258,7 @@ class Profile extends Component {
                 className="profile__activity_followers"
                 style={{ marginTop: "-20px", marginBottom: "10px" }}
               >
-                916 followers
+                {this.state.no_of_followers} followers
               </span>
             </Link>
           </div>
