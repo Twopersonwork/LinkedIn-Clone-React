@@ -3,19 +3,21 @@ import { Button, TextField } from "@material-ui/core";
 import { Modal } from "react-bootstrap";
 import { withCookies } from "react-cookie";
 
-class Education extends Component {
+class License extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       modelShow: true,
+      issue_date_error: "",
+      expiration_date_error: "",
       deleteModalShow: false,
       credentials: {
-        school: "",
-        degree: "",
-        field_of_study: "",
-        start_year: "",
-        end_year: "",
+        name: "",
+        issuing_org: "",
+        issue_date: null,
+        expiration_date: null,
+        credential_id: "",
         user: this.props.cookies.get("auth-token").user.id,
       },
     };
@@ -28,9 +30,9 @@ class Education extends Component {
     this.setState({ credentials: cred });
   };
 
-  // For create new education for particular user
-  createEducation = (e) => {
-    fetch(`${process.env.REACT_APP_API_URL}/profile/education/`, {
+  // create new liecense or cetificate for currently login user
+  createLicense = (e) => {
+    fetch(`${process.env.REACT_APP_API_URL}/profile/license/`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -41,19 +43,19 @@ class Education extends Component {
       .then((resp) => resp.json())
       .then((resp) => {
         console.log(resp);
-        this.props.cookies.set("education-id", resp.id);
-        this.props.updateEducation();
+        this.props.cookies.set("license-id", resp.id);
+        this.props.updateLicense();
       })
       .catch((error) => console.log(error));
 
     e.preventDefault();
-    this.props.onEducationModal(false);
+    this.props.onLicenseModal(false);
   };
 
-  // For edit particular education for user.
-  editEducation = (e) => {
+  // edit license or certificate for currently login user
+  editLicense = (e) => {
     fetch(
-      `${process.env.REACT_APP_API_URL}/profile/education/${this.props.editEducation_id}/`,
+      `${process.env.REACT_APP_API_URL}/profile/license/${this.props.editLicense_id}/`,
       {
         method: "PUT",
         headers: {
@@ -66,22 +68,30 @@ class Education extends Component {
       .then((resp) => resp.json())
       .then((resp) => {
         console.log(resp);
-        this.setState({ modelShow: false });
-        this.props.updateEducation();
+        if (!resp.name) {
+          if (resp.issue_date) {
+            this.setState({ issue_date_error: resp.issue_date });
+          }
+          if (resp.expiration_date) {
+            this.setState({ expiration_date_error: resp.expiration_date });
+          }
+        } else {
+          this.setState({ modelShow: false });
+          this.props.updateLicense();
+          e.preventDefault();
+          this.props.onLicenseModal(false);
+        }
       })
       .catch((error) => console.log(error));
-
-    e.preventDefault();
-    this.props.onEducationModal(false);
   };
 
-  // for display education data in Modal
-  getEducationData = () => {
+  // get data for particular license
+  getLicenseData = () => {
     if (
-      this.props.cookies.get("deleted-edu-id") !== this.props.editEducation_id
+      this.props.cookies.get("deleted-license-id") !== this.props.editLicense_id
     ) {
       fetch(
-        `${process.env.REACT_APP_API_URL}/profile/education/${this.props.editEducation_id}/`,
+        `${process.env.REACT_APP_API_URL}/profile/license/${this.props.editLicense_id}/`,
         {
           method: "GET",
           headers: {
@@ -98,11 +108,11 @@ class Education extends Component {
           if (resp) {
             this.setState({
               credentials: {
-                school: resp.school,
-                degree: resp.degree,
-                field_of_study: resp.field_of_study,
-                start_year: resp.start_year,
-                end_year: resp.end_year,
+                name: resp.name,
+                issuing_org: resp.issuing_org,
+                issue_date: resp.issue_date,
+                expiration_date: resp.expiration_date,
+                credential_id: resp.credential_id,
                 user: this.props.cookies.get("auth-token").user.id,
               },
             });
@@ -112,10 +122,11 @@ class Education extends Component {
     }
   };
 
-  deleteEducation = () => {
-    this.props.cookies.set("deleted-edu-id", this.props.editEducation_id);
+  // delete license
+  deleteLicense = (e) => {
+    this.props.cookies.set("deleted-license-id", this.props.editLicense_id);
     fetch(
-      `${process.env.REACT_APP_API_URL}/profile/education/${this.props.editEducation_id}/`,
+      `${process.env.REACT_APP_API_URL}/profile/license/${this.props.editLicense_id}/`,
       {
         method: "DELETE",
         headers: {
@@ -124,23 +135,24 @@ class Education extends Component {
         },
       }
     )
-      .then((resp) => this.props.updateEducation())
+      .then((resp) => this.props.updateLicense())
 
       .catch((error) => console.log(error));
   };
 
   deleteModalDisplay = () => {
-    // console.log("hell");
+    console.log("hell");
     this.setState({ deleteModalShow: true });
   };
 
   componentDidMount() {
-    if (!this.props.onCreateEducation) {
-      this.getEducationData();
+    if (!this.props.onCreateLicense) {
+      this.getLicenseData();
     }
   }
 
   render() {
+    console.log(this.state.deleteModalShow);
     return (
       <Modal
         show={this.state.modelShow}
@@ -148,10 +160,12 @@ class Education extends Component {
         aria-labelledby="contained-modal-title-vcenter"
         centered
         onHide={() => this.setState({ modelShow: false })}
+        style={{ background: "rgba(0,0,0,0.2)" }}
+        className="fade"
       >
-        <Modal.Header closeButton>Edit Education</Modal.Header>
+        <Modal.Header closeButton>Edit license or certification</Modal.Header>
         <Modal.Body className="profile__modal">
-          {/* School */}
+          {/* name */}
           <TextField
             rowsMax={4}
             rowsMin={4}
@@ -159,15 +173,15 @@ class Education extends Component {
             size="large"
             type="text"
             fullWidth
-            id="school"
-            value={this.state.credentials.school}
-            label="School"
-            name="school"
+            id="name"
+            value={this.state.credentials.name}
+            label="Name"
+            name="name"
             onChange={this.inputChanged}
             required
             className="mb-3"
           />
-          {/* Degree */}
+          {/* issuing_org */}
           <TextField
             rowsMax={4}
             rowsMin={4}
@@ -175,64 +189,77 @@ class Education extends Component {
             size="large"
             type="text"
             fullWidth
-            id="degree"
-            value={this.state.credentials.degree}
-            label="Degree"
-            name="degree"
+            id="issuing_org"
+            value={this.state.credentials.issuing_org}
+            label="Issuing_organization"
+            name="issuing_org"
             onChange={this.inputChanged}
             required
             className="mb-3"
           />
-          {/* Field of study */}
-          <TextField
-            rowsMax={4}
-            rowsMin={4}
-            variant="outlined"
-            size="large"
-            type="text"
-            fullWidth
-            id="field_of_study"
-            value={this.state.credentials.field_of_study}
-            label="Field of study"
-            name="field_of_study"
-            onChange={this.inputChanged}
-            required
-            className="mb-3"
-          />
-          {/* start year and end year */}
+
+          {/* issue_date and expiration date */}
           <div style={{ display: "flex  " }}>
             <TextField
+              error={this.state.issue_date_error ? true : false}
+              helperText={this.state.issue_date_error}
               className="mt-3 mb-5 mr-2"
-              variant="outlined"
               size="small"
-              type="text"
+              type="date"
               fullWidth
-              id="start_year"
-              value={this.state.credentials.start_year}
-              label="Start Year"
-              name="start_year"
+              ormat={"YYYY/MM/DD"}
+              id="issue_date"
+              value={this.state.credentials.issue_date}
+              label="Issue Date"
+              name="issue_date"
               onChange={this.inputChanged}
               required
+              defaultValue="0000-00-00"
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
             <TextField
+              error={this.state.expiration_date_error ? true : false}
+              helperText={this.state.expiration_date_error}
               className="mt-3 mb-5 "
-              variant="outlined"
               size="small"
-              type="text"
+              type="date"
               fullWidth
-              id="end_year"
-              value={this.state.credentials.end_year}
-              label="End Year"
-              name="end_year"
+              id="expiration_date"
+              defaultValue="2017-05-24"
+              value={this.state.credentials.expiration_date}
+              label="Expiration Date"
+              name="expiration_date"
+              defaultValue={"2017-05-2"}
               onChange={this.inputChanged}
               required
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </div>
+          {/* credential_id */}
+          <TextField
+            rowsMax={4}
+            rowsMin={4}
+            variant="outlined"
+            size="large"
+            type="text"
+            fullWidth
+            id="credential_id"
+            value={this.state.credentials.credential_id}
+            label="Credential ID"
+            name="credential_id"
+            onChange={this.inputChanged}
+            required
+            className="mb-3"
+          />
         </Modal.Body>
         <Modal.Footer>
-          {this.props.onCreateEducation ? (
+          {this.props.onCreateLicense ? (
             <Button
-              onClick={this.createEducation}
+              onClick={this.createLicense}
               style={save_button}
               type="submit"
             >
@@ -249,7 +276,7 @@ class Education extends Component {
                 Delete
               </Button>
               <Button
-                onClick={this.editEducation}
+                onClick={this.editLicense}
                 style={save_button}
                 type="submit"
                 className="ml-auto"
@@ -259,7 +286,6 @@ class Education extends Component {
             </React.Fragment>
           )}
         </Modal.Footer>
-
         {this.state.deleteModalShow ? (
           <Modal
             show={this.state.deleteModalShow}
@@ -271,13 +297,11 @@ class Education extends Component {
             className="fade"
           >
             <Modal.Header closeButton>
-              Delete Education
+              Delete license or certification
             </Modal.Header>
 
             <Modal.Body>
-              <span>
-                Are you sure you want to delete {this.state.credentials.school} ?
-              </span>
+              <span>Are you sure you want to delete {this.state.credentials.name} ?</span>
               <Modal.Footer>
                 <Button
                   onClick={() => this.setState({ deleteModalShow: false })}
@@ -287,7 +311,7 @@ class Education extends Component {
                   No Thanks
                 </Button>
                 <Button
-                  onClick={this.deleteEducation}
+                  onClick={this.deleteLicense}
                   style={save_button}
                   type="submit"
                 >
@@ -315,4 +339,4 @@ const save_button = {
   border: "solid 1px #0c66c2",
 };
 
-export default withCookies(Education);
+export default withCookies(License);

@@ -50,6 +50,9 @@ class Login extends Component {
           if (resp.user.user_education) {
             this.props.cookies.set("education-id", resp.user.user_education.id);
           }
+          if (resp.user.user_license) {
+            this.props.cookies.set("license-id", resp.user.user_license.id);
+          }
           window.location.href = "/main";
         } else if (resp.user_not_found) {
           this.setState({ emailError: resp.user_not_found });
