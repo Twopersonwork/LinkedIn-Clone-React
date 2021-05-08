@@ -227,7 +227,6 @@ class License extends Component {
               type="date"
               fullWidth
               id="expiration_date"
-              defaultValue="2017-05-24"
               value={this.state.credentials.expiration_date}
               label="Expiration Date"
               name="expiration_date"
