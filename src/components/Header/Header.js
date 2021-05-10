@@ -25,7 +25,7 @@ class Header extends Component {
       <Container style={{ position: "relative" }}>
         <Content>
           <Logo>
-            <a href="/main">
+            <a href="/">
               <img src="/images/home-logo.svg" alt="" />
             </a>
           </Logo>
@@ -40,56 +40,56 @@ class Header extends Component {
           <Nav>
             <NavListWrap>
               <NavList className="active">
-                <Link to={"/main"}>
+                <Link to={"/"}>
                   <img src="/images/nav-home.svg" alt="" />
                   <span>Home</span>
                 </Link>
               </NavList>
 
               <NavList>
-                <Link to={"/main"}>
+                <Link to={"/"}>
                   <img src="/images/nav-network.svg" alt="" />
                   <span>My Network</span>
                 </Link>
               </NavList>
 
               <NavList>
-                <Link to={"/main"}>
+                <Link to={"/"}>
                   <img src="/images/nav-jobs.svg" alt="" />
                   <span>Jobs</span>
                 </Link>
               </NavList>
 
               <NavList>
-                <Link to={"/main"}>
+                <Link to={"/"}>
                   <img src="/images/nav-messaging.svg" alt="" />
                   <span>Messaging</span>
                 </Link>
               </NavList>
 
               <NavList>
-                <Link to={"/main"}>
+                <Link to={"/"}>
                   <img src="/images/nav-notifications.svg" alt="" />
                   <span>Notifications</span>
                 </Link>
               </NavList>
 
               <User>
-                <Link to={"/main"}>
+                <Link to={"/"}>
                   <img src="/images/user.svg" alt="" />
                   <span>Me</span>
                   {/* <img src="/images/down-icon.svg" alt="" /> */}
                 </Link>
 
                 <SignOut>
-                  <Link to={"/"} onClick={this.removeallCookies}>
+                  <Link to={"/home"} onClick={this.removeallCookies}>
                     Sign Out
                   </Link>
                 </SignOut>
               </User>
 
               <Work>
-                <Link to={"/main"}>
+                <Link to={"/"}>
                   <img src="/images/nav-work.svg" alt="" />
                   <span>
                     Work
@@ -106,7 +106,7 @@ class Header extends Component {
       //       <img
       //         src="https://www.flaticon.com/svg/static/icons/svg/174/174857.svg"
       //         alt="linkedin logo"
-      //         onClick={() => window.location.href="/main"}
+      //         onClick={() => window.location.href="/"}
       //       />
 
       //     <div className="header__search">

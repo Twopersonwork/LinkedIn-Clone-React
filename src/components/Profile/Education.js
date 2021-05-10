@@ -20,12 +20,18 @@ class Education extends Component {
       },
     };
   }
-
+  
   inputChanged = (event) => {
     console.log(event.target.value);
     let cred = this.state.credentials;
     cred[event.target.name] = event.target.value;
     this.setState({ credentials: cred });
+  };
+
+  // for hide the modal
+  onhide = () => {
+    this.setState({ modelShow: false });
+    this.props.onEducationModal(false);
   };
 
   // For create new education for particular user
@@ -147,7 +153,7 @@ class Education extends Component {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        onHide={() => this.setState({ modelShow: false })}
+        onHide={this.onhide}
       >
         <Modal.Header closeButton>Edit Education</Modal.Header>
         <Modal.Body className="profile__modal">
@@ -270,13 +276,12 @@ class Education extends Component {
             style={{ background: "rgba(0,0,0,0.3)" }}
             className="fade"
           >
-            <Modal.Header closeButton>
-              Delete Education
-            </Modal.Header>
+            <Modal.Header closeButton>Delete Education</Modal.Header>
 
             <Modal.Body>
               <span>
-                Are you sure you want to delete {this.state.credentials.school} ?
+                Are you sure you want to delete {this.state.credentials.school}{" "}
+                ?
               </span>
               <Modal.Footer>
                 <Button

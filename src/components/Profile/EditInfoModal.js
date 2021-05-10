@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 import "./EditIntroModal.css";
 import { withCookies } from "react-cookie";
 
-class EditIntroModal extends Component {
+class EditinfoModal extends Component {
   constructor(props) {
     super(props);
 
@@ -22,13 +22,19 @@ class EditIntroModal extends Component {
       },
     };
   }
-
+  
   inputChanged = (event) => {
     console.log(event.target.value);
     let cred = this.state.credentials;
     cred[event.target.name] = event.target.value;
     this.setState({ credentials: cred });
   };
+
+    // for hide the modal
+    onhide = () => {
+      this.setState({ modelShow: false });
+      this.props.onProfileModal(false);
+    };
 
   createProfile = (e) => {
     fetch(`${process.env.REACT_APP_API_URL}/profile/user_profile/`, {
@@ -128,7 +134,7 @@ class EditIntroModal extends Component {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        onHide={() => this.setState({ modelShow: false })}
+        onHide={this.onhide}
       >
         <Modal.Header closeButton>Edit intro</Modal.Header>
         <Modal.Body className="profile__modal">
@@ -262,4 +268,4 @@ const save_button = {
   border: "solid 1px #0c66c2",
 };
 
-export default withCookies(EditIntroModal);
+export default withCookies(EditinfoModal);
