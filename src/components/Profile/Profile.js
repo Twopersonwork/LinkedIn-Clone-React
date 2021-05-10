@@ -9,15 +9,41 @@ import { withCookies } from "react-cookie";
 import About from "./About";
 import Education from "./Education";
 import License from "./License";
+<<<<<<< HEAD
+import CameraAltRoundedIcon from "@material-ui/icons/CameraAltRounded";
+import AddProfilePic from "./AddProfilePic";
+=======
 import AddSkills from "./AddSkills";
 import EditSkill from "./EditSkill";
 import CreatePost from "../Feed/CreatePost";
+>>>>>>> ccb9c620e1a3b03caf142e1b2dba09ff9be73226
 
 class Profile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+<<<<<<< HEAD
+      profileModalShow: false, // for display modal for user info.
+      profileCredentials: {}, // user credentials
+      no_of_followers: "", // store the user followers.
+
+      aboutModalShow: false, // for display modal for user about.
+      AboutCredentials: {}, // about credentiaks.
+
+      educationModalShow: false, // for display modal for user education.
+      EducationCredentials: [], // education credentials
+      createEducation: false, // for check if it is create education or edit education
+      editEducation_id: "", // id for particular education
+
+      licenseModalShow: false, // for display modalfor user license and certificate
+      LicenseCredentials: [], // license credentials
+      createLicense: false, // for check if it is create license or edit license
+      editLicense_id: "", // id for particular license
+      profile_pic: "",
+      profile_picAsFile: null,
+      picShowModal: false,
+=======
       // for display modal for user info.
       profileModalShow: false,
       // user credentials
@@ -66,6 +92,7 @@ class Profile extends Component {
       MAX_items: 3,
 
       createPost: false,
+>>>>>>> ccb9c620e1a3b03caf142e1b2dba09ff9be73226
     };
   }
 
@@ -332,16 +359,35 @@ class Profile extends Component {
   componentDidMount = () => {
     // for update the user info.
     this.updateProfile();
-    // for get the user followes.
+    // for getting the user followes.
     this.getUserFollowers();
-    // for update the user about.
+    // for updating the user about.
     this.updateAbout();
-    // for update the user education
+    // for updating the user education
     this.updateEducation();
     // for update the user license and certification
     this.updateLicense();
     // for update the skills data
     this.updateSkills();
+    console.log("called comp");
+    fetch(
+      `http://127.0.0.1:8000/uapi/users/${
+        this.props.cookies.get("auth-token").user.id
+      }/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log("comp response", resp);
+        this.setState({ profile_pic: resp.profile_pic });
+      })
+      .catch((error) => console.log(error));
+    
   };
 
   render() {
@@ -352,10 +398,48 @@ class Profile extends Component {
             src="https://resi.ze-robot.com/dl/4k/4k-desktop-wallpaper.-1920%C3%971200.jpg"
             alt="background"
           />
-          <Avatar
-            src="https://static.hollywoodreporter.com/sites/default/files/2019/03/avatar-publicity_still-h_2019-compressed.jpg"
-            className="sidebar__avatar"
-          ></Avatar>
+          {this.state.profile_pic ? (
+            <Avatar
+              onClick={() => {
+                this.setState({ picShowModal: true });
+              }}
+              className="img_wrp"
+              src={this.state.profile_pic}
+              alt="Profile"
+            />
+          ) : (
+            <Avatar
+              onClick={() => {
+                this.setState({ picShowModal: true });
+              }}
+              className="post__image img_wrp"
+              src="/images/user.svg"
+              alt="Profile"
+            />
+          )}
+          {/* <input
+            style={{ display: "none" }}
+            type="file"
+            id="file"
+            onChange={(e) => this.handleProfilePic(e)}
+          />
+          <label htmlFor="file">
+            <CameraAltRoundedIcon
+              className="profile__image"
+              style={{ color: "black" }}
+            />
+          </label> */}
+          {this.state.picShowModal ? (
+            <Link
+              component={() => (
+                <AddProfilePic
+                  profile_pic={this.state.profile_pic}
+                  profile_picAsFile={this.state.profile_picAsFile}
+                />
+              )}
+            ></Link>
+          ) : null}
+
           {/* Create model for user,for add the profile info. */}
           <BiEdit
             className="ml-auto mr-4"

@@ -4,19 +4,20 @@ import { withCookies } from "react-cookie";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import "./CreatePost.css";
 import { Avatar } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
 import { AiFillCloseCircle } from "react-icons/ai";
-export class CreatePost extends Component {
+
+class EditPost extends Component {
   constructor(props) {
     super(props);
     console.log("caallledd");
     this.state = {
       modalPost: true,
-      body: "",
-      image: "",
-      imageAsFile: null,
+      body: this.props.post.body,
+      image: this.props.post.image,
+      imageAsFile: this.props.post.imageAsFile,
     };
   }
+
   removeImage = () => {
     console.log("clicked");
     this.setState({
@@ -34,6 +35,8 @@ export class CreatePost extends Component {
     var form_data = new FormData();
 
     form_data.set("body", this.state.body);
+    form_data.set("user", this.props.cookies.get("auth-token").user.id);
+
     if (this.state.imageAsFile) {
       form_data.set(
         "image",
@@ -43,13 +46,16 @@ export class CreatePost extends Component {
     }
 
     console.log(this.props.cookies.get("auth-token").token);
-    fetch(`${process.env.REACT_APP_API_URL}/papi/create_post/`, {
-      method: "POST",
-      headers: {
-        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-      },
-      body: form_data,
-    })
+    fetch(
+      `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+        body: form_data,
+      }
+    )
       .then((res) => res.json())
       .then((res) => {
         this.setState({ modalPost: false }, function () {
@@ -74,16 +80,23 @@ export class CreatePost extends Component {
           size="md"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          onHide={() => this.setState({ modalPost: false })}
         >
-          <Modal.Header closeButton autoFocus>
+          <Modal.Header
+            closeButton
+            autoFocus
+            onClick={() =>
+              this.setState({ modalPost: false }, function () {
+                this.props.closemodalPost(false);
+              })
+            }
+          >
             <Modal.Title
               style={{
                 fontSize: "1.2rem",
               }}
               id="contained-modal-title-vcenter"
             >
-              Create a Post
+              Edit a Post
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -110,6 +123,7 @@ export class CreatePost extends Component {
                 </div>
               </Form.Label>
               <Form.Control
+                value={this.state.body}
                 style={{ border: "none" }}
                 placeholder="What do you want to talk about?"
                 onChange={this.handleBody}
@@ -120,7 +134,7 @@ export class CreatePost extends Component {
 
             {this.state.image ? (
               <React.Fragment>
-                <div className="img_wrp">
+                <div class="img_wrp">
                   <img
                     className="post__image"
                     style={{ borderRadius: "10px" }}
@@ -177,5 +191,11 @@ const post_button = {
   color: "white",
   border: "solid 1px #0c66c2",
 };
+const closeImg = {
+  cursor: "pointer",
+  float: "right",
+  marginTop: "5px",
+  width: "20px",
+};
 
-export default withCookies(CreatePost);
+export default withCookies(EditPost);

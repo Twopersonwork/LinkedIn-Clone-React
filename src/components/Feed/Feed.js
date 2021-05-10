@@ -22,9 +22,14 @@ class Feed extends Component {
       body: "",
       image: "",
       imageAsFile: null,
+      update: false,
     };
   }
 
+  updatePost = () => {
+    console.log("update");
+    this.setState({ update: !this.state.update });
+  };
   submitPost = () => {
     var form_data = new FormData();
 
@@ -76,11 +81,15 @@ class Feed extends Component {
         })
       )
       .catch((error) => console.log(error));
+    this.updatePost();
   }
   // to display post instantly w/o refreshing after
   // creating the post.
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.posts.length != this.state.posts.length) {
+    if (
+      prevState.posts.length != this.state.posts.length ||
+      prevState.update != this.state.update
+    ) {
       fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
         method: "GET",
         headers: {
@@ -130,7 +139,9 @@ class Feed extends Component {
         {/* Posts */}
         <FlipMove>
           {this.state.posts.length > 0 &&
-            this.state.posts.map((post) => <Post key={post.id} post={post} />)}
+            this.state.posts.map((post) => (
+              <Post key={post.id} post={post} updatePost={this.updatePost} />
+            ))}
         </FlipMove>
 
         {this.state.modalPost ? (
