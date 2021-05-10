@@ -52,7 +52,7 @@ class Login extends Component {
           if (resp.user.user_license) {
             this.props.cookies.set("license-id", resp.user.user_license.id);
           }
-          window.location.href = "/main";
+          window.location.href = "/";
         } else if (resp.user_not_found) {
           this.setState({ emailError: resp.user_not_found });
         } else if (resp.chk_uname_or_pwd) {

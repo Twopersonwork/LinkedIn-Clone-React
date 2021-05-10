@@ -23,6 +23,12 @@ class About extends Component {
     this.setState({ credentials: cred });
   };
 
+  // for hide the modal
+  onhide = () => {
+    this.setState({ modelShow: false });
+    this.props.onAboutModal(false);
+  };
+
   createAbout = (e) => {
     fetch(`${process.env.REACT_APP_API_URL}/profile/about/`, {
       method: "POST",
@@ -108,7 +114,7 @@ class About extends Component {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        onHide={() => this.setState({ modelShow: false })}
+        onHide={this.onhide}
       >
         <Modal.Header closeButton>Edit About</Modal.Header>
         <Modal.Body className="profile__modal">
@@ -131,11 +137,7 @@ class About extends Component {
         </Modal.Body>
         <Modal.Footer>
           {this.props.cookies.get("about-id") ? (
-            <Button
-              onClick={this.editAbout}
-              style={save_button}
-              type="submit"
-            >
+            <Button onClick={this.editAbout} style={save_button} type="submit">
               save
             </Button>
           ) : (
