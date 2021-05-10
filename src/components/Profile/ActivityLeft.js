@@ -4,6 +4,36 @@ import { Link } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
 
 class ActivityLeft extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      followers: "",
+      following: "",
+    };
+  }
+
+  componentDidMount() {
+    fetch(
+      `${
+        process.env.REACT_APP_API_URL
+      }/uapi/users/${this.props.cookies.get("auth-token").user.id}/no_of_follow/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        this.setState({ following: resp.no_following });
+        this.setState({ followers: resp.no_followers });
+      })
+      .catch((error) => console.log(error));
+  }
+
   render() {
     return (
       <div className="sidebar">
@@ -26,7 +56,7 @@ class ActivityLeft extends Component {
         <div className="sidebar__stats">
           <div className="sidebar__stat">
             <p>Followers</p>
-            <p className="sidebar__statNumber">126</p>
+            <p className="sidebar__statNumber">{this.state.followers}</p>
           </div>
         </div>
       </div>

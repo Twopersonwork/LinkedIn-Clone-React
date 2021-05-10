@@ -72,7 +72,7 @@ export class AddProfilePic extends Component {
       .then((res) => res.json())
       .then((res) => {
         this.setState({ modalDelete: false, modalShow: false });
-        // window.location.reload();
+        window.location.reload();
         console.log("response", res);
       })
       .catch((err) => console.log(err));
