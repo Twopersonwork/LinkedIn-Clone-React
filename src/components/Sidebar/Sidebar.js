@@ -7,17 +7,32 @@ import { Link } from "react-router-dom";
 import React, { Component } from "react";
 
 class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      profile_pic: "",
+    };
+  }
+
   componentDidMount() {
     // console.log(this.props.cookies.get("username"));
-    // fetch("http://127.0.0.1:8000/auth/", {
-    //     method:"POST",
-    //     headers : {
-    //         "Content-Type":"application/json",
-    //         "Authorization":"Token 4bd66226919d32a577ff458b35244cc034d4f586",
-    //     },
-    // }).then((resp) => resp.json())
-    // .then((res) => console.log(res))
-    // .catch((error) => console.log(error))
+    fetch(
+      `http://127.0.0.1:8000/uapi/users/${
+        this.props.cookies.get("auth-token").user.id
+      }/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        this.setState({ profile_pic: resp.profile_pic });
+      })
+      .catch((error) => console.log(error));
   }
 
   recentItem = (topic) => (
@@ -35,10 +50,15 @@ class Sidebar extends Component {
             src="https://resi.ze-robot.com/dl/4k/4k-desktop-wallpaper.-1920%C3%971200.jpg"
             alt="background"
           />
-          <Avatar
-            src="https://static.hollywoodreporter.com/sites/default/files/2019/03/avatar-publicity_still-h_2019-compressed.jpg"
-            className="sidebar__avatar"
-          ></Avatar>
+          {this.state.profile_pic ? (
+            <Avatar src={this.state.profile_pic} alt="Profile" />
+          ) : (
+            <Avatar
+              className="post__image"
+              src="/images/user.svg"
+              alt="Profile"
+            />
+          )}
           <Link to={"/profile"}>
             <span style={{ fontWeight: "bold" }}>
               {this.props.cookies.get("auth-token").user.username}

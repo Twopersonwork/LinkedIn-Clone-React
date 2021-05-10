@@ -9,7 +9,14 @@ import React, { Component } from "react";
 import Count from "./Count";
 import { withCookies } from "react-cookie";
 import Comments from "./Comments";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import EditPost from "./EditPost";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Link } from "react-router-dom";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 class Post extends Component {
   constructor(props) {
@@ -23,8 +30,48 @@ class Post extends Component {
       showComment: false,
       comment: "",
       user_commented: false,
+      editPost: false,
+      anchorEl: null,
+      modalPost: false,
+      deleteModal: false,
     };
   }
+  moreOptions = (e) => {
+    console.log("more clicked");
+    this.setState({
+      anchorEl: e.currentTarget,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      anchorEl: null,
+    });
+  };
+  handleEdit = () => {
+    this.setState({ modalPost: true });
+    this.handleClose();
+  };
+  modalDelete = () => {
+    this.setState({ deleteModal: true });
+    this.handleClose();
+  };
+  handleDelete = () => {
+    fetch(
+      `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
+      .then((resp) => this.props.updatePost())
+
+      .catch((error) => console.log(error));
+    this.handleClose();
+  };
   handleComment = (e) => {
     console.log(e.target.value);
     this.setState({ comment: e.target.value });
@@ -181,6 +228,104 @@ class Post extends Component {
               {this.state.user.lastName}
             </span>
           </div>
+          <MoreHorizIcon
+            style={{ marginLeft: "auto", color: "gray" }}
+            onClick={(e) => this.moreOptions(e)}
+          />
+          <Menu
+            style={{ borderRadius: "50%" }}
+            id="simple-menu"
+            anchorEl={this.state.anchorEl}
+            keepMounted
+            open={Boolean(this.state.anchorEl)}
+            onClose={this.handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "bottom",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <div className="p-1">
+              <MenuItem onClick={this.handleEdit}>
+                <EditOutlinedIcon style={{ color: "gray" }} className="mr-2" />
+                <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                  Edit Post
+                </span>
+              </MenuItem>
+              <MenuItem onClick={this.modalDelete}>
+                <DeleteIcon style={{ color: "gray" }} className="mr-2" />
+                <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                  Delete Post
+                </span>
+              </MenuItem>
+            </div>
+            {/* <MenuItem onClick={this.handleClose}>Logout</MenuItem> */}
+          </Menu>
+          {this.state.deleteModal ? (
+            <Modal
+              show={this.state.deleteModal}
+              size="sm"
+              aria-labelledby="contained-modal-title-vcenter"
+              onHide={() => this.setState({ deleteModal: false })}
+              style={{
+                background: "rgba(0,0,0,0.3)",
+              }}
+              className="fade"
+            >
+              <Modal.Header style={{ margin: "auto", borderBottom: "0 none" }}>
+                Delete Post?
+              </Modal.Header>
+
+              <Modal.Body
+                style={{
+                  padding: "0px",
+                  borderRadius: "60px",
+                }}
+              >
+                <div className="m-auto p-2 pb-3">
+                  <span
+                    style={{
+                      fontSize: "0.8rem",
+                      lineHeight: "0.5",
+                      color: "rgba(0,0,0,0.6)",
+                    }}
+                  >
+                    Are you sure you want to permanently remove this post from
+                    LinkedIn?
+                  </span>
+                </div>
+                <Modal.Footer style={{ padding: "0px", paddingBottom: "5px" }}>
+                  <Button
+                    onClick={() => this.setState({ deleteModal: false })}
+                    style={cancel_button}
+                    type="submit"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={this.handleDelete}
+                    style={delete_button}
+                    type="submit"
+                  >
+                    Delete
+                  </Button>
+                </Modal.Footer>
+              </Modal.Body>
+            </Modal>
+          ) : null}
+          {this.state.modalPost ? (
+            <Link
+              component={() => (
+                <EditPost
+                  post={post}
+                  closemodalPost={(e) => this.setState({ modalPost: e })}
+                />
+              )}
+            />
+          ) : null}
         </div>
 
         <div className="post__body">
@@ -240,6 +385,8 @@ class Post extends Component {
               comment={comment}
             />
           ))}
+
+        {this.state.editPost ? <EditPost /> : null}
       </div>
     );
   }
@@ -256,6 +403,32 @@ const post_button = {
   color: "white",
   border: "solid 1px #0c66c2",
   width: "110px",
+};
+const delete_button = {
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "10px",
+  marginLeft: "5px",
+  fontWeight: "bold",
+  borderRadius: "50px",
+  display: "flex",
+  background: "#0c66c2",
+  color: "white",
+  border: "solid 1px #0c66c2",
+  fontSize: "16px",
+};
+const cancel_button = {
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "10px",
+  marginLeft: "10px",
+  fontWeight: "bold",
+  borderRadius: "50px",
+  display: "flex",
+  background: "white",
+  color: "rgba(0,0,0,0.6)",
+  border: "solid 1px black",
+  fontSize: "16px",
 };
 
 export default withCookies(Post);

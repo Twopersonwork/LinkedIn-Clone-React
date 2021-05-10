@@ -1,0 +1,8 @@
+.my-modal .modal-content {
+  background-color: rgb(29, 34, 38);
+}
+.my-modal .modal-header .close {
+  padding: 1rem 1rem;
+  margin: -1rem -1rem -1rem auto;
+  color: white;
+}
