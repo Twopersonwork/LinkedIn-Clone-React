@@ -11,6 +11,9 @@ import { withCookies } from "react-cookie";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "./components/Login/Login";
 import Profile from "./components/Profile/Profile";
+import ActivityLeft from "./components/Profile/ActivityLeft";
+import ActivityMain from "./components/Profile/ActivityMain";
+import ActivityRight from "./components/Profile/ActivityRight";
 
 class App extends Component {
   render() {
@@ -23,7 +26,7 @@ class App extends Component {
                 <div className="app">
                   <Header />
                   <div className="app__body">
-                    <Route exact path="/main">
+                    <Route exact path="/">
                       <Sidebar />
                       <Feed />
                       <Widgets />
@@ -33,11 +36,16 @@ class App extends Component {
                       path="/profile"
                       component={() => <Profile />}
                     />
+                    <Route exact path="/activity">
+                      <ActivityLeft />
+                      <ActivityMain />
+                      <ActivityRight />
+                    </Route>
                   </div>
                 </div>
               </Route>
             ) : (
-              <Route exact path="/" component={() => <Home />} />
+              <Route exact path="/home" component={() => <Home />} />
             )}
 
             <Route

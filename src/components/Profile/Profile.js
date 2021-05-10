@@ -3,6 +3,7 @@ import "./Profile.css";
 import { Avatar, Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { BiPlus, BiEdit } from "react-icons/bi";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import EditIntroModal from "./EditInfoModal";
 import { withCookies } from "react-cookie";
 import About from "./About";
@@ -10,6 +11,7 @@ import Education from "./Education";
 import License from "./License";
 import AddSkills from "./AddSkills";
 import EditSkill from "./EditSkill";
+import CreatePost from "../Feed/CreatePost";
 
 class Profile extends Component {
   constructor(props) {
@@ -51,40 +53,100 @@ class Profile extends Component {
       // skill credentials
       SkillCredentials: [],
       EditSkillsModalShow: false,
+
+      //for display show more and show less button in skills
+      showMoreSkill: false,
+
+      //for display show more and show less button in education
+      showMoreEducation: false,
+
+      //for display show more and show less button in license
+      showMoreLicense: false,
+
+      MAX_items: 3,
+
+      createPost: false,
     };
   }
+
+  onCreatePost = () => {
+    this.setState({ createPost: true });
+  };
+
+  //toggle skill and getRenderSkills for display show more and show less button based on Max_items
+  toggleSkill = () => {
+    this.setState({ showMoreSkill: !this.state.showMoreSkill });
+  };
+
+  getRenderSkills = () => {
+    if (this.state.showMoreSkill) {
+      return this.state.SkillCredentials;
+    }
+    return this.state.SkillCredentials.slice(0, this.state.MAX_items);
+  };
+
+  //toggle education and getRendereducations for display show more and show less button based on Max_items
+  toggleEducation = () => {
+    this.setState({ showMoreEducation: !this.state.showMoreEducation });
+  };
+
+  getRenderEducation = () => {
+    if (this.state.showMoreEducation) {
+      return this.state.EducationCredentials;
+    }
+    return this.state.EducationCredentials.slice(0, this.state.MAX_items);
+  };
+
+  //toggle license and getRenderlicenses for display show more and show less button based on Max_items
+  toggleLicense = () => {
+    this.setState({ showMoreLicense: !this.state.showMoreLicense });
+  };
+
+  getRenderLicense = () => {
+    if (this.state.showMoreLicense) {
+      return this.state.LicenseCredentials;
+    }
+    return this.state.LicenseCredentials.slice(0, this.state.MAX_items);
+  };
 
   // for change the value of profileModalShow
   onProfileModal = (e) => {
     console.log("this is profileModalShow");
-    this.setState({ profileModalShow: e });
-    this.setState({ aboutModalShow: false });
-    this.setState({ educationModalShow: false });
-    this.setState({ licenseModalShow: false });
-    this.setState({ skillsModalShow: false });
-    this.setState({EditSkillsModalShow:false});
+    this.setState({
+      profileModalShow: e,
+      aboutModalShow: false,
+      educationModalShow: false,
+      licenseModalShow: false,
+      skillsModalShow: false,
+      skillsModalShow: false,
+      EditSkillsModalShow: false,
+    });
   };
 
   // for change the value of aboutModalShow
   onAboutModal = (e) => {
     console.log("this is aboutModalShow");
-    this.setState({ aboutModalShow: e });
-    this.setState({ profileModalShow: false });
-    this.setState({ educationModalShow: false });
-    this.setState({ licenseModalShow: false });
-    this.setState({ skillsModalShow: false });
-    this.setState({EditSkillsModalShow:false});
+    this.setState({
+      aboutModalShow: e,
+      profileModalShow: false,
+      educationModalShow: false,
+      licenseModalShow: false,
+      skillsModalShow: false,
+      EditSkillsModalShow: false,
+    });
   };
 
   // for change the value if educationModalShow
   onEducationModal = (e) => {
     console.log("this is educationModalShow");
-    this.setState({ educationModalShow: e });
-    this.setState({ profileModalShow: false });
-    this.setState({ aboutModalShow: false });
-    this.setState({ licenseModalShow: false });
-    this.setState({ skillsModalShow: false });
-    this.setState({EditSkillsModalShow:false});
+    this.setState({
+      educationModalShow: e,
+      profileModalShow: false,
+      aboutModalShow: false,
+      licenseModalShow: false,
+      skillsModalShow: false,
+      EditSkillsModalShow: false,
+    });
 
     // when user create education this becomes true
     this.setState({ createEducation: true });
@@ -93,12 +155,14 @@ class Profile extends Component {
   // for change the value if licenseModalShow
   onLicenseModal = (e) => {
     console.log("this is licenseModalShow");
-    this.setState({ licenseModalShow: e });
-    this.setState({ aboutModalShow: false });
-    this.setState({ educationModalShow: false });
-    this.setState({ profileModalShow: false });
-    this.setState({ skillsModalShow: false });
-    this.setState({EditSkillsModalShow:false});
+    this.setState({
+      licenseModalShow: e,
+      aboutModalShow: false,
+      educationModalShow: false,
+      profileModalShow: false,
+      skillsModalShow: false,
+      EditSkillsModalShow: false,
+    });
 
     // when user create license this becomes true
     this.setState({ createLicense: true });
@@ -106,22 +170,26 @@ class Profile extends Component {
 
   onSkillModal = (e) => {
     console.log("this is skillsModalshow");
-    this.setState({ skillsModalShow: e });
-    this.setState({ aboutModalShow: false });
-    this.setState({ educationModalShow: false });
-    this.setState({ licenseModalShow: false });
-    this.setState({ profileModalShow: false });
-    this.setState({EditSkillsModalShow:false});
+    this.setState({
+      skillsModalShow: e,
+      aboutModalShow: false,
+      educationModalShow: false,
+      licenseModalShow: false,
+      profileModalShow: false,
+      EditSkillsModalShow: false,
+    });
   };
 
   onEditSkillModal = () => {
     console.log("ll");
-    this.setState({ EditSkillsModalShow: true });
-    this.setState({ aboutModalShow: false });
-    this.setState({ educationModalShow: false });
-    this.setState({ licenseModalShow: false });
-    this.setState({ profileModalShow: false });
-    this.setState({ skillsModalShow: false });
+    this.setState({
+      EditSkillsModalShow: true,
+      aboutModalShow: false,
+      educationModalShow: false,
+      licenseModalShow: false,
+      profileModalShow: false,
+      skillsModalShow: false,
+    });
   };
   // for update the user credentials.
   updateProfile = () => {
@@ -322,11 +390,20 @@ class Profile extends Component {
               {this.state.profileCredentials.headLine}
             </Typography>
             <Typography className="profile__stat">
-              {this.state.profileCredentials.location}{" "}
-              {this.state.profileCredentials.country}
-              <Typography className="profile__stat_connections">
-                {this.state.no_of_followers} Connections
-              </Typography>
+              {this.state.profileCredentials.location ? (
+                <React.Fragment>
+                  {this.state.profileCredentials.location}
+                  {", "}
+                  {this.state.profileCredentials.country}
+                  <Typography className="profile__stat_connections">
+                    {this.state.no_of_followers} Connections
+                  </Typography>
+                </React.Fragment>
+              ) : (
+                <Typography className="profile__stat_connections" style={{marginLeft:"-20px"}}>
+                  {this.state.no_of_followers} Connections
+                </Typography>
+              )}
             </Typography>
 
             <Link
@@ -347,7 +424,7 @@ class Profile extends Component {
         {/* About */}
         <div className="profile__about mt-3">
           <div className="profile__about_header d-flex justify-content-between">
-            <h4>About</h4>
+            <span style={{ fontSize: "25px" }}>About</span>
             <BiEdit
               style={{ fontSize: "30px" }}
               onClick={() => this.onAboutModal(true)}
@@ -371,9 +448,12 @@ class Profile extends Component {
 
         {/* DashBoard*/}
         <div className="profile__dashboard">
-          <h4 className="profile__dashboard_header d-flex justify-content-between">
+          <span
+            style={{ fontSize: "25px" }}
+            className="profile__dashboard_header d-flex justify-content-between"
+          >
             Your Dashboard
-          </h4>
+          </span>
           <span
             className="profile__dashboard_header d-flex justify-content-between"
             style={{
@@ -395,16 +475,24 @@ class Profile extends Component {
 
         <div className="profile__activity">
           <div className="profile__activity_header d-flex justify-content-between">
-            <h4>Activity</h4>
-            <Button size="small" style={{ marginTop: "-20px" }}>
+            <span style={{ fontSize: "25px" }}>Activity</span>
+
+            <Button
+              size="small"
+              style={{ marginTop: "-20px" }}
+              onClick={this.onCreatePost}
+            >
               Start Post
             </Button>
+            {this.state.createPost ? (
+              <Link component={() => <CreatePost />} />
+            ) : null}
           </div>
           <div>
             <Link to={"/followers"}>
               <span
                 className="profile__activity_followers"
-                style={{ marginTop: "-20px", marginBottom: "10px" }}
+                style={{ marginTop: "-30px", marginBottom: "10px" }}
               >
                 {this.state.no_of_followers} followers
               </span>
@@ -422,16 +510,21 @@ class Profile extends Component {
             </span>
           </div>
           <div>
-            <Button className="mt-3 p-2" style={{ width: "100%" }}>
-              See all Activity
-            </Button>
+            <Link to={"/activity"} style={{ textDecoration: "none" }}>
+              <Button
+                className="mt-3"
+                style={{ width: "100%", marginBottom: "-9px" }}
+              >
+                See all Activity
+              </Button>
+            </Link>
           </div>
         </div>
 
         {/* Education  */}
         <div className="profile__education">
           <div className="profile__education_header d-flex justify-content-between">
-            <h4>Education</h4>
+            <span style={{ fontSize: "25px" }}>Education</span>
             <BiPlus
               onClick={() => this.onEducationModal(true)}
               style={{ fontSize: "40px" }}
@@ -452,7 +545,7 @@ class Profile extends Component {
           </div>
 
           <div>
-            {this.state.EducationCredentials.map((education) => (
+            {this.getRenderEducation().map((education) => (
               <div>
                 <div className="profile__education_header d-flex justify-content-between">
                   <span style={{ fontWeight: "bold", fontSize: "25px" }}>
@@ -485,6 +578,16 @@ class Profile extends Component {
                 </div>
               </div>
             ))}
+            {this.state.EducationCredentials.length > 3 ? (
+              <Button style={{ width: "100%" }} onClick={this.toggleEducation}>
+                {this.state.showMoreEducation ? "Show Less" : "Show More"}
+                {this.state.showMoreEducation ? (
+                  <FiChevronUp className="ml-2" />
+                ) : (
+                  <FiChevronDown className="ml-2" />
+                )}
+              </Button>
+            ) : null}
           </div>
         </div>
 
@@ -492,7 +595,7 @@ class Profile extends Component {
 
         <div className="profile__license">
           <div className="profile__license_header d-flex justify-content-between">
-            <h4>Licenses & certifications</h4>
+            <span style={{ fontSize: "25px" }}>Licenses & certifications</span>
             <BiPlus
               style={{ fontSize: "40px" }}
               onClick={() => this.onLicenseModal(true)}
@@ -513,7 +616,7 @@ class Profile extends Component {
           </div>
 
           <div>
-            {this.state.LicenseCredentials.map((license) => (
+            {this.getRenderLicense().map((license) => (
               <div>
                 <div className="profile__education_header d-flex justify-content-between">
                   <span style={{ fontWeight: "bold", fontSize: "25px" }}>
@@ -542,20 +645,33 @@ class Profile extends Component {
                       style={{ fontSize: "15px", color: "#686868" }}
                       className="d-flex ml-3"
                     >
-                      Issued {license.issue_date} - Expiration{" "}
+                      Issued {license.issue_date}{" "}
+                      {license.expiration_date ? "-Expiration" : null}{" "}
                       {license.expiration_date}
                     </span>
                   ) : null}
                 </div>
               </div>
             ))}
+            {this.state.LicenseCredentials.length > 3 ? (
+              <Button style={{ width: "100%" }} onClick={this.toggleLicense}>
+                {this.state.showMoreLicense ? "Show Less" : "Show More"}
+                {this.state.showMoreLicense ? (
+                  <FiChevronUp className="ml-2" />
+                ) : (
+                  <FiChevronDown className="ml-2" />
+                )}
+              </Button>
+            ) : null}
           </div>
         </div>
 
         {/* Skills & endorsements */}
         <div className="profile__skills">
           <div className="profile__skills_header d-flex bd-highlight">
-            <h4 className="mr-auto">Skills & Endorsements</h4>
+            <span style={{ fontSize: "25px" }} className="mr-auto">
+              Skills & Endorsements
+            </span>
             <Button
               className="mr-left"
               size="small"
@@ -592,13 +708,25 @@ class Profile extends Component {
             ) : null}
           </div>
 
-          {this.state.SkillCredentials.map((skill) => (
+          {this.getRenderSkills().map((skill) => (
             <div>
               <div className="profile__skills_header d-flex justify-content-between">
-                <span style={{ fontSize: "25px" }}>{skill.skill}</span>
+                <span style={{ fontSize: "25px", fontWeight: "500" }}>
+                  {skill.skill}
+                </span>
               </div>
             </div>
           ))}
+          {this.state.SkillCredentials.length > 3 ? (
+            <Button style={{ width: "100%" }} onClick={this.toggleSkill}>
+              {this.state.showMoreSkill ? "Show Less" : "Show More"}
+              {this.state.showMoreSkill ? (
+                <FiChevronUp className="ml-2" />
+              ) : (
+                <FiChevronDown className="ml-2" />
+              )}
+            </Button>
+          ) : null}
         </div>
       </div>
     );

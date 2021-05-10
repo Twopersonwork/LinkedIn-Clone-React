@@ -24,12 +24,22 @@ class License extends Component {
   }
 
   inputChanged = (event) => {
-    console.log(event.target.value);
     let cred = this.state.credentials;
     cred[event.target.name] = event.target.value;
+    if (event.target.name == "expiration_date" && event.target.value == "") {
+      cred["expiration_date"] = null;
+    }
+    if (event.target.name == "issue_date" && event.target.value == "") {
+      cred["issue_date"] = null;
+    }
     this.setState({ credentials: cred });
   };
 
+  // for hide the modal
+  onhide = () => {
+    this.setState({ modelShow: false });
+    this.props.onLicenseModal(false);
+  };
   // create new liecense or cetificate for currently login user
   createLicense = (e) => {
     fetch(`${process.env.REACT_APP_API_URL}/profile/license/`, {
@@ -159,7 +169,7 @@ class License extends Component {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        onHide={() => this.setState({ modelShow: false })}
+        onHide={this.onhide}
         style={{ background: "rgba(0,0,0,0.2)" }}
         className="fade"
       >
@@ -300,7 +310,9 @@ class License extends Component {
             </Modal.Header>
 
             <Modal.Body>
-              <span>Are you sure you want to delete {this.state.credentials.name} ?</span>
+              <span>
+                Are you sure you want to delete {this.state.credentials.name} ?
+              </span>
               <Modal.Footer>
                 <Button
                   onClick={() => this.setState({ deleteModalShow: false })}
