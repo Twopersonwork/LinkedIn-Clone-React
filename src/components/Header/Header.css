@@ -8,6 +8,7 @@
     width: 100%;
     z-index: 999;
     background-color: white;
+    position: sticky ;
 }
 
 .header__left {

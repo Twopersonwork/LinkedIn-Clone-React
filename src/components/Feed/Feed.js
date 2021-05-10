@@ -10,6 +10,7 @@ import { Link, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import { withCookies } from "react-cookie";
 import CreatePost from "./CreatePost";
+import { trackPromise } from "react-promise-tracker";
 
 class Feed extends Component {
   constructor(props) {
@@ -67,20 +68,21 @@ class Feed extends Component {
   handleBody = (e) => this.setState({ body: e.target.value });
 
   componentDidMount() {
-    fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-      },
-    })
-      .then((resp) => resp.json())
-      .then((res) =>
-        this.setState({
-          posts: res,
-        })
-      )
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      })
+        .then((resp) => resp.json())
+        .then((res) =>
+          this.setState({
+            posts: res,
+          })
+        )
+    ).catch((error) => console.log(error));
     this.updatePost();
   }
   // to display post instantly w/o refreshing after
