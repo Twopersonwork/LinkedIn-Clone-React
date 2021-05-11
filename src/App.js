@@ -14,6 +14,7 @@ import Profile from "./components/Profile/Profile";
 import ActivityLeft from "./components/Profile/ActivityLeft";
 import ActivityMain from "./components/Profile/ActivityMain";
 import ActivityRight from "./components/Profile/ActivityRight";
+import GenerateData from "./components/GenerateData";
 
 class App extends Component {
   render() {
@@ -25,6 +26,9 @@ class App extends Component {
               <Route>
                 <div className="app">
                   <Header />
+
+                  {/*  To generate multiple post at a time (Devlopement purpose) */}
+                  {/* <GenerateData /> */}
                   <div className="app__body">
                     <Route exact path="/">
                       <Sidebar />
@@ -45,7 +49,7 @@ class App extends Component {
                 </div>
               </Route>
             ) : (
-              <Route exact path="/home" component={() => <Home />} />
+              <Route path="/home" component={() => <Home />} />
             )}
 
             <Route

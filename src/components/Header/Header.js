@@ -139,7 +139,7 @@ const Container = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   left: 0;
   padding: 0 24px;
-  // position: fixed;
+  // position: sticky;
   top: 0;
   width: 100vw;
   z-index: 100;

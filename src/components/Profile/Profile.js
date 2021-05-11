@@ -9,6 +9,7 @@ import { withCookies } from "react-cookie";
 import About from "./About";
 import Education from "./Education";
 import License from "./License";
+import CameraAltRoundedIcon from "@material-ui/icons/CameraAltRounded";
 import AddProfilePic from "./AddProfilePic";
 import AddSkills from "./AddSkills";
 import EditSkill from "./EditSkill";
@@ -67,6 +68,7 @@ class Profile extends Component {
       MAX_items: 3,
 
       createPost: false,
+
       profile_pic: "",
       profile_picAsFile: null,
       picShowModal: false,
