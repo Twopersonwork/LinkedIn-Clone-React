@@ -49,15 +49,17 @@ class App extends Component {
                 </div>
               </Route>
             ) : (
-              <Route path="/home" component={() => <Home />} />
+              <React.Fragment>
+                <Route exact path="/home" component={() => <Home />} />
+                <Route
+                  exact
+                  path="/login"
+                  render={(props) => <Login {...props} />}
+                />
+                <Route exact path="/join_now" component={() => <Register />} />
+                <Route exact path="/" component={() => <Home />} />
+              </React.Fragment>
             )}
-
-            <Route
-              exact
-              path="/login"
-              render={(props) => <Login {...props} />}
-            />
-            <Route exact path="/join_now" component={() => <Register />} />
           </Switch>
         </div>
       </BrowserRouter>
