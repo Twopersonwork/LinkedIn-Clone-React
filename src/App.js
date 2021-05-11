@@ -49,7 +49,7 @@ class App extends Component {
                 </div>
               </Route>
             ) : (
-              <Route exact path="/home" component={() => <Home />} />
+              <Route path="/home" component={() => <Home />} />
             )}
 
             <Route

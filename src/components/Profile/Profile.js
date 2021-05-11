@@ -72,7 +72,6 @@ class Profile extends Component {
       profile_pic: "",
       profile_picAsFile: null,
       picShowModal: false,
-
     };
   }
 
@@ -125,7 +124,7 @@ class Profile extends Component {
       educationModalShow: false,
       licenseModalShow: false,
       skillsModalShow: false,
-      skillsModalShow: false,
+
       EditSkillsModalShow: false,
     });
   };
@@ -367,7 +366,6 @@ class Profile extends Component {
         this.setState({ profile_pic: resp.profile_pic });
       })
       .catch((error) => console.log(error));
-    
   };
 
   render() {
@@ -464,7 +462,10 @@ class Profile extends Component {
                   </Typography>
                 </React.Fragment>
               ) : (
-                <Typography className="profile__stat_connections" style={{marginLeft:"-20px"}}>
+                <Typography
+                  className="profile__stat_connections"
+                  style={{ marginLeft: "-20px" }}
+                >
                   {this.state.no_of_followers} Connections
                 </Typography>
               )}

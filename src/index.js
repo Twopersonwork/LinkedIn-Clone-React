@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { usePromiseTracker } from "react-promise-tracker";
-import Loader from "react-loader-spinner";
 
 const LoadingIndicator = (props) => {
   const { promiseInProgress } = usePromiseTracker();
@@ -13,11 +12,7 @@ const LoadingIndicator = (props) => {
     promiseInProgress && (
       <div class="loading-scr">
         <div class="loading-animation">
-          <img
-            src="/images/home-logo.svg"
-            alt="Linkedin logo"
-            class="logo"
-          />
+          <img src="/images/home-logo.svg" alt="Linkedin logo" class="logo" />
           <div class="load-bar"></div>
         </div>
       </div>

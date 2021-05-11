@@ -2,11 +2,6 @@ import React, { Component } from "react";
 import { Avatar } from "@material-ui/core";
 import "./Comments.css";
 import { withCookies } from "react-cookie";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 
 class Comments extends Component {
   constructor(props) {
@@ -23,10 +18,10 @@ class Comments extends Component {
     this.fetchUser(this.props.comment.user);
     if (
       this.props.post.likes.some(
-        (e) => e.user == this.props.cookies.get("auth-token").user.id
+        (e) => e.user === this.props.cookies.get("auth-token").user.id
       )
     ) {
-      this.state.has_commented = true;
+      this.setState({ has_commented: true });
     }
   }
   moreOptions = (e) => {

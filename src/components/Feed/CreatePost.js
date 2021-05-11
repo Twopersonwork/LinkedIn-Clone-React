@@ -4,7 +4,6 @@ import { withCookies } from "react-cookie";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import "./CreatePost.css";
 import { Avatar } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
 import { AiFillCloseCircle } from "react-icons/ai";
 export class CreatePost extends Component {
   constructor(props) {
@@ -125,6 +124,7 @@ export class CreatePost extends Component {
                     className="post__image"
                     style={{ borderRadius: "10px" }}
                     src={this.state.image}
+                    alt=""
                   />
                   <AiFillCloseCircle
                     className="close__image"

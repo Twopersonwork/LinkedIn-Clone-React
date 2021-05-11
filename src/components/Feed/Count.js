@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
 import "./Count.css";
 import { withCookies } from "react-cookie";
+import { Link } from "react-router-dom";
 
 class Count extends Component {
   constructor(props) {
@@ -59,35 +60,39 @@ class Count extends Component {
           <img
             className="reaction_icons"
             src="https://image.pngaaa.com/38/3989038-small.png"
+            alt=""
           />
           <img
             className="reaction_icons"
             src="https://www.userflow.nl/images/Linkedin-Support-Icon-HeartinHand500.png"
+            alt=""
           />
           {/* <img
             className="reaction_icons"
             src="https://image.pngaaa.com/82/3989082-middle.png"
+            alt=""
           /> */}
           <img
             className="reaction_icons"
             src="https://www.userflow.nl/images/Linkedin-Celebrate-Icon-ClappingHands500.png"
+            alt=""
           />
-          <a className="button" onClick={this.modalShowLike}>
+          <Link className="button" onClick={this.modalShowLike}>
             {post.no_of_like}
-          </a>
+          </Link>
           {post.no_of_comment > 0 ? (
             <React.Fragment>
               <span className="ml-1" style={{ color: "gray" }}>
                 ·
               </span>
-              {post.no_of_comment == 1 ? (
-                <a className="button" onClick={this.props.modalShowComment}>
+              {post.no_of_comment === 1 ? (
+                <Link className="button" onClick={this.props.modalShowComment}>
                   {post.no_of_comment} comment
-                </a>
+                </Link>
               ) : (
-                <a className="button" onClick={this.props.modalShowComment}>
+                <Link className="button" onClick={this.props.modalShowComment}>
                   {post.no_of_comment} comments
-                </a>
+                </Link>
               )}
             </React.Fragment>
           ) : null}
