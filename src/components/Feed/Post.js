@@ -67,7 +67,16 @@ class Post extends Component {
         },
       }
     )
-      .then((resp) => this.props.updatePost())
+      .then((resp) => {
+        console.log(this.props.activityDelete);
+        if (this.props.activityDelete) {
+          this.props.activityUpdate();
+
+          this.setState({ deleteModal: false });
+        } else {
+          this.props.updatePost();
+        }
+      })
 
       .catch((error) => console.log(error));
     this.handleClose();
@@ -164,17 +173,17 @@ class Post extends Component {
     this.fetchUser(this.props.post.user);
     if (
       this.props.post.likes.some(
-        (e) => e.user == this.props.cookies.get("auth-token").user.id
+        (e) => e.user === this.props.cookies.get("auth-token").user.id
       )
     ) {
-      this.state.has_liked = true;
+      this.setState({ has_liked: true });
     }
   }
   // to instantly getting the comments and likes w/o refreshing
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.has_liked != this.state.has_liked ||
-      prevState.has_commented != this.state.has_commented
+      prevState.has_liked !== this.state.has_liked ||
+      prevState.has_commented !== this.state.has_commented
     ) {
       fetch(
         `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/`,
@@ -330,7 +339,7 @@ class Post extends Component {
 
         <div className="post__body">
           <p>{post.body}</p>
-          <img className="post__image" src={post.image} />
+          <img className="post__image" src={post.image} alt="" />
 
           <Count
             post={this.state.post}

@@ -12,10 +12,14 @@ class ActivityMain extends Component {
       all_activity_btn: true,
       post_btn: false,
       posts: [],
-      activities_id:[],
-      activities:[],
+      activities_id: [],
+      activities: [],
+      activityDelete: true,
     };
   }
+  changeState = () => {
+    this.setState({ activityDelete: !this.state.activityDelete });
+  };
 
   handleActivity = () => {
     this.setState({ all_activity_btn: true, post_btn: false });
@@ -46,10 +50,14 @@ class ActivityMain extends Component {
   };
 
   handlePost = () => {
-    this.setState({ post_btn: true, all_activity_btn: false });
+    this.setState({
+      post_btn: true,
+      all_activity_btn: false,
+    });
   };
 
   getPost = () => {
+    console.log("component");
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
@@ -67,7 +75,7 @@ class ActivityMain extends Component {
         this.setState(
           {
             posts: resp.posts,
-            activities_id:resp.activities,
+            activities_id: resp.activities,
           },
           function () {
             this.getActivity();
@@ -79,6 +87,11 @@ class ActivityMain extends Component {
 
   componentDidMount() {
     this.getPost();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.activityDelete !== this.state.activityDelete) {
+      this.getPost();
+    }
   }
 
   render() {
@@ -110,7 +123,6 @@ class ActivityMain extends Component {
               Post
             </Button>
           </div>
-          
         </div>
         <hr />
 
@@ -118,7 +130,16 @@ class ActivityMain extends Component {
         <FlipMove>
           {this.state.post_btn &&
             this.state.posts.length > 0 &&
-            this.state.posts.map((post) => <Post key={post.id} post={post} />)}
+            this.state.posts.map((post) => (
+              <Post
+                key={post.id}
+                post={post}
+                activityDelete={this.state.post_btn}
+                activityUpdate={() =>
+                  this.setState({ activityDelete: !this.state.activityDelete })
+                }
+              />
+            ))}
         </FlipMove>
         <FlipMove>
           {this.state.all_activity_btn &&
