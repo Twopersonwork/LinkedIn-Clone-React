@@ -139,6 +139,7 @@ class EditPost extends Component {
                     className="post__image"
                     style={{ borderRadius: "10px" }}
                     src={this.state.image}
+                    alt=""
                   />
                   <AiFillCloseCircle
                     className="close__image"
@@ -190,12 +191,6 @@ const post_button = {
   background: "#0c66c2",
   color: "white",
   border: "solid 1px #0c66c2",
-};
-const closeImg = {
-  cursor: "pointer",
-  float: "right",
-  marginTop: "5px",
-  width: "20px",
 };
 
 export default withCookies(EditPost);

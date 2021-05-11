@@ -9,41 +9,16 @@ import { withCookies } from "react-cookie";
 import About from "./About";
 import Education from "./Education";
 import License from "./License";
-<<<<<<< HEAD
-import CameraAltRoundedIcon from "@material-ui/icons/CameraAltRounded";
 import AddProfilePic from "./AddProfilePic";
-=======
 import AddSkills from "./AddSkills";
 import EditSkill from "./EditSkill";
 import CreatePost from "../Feed/CreatePost";
->>>>>>> ccb9c620e1a3b03caf142e1b2dba09ff9be73226
 
 class Profile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-<<<<<<< HEAD
-      profileModalShow: false, // for display modal for user info.
-      profileCredentials: {}, // user credentials
-      no_of_followers: "", // store the user followers.
-
-      aboutModalShow: false, // for display modal for user about.
-      AboutCredentials: {}, // about credentiaks.
-
-      educationModalShow: false, // for display modal for user education.
-      EducationCredentials: [], // education credentials
-      createEducation: false, // for check if it is create education or edit education
-      editEducation_id: "", // id for particular education
-
-      licenseModalShow: false, // for display modalfor user license and certificate
-      LicenseCredentials: [], // license credentials
-      createLicense: false, // for check if it is create license or edit license
-      editLicense_id: "", // id for particular license
-      profile_pic: "",
-      profile_picAsFile: null,
-      picShowModal: false,
-=======
       // for display modal for user info.
       profileModalShow: false,
       // user credentials
@@ -92,7 +67,9 @@ class Profile extends Component {
       MAX_items: 3,
 
       createPost: false,
->>>>>>> ccb9c620e1a3b03caf142e1b2dba09ff9be73226
+      profile_pic: "",
+      profile_picAsFile: null,
+      picShowModal: false,
     };
   }
 
@@ -145,7 +122,7 @@ class Profile extends Component {
       educationModalShow: false,
       licenseModalShow: false,
       skillsModalShow: false,
-      skillsModalShow: false,
+
       EditSkillsModalShow: false,
     });
   };
@@ -387,7 +364,6 @@ class Profile extends Component {
         this.setState({ profile_pic: resp.profile_pic });
       })
       .catch((error) => console.log(error));
-    
   };
 
   render() {
@@ -484,7 +460,10 @@ class Profile extends Component {
                   </Typography>
                 </React.Fragment>
               ) : (
-                <Typography className="profile__stat_connections" style={{marginLeft:"-20px"}}>
+                <Typography
+                  className="profile__stat_connections"
+                  style={{ marginLeft: "-20px" }}
+                >
                   {this.state.no_of_followers} Connections
                 </Typography>
               )}

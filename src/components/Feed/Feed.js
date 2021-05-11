@@ -6,7 +6,7 @@ import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import CalendarViewDayIcon from "@material-ui/icons/CalendarViewDay";
 import FlipMove from "react-flip-move";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { withCookies } from "react-cookie";
 import CreatePost from "./CreatePost";
@@ -67,6 +67,7 @@ class Feed extends Component {
   handleBody = (e) => this.setState({ body: e.target.value });
 
   componentDidMount() {
+    console.log("comp");
     fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
       method: "GET",
       headers: {
@@ -87,8 +88,8 @@ class Feed extends Component {
   // creating the post.
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.posts.length != this.state.posts.length ||
-      prevState.update != this.state.update
+      prevState.posts.length !== this.state.posts.length ||
+      prevState.update !== this.state.update
     ) {
       fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
         method: "GET",
@@ -145,7 +146,7 @@ class Feed extends Component {
         </FlipMove>
 
         {this.state.modalPost ? (
-          <Link component={() => <CreatePost />} />
+          <Link to component={() => <CreatePost />} />
         ) : null}
       </div>
     );

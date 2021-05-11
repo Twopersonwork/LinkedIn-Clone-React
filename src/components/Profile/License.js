@@ -26,10 +26,10 @@ class License extends Component {
   inputChanged = (event) => {
     let cred = this.state.credentials;
     cred[event.target.name] = event.target.value;
-    if (event.target.name == "expiration_date" && event.target.value == "") {
+    if (event.target.name === "expiration_date" && event.target.value === "") {
       cred["expiration_date"] = null;
     }
-    if (event.target.name == "issue_date" && event.target.value == "") {
+    if (event.target.name === "issue_date" && event.target.value === "") {
       cred["issue_date"] = null;
     }
     this.setState({ credentials: cred });
@@ -217,14 +217,12 @@ class License extends Component {
               size="small"
               type="date"
               fullWidth
-              ormat={"YYYY/MM/DD"}
               id="issue_date"
               value={this.state.credentials.issue_date}
               label="Issue Date"
               name="issue_date"
               onChange={this.inputChanged}
               required
-              defaultValue="0000-00-00"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -240,7 +238,6 @@ class License extends Component {
               value={this.state.credentials.expiration_date}
               label="Expiration Date"
               name="expiration_date"
-              defaultValue={"2017-05-2"}
               onChange={this.inputChanged}
               required
               InputLabelProps={{

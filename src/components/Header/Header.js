@@ -22,7 +22,7 @@ class Header extends Component {
 
   render() {
     return (
-      <Container style={{ position: "relative" }}>
+      <Container style={{ position: "fixed" }}>
         <Content>
           <Logo>
             <a href="/">
