@@ -1,0 +1,13 @@
+.network {
+  flex: 0.5;
+  margin: 45px 20px;
+  width: 100%;
+}
+
+.network__inputContainer {
+  background-color: white;
+  padding: 10px;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
