@@ -117,7 +117,7 @@ class Profile extends Component {
 
   // for change the value of profileModalShow
   onProfileModal = (e) => {
-    console.log("this is profileModalShow");
+    // console.log("this is profileModalShow");
     this.setState({
       profileModalShow: e,
       aboutModalShow: false,
@@ -131,7 +131,7 @@ class Profile extends Component {
 
   // for change the value of aboutModalShow
   onAboutModal = (e) => {
-    console.log("this is aboutModalShow");
+    // console.log("this is aboutModalShow");
     this.setState({
       aboutModalShow: e,
       profileModalShow: false,
@@ -144,7 +144,7 @@ class Profile extends Component {
 
   // for change the value if educationModalShow
   onEducationModal = (e) => {
-    console.log("this is educationModalShow");
+    // console.log("this is educationModalShow");
     this.setState({
       educationModalShow: e,
       profileModalShow: false,
@@ -160,7 +160,7 @@ class Profile extends Component {
 
   // for change the value if licenseModalShow
   onLicenseModal = (e) => {
-    console.log("this is licenseModalShow");
+    // console.log("this is licenseModalShow");
     this.setState({
       licenseModalShow: e,
       aboutModalShow: false,
@@ -175,7 +175,7 @@ class Profile extends Component {
   };
 
   onSkillModal = (e) => {
-    console.log("this is skillsModalshow");
+    // console.log("this is skillsModalshow");
     this.setState({
       skillsModalShow: e,
       aboutModalShow: false,
@@ -199,7 +199,7 @@ class Profile extends Component {
   };
   // for update the user credentials.
   updateProfile = () => {
-    console.log("This is update profiel");
+    // console.log("This is update profiel");
     fetch(
       `${
         process.env.REACT_APP_API_URL
@@ -244,7 +244,7 @@ class Profile extends Component {
 
   // for update the about
   updateAbout = () => {
-    console.log("This is about.");
+    // console.log("This is about.");
     fetch(
       `${process.env.REACT_APP_API_URL}/profile/about/${this.props.cookies.get(
         "about-id"
@@ -267,7 +267,7 @@ class Profile extends Component {
 
   // for update the education
   updateEducation = () => {
-    console.log("This is Education.");
+    // console.log("This is Education.");
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
@@ -290,7 +290,7 @@ class Profile extends Component {
   };
 
   updateLicense = () => {
-    console.log("This is License.");
+    // console.log("This is License.");
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
@@ -313,7 +313,7 @@ class Profile extends Component {
   };
 
   updateSkills = () => {
-    console.log("this is updateskill");
+    // console.log("this is updateskill");
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
@@ -328,7 +328,7 @@ class Profile extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log("skill", resp.user_skills);
+        // console.log("skill", resp.user_skills);
         this.setState({ SkillCredentials: resp.user_skills });
         this.setState({ skillsModalShow: false });
       })

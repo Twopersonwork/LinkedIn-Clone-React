@@ -13,14 +13,39 @@ import styled from "styled-components";
 import React, { Component } from "react";
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeHome: true,
+      activeNetwork: false,
+      loc: "",
+    };
+  }
+
   removeallCookies = () => {
     this.props.cookies.remove("auth-token");
     this.props.cookies.remove("profile");
     this.props.cookies.remove("profile-id");
     this.props.cookies.remove("about-id");
   };
+  thisClicked = () => {
+    console.log(window.location.pathname);
+
+    console.log(window.location.href.split("/"));
+    this.setState({
+      loc: window.location.href.split("/")[
+        window.location.href.split("/").length - 1
+      ],
+    });
+  };
 
   render() {
+    // console.log(
+    //   window.location.href.split("/")[
+    //     window.location.href.split("/").length - 1
+    //   ]
+    // );
     return (
       <Container style={{ position: "fixed" }}>
         <Content>
@@ -39,42 +64,78 @@ class Header extends Component {
           </Search>
           <Nav>
             <NavListWrap>
-              <NavList className="active">
+              <NavList
+                className={
+                  window.location.pathname.slice(1) == "" ? "active" : null
+                }
+              >
                 <Link to={"/"}>
-                  <img src="/images/nav-home.svg" alt="" />
-                  <span>Home</span>
+                  <img
+                    onClick={this.thisClicked}
+                    src="/images/nav-home.svg"
+                    alt=""
+                  />
+                  <span onClick={this.thisClicked}>Home</span>
                 </Link>
               </NavList>
 
-              <NavList>
-                <Link to={"/"}>
-                  <img src="/images/nav-network.svg" alt="" />
-                  <span>My Network</span>
+              <NavList
+                className={
+                  window.location.pathname.slice(1) == "network"
+                    ? "active"
+                    : null
+                }
+              >
+                <Link to={"/network"}>
+                  <img
+                    onClick={this.thisClicked}
+                    src="/images/nav-network.svg"
+                    alt=""
+                  />
+                  <span onClick={this.thisClicked}>My Network</span>
                 </Link>
               </NavList>
 
-              <NavList>
+              <NavList
+                className={
+                  window.location.pathname.slice(1) == "/#" ? "active" : null
+                }
+              >
                 <Link to={"/"}>
                   <img src="/images/nav-jobs.svg" alt="" />
-                  <span>Jobs</span>
+                  <span onClick={this.thisClicked}>Jobs</span>
                 </Link>
               </NavList>
 
-              <NavList>
+              <NavList
+                className={
+                  window.location.pathname.slice(1) == "/#" ? "active" : null
+                }
+              >
                 <Link to={"/"}>
                   <img src="/images/nav-messaging.svg" alt="" />
                   <span>Messaging</span>
                 </Link>
               </NavList>
 
-              <NavList>
+              <NavList
+                className={
+                  window.location.pathname.slice(1) == "/#" ? "active" : null
+                }
+              >
                 <Link to={"/"}>
                   <img src="/images/nav-notifications.svg" alt="" />
                   <span>Notifications</span>
                 </Link>
               </NavList>
 
-              <User>
+              <User
+                className={
+                  window.location.pathname.slice(1) == "profile"
+                    ? "active"
+                    : null
+                }
+              >
                 <Link to={"/"}>
                   <img src="/images/user.svg" alt="" />
                   <span>Me</span>

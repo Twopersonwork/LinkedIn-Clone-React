@@ -15,6 +15,8 @@ import ActivityLeft from "./components/Profile/ActivityLeft";
 import ActivityMain from "./components/Profile/ActivityMain";
 import ActivityRight from "./components/Profile/ActivityRight";
 import GenerateData from "./components/GenerateData";
+import Network from "./components/Network/Network";
+import NetworkLeft from "./components/Network/NetworkLeft";
 
 class App extends Component {
   render() {
@@ -44,6 +46,10 @@ class App extends Component {
                       <ActivityLeft />
                       <ActivityMain />
                       <ActivityRight />
+                    </Route>
+                    <Route exact path="/network">
+                      <NetworkLeft />
+                      <Network />
                     </Route>
                   </div>
                 </div>
