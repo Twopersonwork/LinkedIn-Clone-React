@@ -92,13 +92,17 @@ class Feed extends Component {
       prevState.posts.length !== this.state.posts.length ||
       prevState.update !== this.state.update
     ) {
-      fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      })
+      trackPromise(
+        fetch(`${process.env.REACT_APP_API_URL}/papi/posts/`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        })
+      )
         .then((resp) => resp.json())
         .then((res) =>
           this.setState({
