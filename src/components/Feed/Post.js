@@ -57,6 +57,7 @@ class Post extends Component {
     this.handleClose();
   };
   handleDelete = () => {
+    this.setState({deleteModal:false});
     fetch(
       `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/`,
       {
