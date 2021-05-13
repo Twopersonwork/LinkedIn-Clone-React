@@ -79,6 +79,7 @@ export class Network extends Component {
       .then((resp) => resp.json())
       .then((resp) => {
         this.setState({ user: resp }, function () {
+          // console.log(this.state.waitFollowers);
           if (this.state.user.waitFollowers.length > 0) {
             for (var i = 0; i < this.state.user.waitFollowers.length; i++) {
               fetch(
@@ -114,9 +115,13 @@ export class Network extends Component {
   }
 
   render() {
+    console.log("render called");
+
+    // console.log(this.state.waitFollowers);
+
     return (
       <div className="network">
-        <div className="network__inputContainer">
+        <div className="upper_network__inputContainer">
           <div style={{ paddingBottom: "10px" }}>
             {this.state.waitFollowers.length < 1 ? (
               <span
@@ -152,7 +157,7 @@ export class Network extends Component {
           <div style={{ marginLeft: "-5px" }}>
             <Alert
               variant="light"
-              show={this.state.Alertshow}
+              show={true}
               onClose={() => this.setState({ Alertshow: false })}
               dismissible
             >
@@ -166,14 +171,20 @@ export class Network extends Component {
                   <Avatar src="/images/user.svg" alt="Profile" />
                 )}
                 {this.state.ignore ? (
-                  <span className="ml-2 " style={{ fontWeight: "bold" }}>
+                  <span
+                    className="ml-2 pt-1"
+                    style={{ fontSize: "18px", color: "black" }}
+                  >
                     Invitation declined{" "}
-                    <span style={{ color: "#0c66c2" }}>
-                      I don't know {" "} {this.state.AlertUser.username}
+                    <span style={{ fontSize: "18px", color: "#0c66c2" }}>
+                      I don't know {this.state.AlertUser.username}
                     </span>
                   </span>
                 ) : (
-                  <span className="ml-2 " style={{ fontWeight: "bold" }}>
+                  <span
+                    className="ml-2 pt-1"
+                    style={{ fontSize: "18px", color: "black" }}
+                  >
                     {this.state.AlertUser.username} is now a connection
                   </span>
                 )}

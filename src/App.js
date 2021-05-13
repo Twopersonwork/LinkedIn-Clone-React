@@ -51,7 +51,9 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.updateNework();
+    if (this.props.cookies.get("auth-token")) {
+      this.updateNework();
+    }
   }
 
   render() {

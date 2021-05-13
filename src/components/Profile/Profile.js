@@ -14,7 +14,7 @@ import AddProfilePic from "./AddProfilePic";
 import AddSkills from "./AddSkills";
 import EditSkill from "./EditSkill";
 import CreatePost from "../Feed/CreatePost";
-
+import CameraAltSharpIcon from "@material-ui/icons/CameraAltSharp";
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -70,6 +70,7 @@ class Profile extends Component {
       createPost: false,
 
       profile_pic: "",
+      cover_pic: "",
       profile_picAsFile: null,
       picShowModal: false,
     };
@@ -363,7 +364,10 @@ class Profile extends Component {
       .then((resp) => resp.json())
       .then((resp) => {
         console.log("comp response", resp);
-        this.setState({ profile_pic: resp.profile_pic });
+        this.setState({
+          profile_pic: resp.profile_pic,
+          cover_pic: resp.cover_pic,
+        });
       })
       .catch((error) => console.log(error));
   };
@@ -372,9 +376,12 @@ class Profile extends Component {
     return (
       <div className="profile">
         <div className="profile__top">
-          <img
-            src="https://resi.ze-robot.com/dl/4k/4k-desktop-wallpaper.-1920%C3%971200.jpg"
-            alt="background"
+          <img src={this.state.cover_pic} alt="background" />
+
+          <CameraAltSharpIcon
+            style={{ fontSize: "30px" }}
+            className="cover__image"
+            onClick={this.removeImage}
           />
           {this.state.profile_pic ? (
             <Avatar
