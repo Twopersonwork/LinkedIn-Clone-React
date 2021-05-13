@@ -1,8 +1,23 @@
 import React, { Component } from "react";
 import { Avatar, Button } from "@material-ui/core";
 import { withCookies } from "react-cookie";
+import "./UserCards.css";
+import { Link } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 export class UserCards extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      pending: false,
+      show: true,
+    };
+  }
+  removeImage = () => {
+    this.setState({ show: false });
+  };
   submitFollow = () => {
     fetch(`http://127.0.0.1:8000/uapi/follow/${this.props.user.id}/`, {
       method: "POST",
@@ -12,7 +27,10 @@ export class UserCards extends Component {
       },
     })
       .then((resp) => resp.json())
-      .then((resp) => console.log(resp))
+      .then((resp) => {
+        console.log(resp);
+        this.setState({ pending: true });
+      })
       .catch((error) => console.log(error));
 
     fetch(`http://127.0.0.1:8000/uapi/waitFollow/${this.props.user.id}/`, {
@@ -27,50 +45,70 @@ export class UserCards extends Component {
       .catch((error) => console.log(error));
   };
   render() {
-    // console.log("props user", this.props.user);
-    return (
-      <div>
-        <div className="user">
-          <div className="user__header" style={{ display: "flex" }}>
-            {this.props.user.profile_pic ? (
-              <Avatar
-                src="http://127.0.0.1:8000/media/profile_images/user.svg"
-                alt="Profile"
+    console.log("props user", this.props.user);
+    if (this.state.show) {
+      return (
+        <div className="breakpoint">
+          <Card style={{ padding: "5px", border: "white" }}>
+            <div className="list__top">
+              <img src={this.props.user.cover_pic} alt="background" />
+              <AiFillCloseCircle
+                className="over__image"
+                onClick={this.removeImage}
               />
-            ) : (
-              <Avatar src="/images/user.svg" alt="Profile" />
-            )}
-            <span className="ml-2 " style={{ fontWeight: "bold" }}>
-              {this.props.user.username}
-            </span>
+              {/* <Icon  /> */}
 
-            <Button
-              onClick={this.submitFollow}
-              className="ml-2"
-              style={save_button}
-            >
-              Connect
-            </Button>
-          </div>
-          <hr />
+              {this.props.user.profile_pic ? (
+                <Avatar
+                  style={{ width: "80px", height: "80px" }}
+                  src="http://127.0.0.1:8000/media/profile_images/user.svg"
+                  alt="Profile"
+                />
+              ) : (
+                <Avatar
+                  style={{ width: "80px", height: "80px" }}
+                  src="/images/user.svg"
+                  alt="Profile"
+                />
+              )}
+              <Link to={"/profile"}>
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    color: "black",
+                    fontSize: "18px",
+                  }}
+                >
+                  {this.props.user.username}
+                </span>
+              </Link>
+
+              <Button
+                onClick={this.submitFollow}
+                className="but mt-3"
+                style={save_button}
+              >
+                {this.state.pending ? "Pending" : "Connect"}
+              </Button>
+            </div>
+          </Card>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return null;
+    }
   }
 }
 const save_button = {
-  paddingLeft: "20px",
-  paddingRight: "20px",
-  //   marginTop: "10px",
-  marginLeft: "10px",
   fontWeight: "bold",
   borderRadius: "50px",
-  fontSize: "14px",
+  fontSize: "12px",
   display: "flex",
   background: "white",
   color: "#0c66c2",
   border: "solid 1px #0c66c2",
-  width: "80px",
-  height: "40px",
+  maxWidth: "100%",
+  cursor: "pointer",
 };
+
 export default withCookies(UserCards);

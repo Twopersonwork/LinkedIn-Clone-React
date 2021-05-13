@@ -36,7 +36,7 @@ class ActivityLeft extends Component {
 
   render() {
     return (
-      <div className="sidebar " style={{ marginTop: "45px" }}>
+      <div className="sidebar" style={{ marginTop: "45px" }}>
         <div className="sidebar__top">
           <img
             src="https://resi.ze-robot.com/dl/4k/4k-desktop-wallpaper.-1920%C3%971200.jpg"

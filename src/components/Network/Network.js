@@ -67,7 +67,7 @@ export class Network extends Component {
       .then((resp) => resp.json())
       .then((resp) => {
         this.setState({ user: resp }, function () {
-          console.log(this.state.waitFollowers);
+          // console.log(this.state.waitFollowers);
           if (this.state.user.waitFollowers.length > 0) {
             for (var i = 0; i < this.state.user.waitFollowers.length; i++) {
               fetch(
@@ -99,7 +99,7 @@ export class Network extends Component {
   render() {
     console.log("render called");
 
-    console.log(this.state.waitFollowers);
+    // console.log(this.state.waitFollowers);
 
     return (
       <div className="network">
