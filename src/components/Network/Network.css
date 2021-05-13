@@ -6,8 +6,10 @@
 
 .network__inputContainer {
   background-color: white;
-  padding: 10px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-radius: 10px;
-  margin-bottom: 20px;
+  max-height: 100%;
+  margin-bottom: -10px;
 }
