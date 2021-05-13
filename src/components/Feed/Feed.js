@@ -26,7 +26,7 @@ class Feed extends Component {
       update: false,
     };
   }
-
+  
   updatePost = () => {
     console.log("update");
     this.setState({ update: !this.state.update });

@@ -15,10 +15,10 @@ export class UserList extends Component {
   }
 
   componentDidMount() {
-    console.log("wait", this.props.waitFollowers);
-    console.log("wait", this.props.followers);
+    // console.log("wait", this.props.waitFollowers);
+    // console.log("wait", this.props.followers);
 
-    console.log("wait", this.props.following);
+    // console.log("wait", this.props.following);
 
     fetch(`http://127.0.0.1:8000/uapi/userDetail/`, {
       method: "GET",
@@ -47,19 +47,6 @@ export class UserList extends Component {
             ) {
               copy.push(this.state.resp_user[i]);
             }
-
-            // console.log(
-            //   this.state.resp_user[i].id,
-            //   !this.props.followers.some(
-            //     (e) => e.user_id === this.state.resp_user[i].id
-            //   ),
-            //   !this.props.following.some(
-            //     (e) => e.following_user_id === this.state.resp_user[i].id
-            //   ),
-            //   !this.props.waitFollowers.some(
-            //     (e) => e.user_id === this.state.resp_user[i].id
-            //   )
-            // );
           }
           this.setState({ users: copy });
         });
@@ -68,10 +55,9 @@ export class UserList extends Component {
   }
 
   render() {
-    console.log(this.state.users);
     return (
       <div className="network__inputContainer">
-        <span className="pl-1">Industry leaders in India you may know</span>
+        <span className="pl-1">People you may know</span>
         <Container style={{ padding: "0px", marginTop: "10px" }}>
           <Grid container>
             <Grid item>

@@ -5,6 +5,7 @@ import "./UserCards.css";
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { MdDone } from "react-icons/md";
 
 export class UserCards extends Component {
   constructor(props) {
@@ -83,13 +84,24 @@ export class UserCards extends Component {
                 </span>
               </Link>
 
-              <Button
-                onClick={this.submitFollow}
-                className="but mt-3"
-                style={save_button}
-              >
-                {this.state.pending ? "Pending" : "Connect"}
-              </Button>
+              {this.state.pending ? (
+                <Button
+                  onClick={this.submitFollow}
+                  className="but mt-3"
+                  style={pending_button}
+                >
+                  <MdDone style={{ fontSize: "20px", marginRight: "2px" }} />{" "}
+                  Pending
+                </Button>
+              ) : (
+                <Button
+                  onClick={this.submitFollow}
+                  className="but mt-3"
+                  style={connect_button}
+                >
+                  Connect
+                </Button>
+              )}
             </div>
           </Card>
         </div>
@@ -99,7 +111,7 @@ export class UserCards extends Component {
     }
   }
 }
-const save_button = {
+const connect_button = {
   fontWeight: "bold",
   borderRadius: "50px",
   fontSize: "12px",
@@ -107,6 +119,17 @@ const save_button = {
   background: "white",
   color: "#0c66c2",
   border: "solid 1px #0c66c2",
+  maxWidth: "100%",
+  cursor: "pointer",
+};
+const pending_button = {
+  fontWeight: "bold",
+  borderRadius: "50px",
+  fontSize: "12px",
+  display: "flex",
+  background: "white",
+  color: "gray",
+  border: "solid 1px gray",
   maxWidth: "100%",
   cursor: "pointer",
 };
