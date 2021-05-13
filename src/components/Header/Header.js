@@ -9,8 +9,18 @@
 import { withCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Badge from "@material-ui/core/Badge";
+import { withStyles } from "@material-ui/core/styles";
 
 import React, { Component } from "react";
+import UserContext from "../UserContext";
+
+const styles = (theme) => ({
+  customBadge: {
+    color: "white",
+    backgroundColor: "rgb(205, 64, 30)",
+  },
+});
 
 class Header extends Component {
   constructor(props) {
@@ -29,6 +39,7 @@ class Header extends Component {
     this.props.cookies.remove("profile-id");
     this.props.cookies.remove("about-id");
   };
+
   thisClicked = () => {
     console.log(window.location.pathname);
 
@@ -41,11 +52,7 @@ class Header extends Component {
   };
 
   render() {
-    // console.log(
-    //   window.location.href.split("/")[
-    //     window.location.href.split("/").length - 1
-    //   ]
-    // );
+    const { classes } = this.props;
     return (
       <Container style={{ position: "fixed" }}>
         <Content>
@@ -79,20 +86,36 @@ class Header extends Component {
                 </Link>
               </NavList>
 
-              <NavList
-                className={
-                  window.location.pathname.slice(1) == "network"
-                    ? "active"
-                    : null
-                }
-              >
+              <NavList>
                 <Link to={"/network"}>
+                  <UserContext.Consumer>
+                    {(props) =>
+                      <Badge
+                        classes={{ badge: classes.customBadge }}
+                        style={{ paddingLeft: "35px" }}
+                        badgeContent={
+                          props.user.waitFollowers
+                            ? props.user.waitFollowers.length
+                            : null
+                        }
+                      />
+                    }
+                  </UserContext.Consumer>
+
                   <img
                     onClick={this.thisClicked}
                     src="/images/nav-network.svg"
                     alt=""
                   />
-                  <span onClick={this.thisClicked}>My Network</span>
+                  <NavList
+                    className={
+                      window.location.pathname.slice(1) == "network"
+                        ? "active"
+                        : null
+                    }
+                  >
+                    <span onClick={this.thisClicked}>My Network</span>
+                  </NavList>
                 </Link>
               </NavList>
 
@@ -204,7 +227,8 @@ const Container = styled.div`
   top: 0;
   width: 100vw;
   z-index: 100;
-  padding-top: 3px;
+  padding-top: 8px;
+  padding-bottom: 2px;
 `;
 
 const Content = styled.div`
@@ -218,11 +242,13 @@ const Content = styled.div`
 const Logo = styled.span`
   margin-right: 8px;
   font-size: 0px;
+  margin-top: -10px;
 `;
 
 const Search = styled.div`
   opacity: 1;
   flex-grow: 1;
+  margin-top: -10px;
   position: relative;
   & > div {
     max-width: 280px;
@@ -365,4 +391,4 @@ const Work = styled(User)`
   border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
 
-export default withCookies(Header);
+export default withStyles(styles, { withTheme: true })(withCookies(Header));
