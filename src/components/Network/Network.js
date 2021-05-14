@@ -157,7 +157,7 @@ export class Network extends Component {
           <div style={{ marginLeft: "-5px" }}>
             <Alert
               variant="light"
-              show={true}
+              show={this.state.Alertshow}
               onClose={() => this.setState({ Alertshow: false })}
               dismissible
             >
