@@ -11,28 +11,28 @@ export class AddProfilePic extends Component {
     super(props);
 
     this.state = {
-      modalShow: true,
-      modalDelete: false,
-      profile_pic: this.props.profile_pic,
-      profile_picAsFile: this.props.profile_picAsFile,
+      modalCoverShow: true,
+      modalCoverDelete: false,
+      cover_pic: this.props.cover_pic,
+      cover_picAsFile: null,
     };
   }
 
   removeImage = () => {
     this.setState({
-      modalDelete: true,
+      modalCoverDelete: true,
     });
   };
 
-  handleProfilePic = () => {
+  handleCoverPic = () => {
     // console.log(window.location.origin + "/images/user.svg");
     var form_data = new FormData();
 
-    if (this.state.profile_picAsFile) {
+    if (this.state.cover_picAsFile) {
       form_data.set(
-        "profile_pic",
-        this.state.profile_picAsFile,
-        this.state.profile_picAsFile.name
+        "cover_pic",
+        this.state.cover_picAsFile,
+        this.state.cover_picAsFile.name
       );
     }
     console.log(this.props.cookies.get("auth-token").token);
@@ -50,7 +50,7 @@ export class AddProfilePic extends Component {
     )
       .then((res) => res.json())
       .then((res) => {
-        this.setState({ modalShow: false });
+        this.setState({ modalCoverShow: false });
         window.location.reload();
         console.log("response", res);
       })
@@ -61,7 +61,7 @@ export class AddProfilePic extends Component {
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
-      }/delete_profile_pic/`,
+      }/delete_cover_pic/`,
       {
         method: "DELETE",
         headers: {
@@ -71,7 +71,7 @@ export class AddProfilePic extends Component {
     )
       .then((res) => res.json())
       .then((res) => {
-        this.setState({ modalDelete: false, modalShow: false });
+        this.setState({ modalCoverDelete: false, modalCoverShow: false });
         window.location.reload();
         console.log("response", res);
       })
@@ -79,42 +79,44 @@ export class AddProfilePic extends Component {
   };
 
   render() {
+    console.log(
+      this.props.cover_pic.split("/")[
+        this.props.cover_pic.split("/").length - 2
+      ]
+    );
     return (
       <div className="p-auto">
         <Modal
-          className="my-modal"
           style={{
             height: "700px",
-            color: "white",
           }}
           scrollable={true}
-          show={this.state.modalShow}
-          size="md"
+          show={this.state.modalCoverShow}
+          size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          onHide={() => this.setState({ modalShow: false })}
+          onHide={() => this.setState({ modalCoverShow: false })}
         >
           <Modal.Header
             closeButton
             autoFocus
-            style={{ borderBottom: "0 none", color: "white" }}
-            // onClick={() => this.setState({ modalShow: false })}
+            style={{ borderBottom: "0 none" }}
+            // onClick={() => this.setState({ modalCoverShow: false })}
           >
             <Modal.Title
               style={{
                 fontSize: "1.2rem",
-                color: "white",
               }}
               id="contained-modal-title-vcenter"
             >
-              Profile Photo
+              Cover Photo
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Avatar
+            <img
               className="m-auto"
-              style={{ width: "250px", height: "250px", borderRadius: "50%" }}
-              src={this.state.profile_pic}
+              style={{ width: "100%", height: "250px", objectFit: "cover" }}
+              src={this.state.cover_pic}
               alt="Profile"
             />
           </Modal.Body>
@@ -127,8 +129,8 @@ export class AddProfilePic extends Component {
               onChange={(e) =>
                 this.setState(
                   {
-                    profile_pic: URL.createObjectURL(e.target.files[0]),
-                    profile_picAsFile: e.target.files[0],
+                    cover_pic: URL.createObjectURL(e.target.files[0]),
+                    cover_picAsFile: e.target.files[0],
                   },
                   function () {
                     console.log(
@@ -143,15 +145,15 @@ export class AddProfilePic extends Component {
             <label htmlFor="file">
               <CameraAltRoundedIcon
                 className="ml-4"
-                style={{ color: "white", marginLeft: "10px" }}
+                style={{ marginLeft: "10px" }}
               />
               <div>
                 <span>Add Photo</span>
               </div>
             </label>
             <div className="mr-auto ml-3">
-              {this.props.profile_pic.split("/")[
-                this.props.profile_pic.split("/").length - 2
+              {this.props.cover_pic.split("/")[
+                this.props.cover_pic.split("/").length - 2
               ] != "defaults" ? (
                 <React.Fragment>
                   <DeleteIcon className="ml-2" onClick={this.removeImage} />
@@ -161,17 +163,17 @@ export class AddProfilePic extends Component {
                 </React.Fragment>
               ) : null}
             </div>
-            <Button onClick={this.handleProfilePic} style={post_button}>
+            <Button onClick={this.handleCoverPic} style={post_button}>
               Upload Photo
             </Button>
           </Modal.Footer>
         </Modal>
-        {this.state.modalDelete ? (
+        {this.state.cover_pic ? (
           <Modal
-            show={this.state.modalDelete}
+            show={this.state.modalCoverDelete}
             size="sm"
             aria-labelledby="contained-modal-title-vcenter"
-            onHide={() => this.setState({ modalDelete: false })}
+            onHide={() => this.setState({ modalCoverDelete: false })}
             style={{
               background: "rgba(0,0,0,0.3)",
             }}
@@ -194,18 +196,19 @@ export class AddProfilePic extends Component {
                     color: "rgba(0,0,0,0.6)",
                   }}
                 >
-                  Are you sure you want to remove this profile picture from
+                  Are you sure you want to remove this cover picture from
                   LinkedIn?
                 </span>
               </div>
               <Modal.Footer>
                 <Button
-                  onClick={() => this.setState({ modalDelete: false })}
+                  onClick={() => this.setState({ modalCoverDelete: false })}
                   style={cancel_button}
                   type="submit"
                 >
                   Cancel
                 </Button>
+
                 <Button
                   onClick={this.handleDelete}
                   style={delete_button}

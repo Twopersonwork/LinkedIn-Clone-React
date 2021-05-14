@@ -15,6 +15,8 @@ import AddSkills from "./AddSkills";
 import EditSkill from "./EditSkill";
 import CreatePost from "../Feed/CreatePost";
 import CameraAltSharpIcon from "@material-ui/icons/CameraAltSharp";
+import AddCoverPic from "./AddCoverPic";
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -73,6 +75,7 @@ class Profile extends Component {
       cover_pic: "",
       profile_picAsFile: null,
       picShowModal: false,
+      coverPicModal: false,
     };
   }
 
@@ -381,7 +384,9 @@ class Profile extends Component {
           <CameraAltSharpIcon
             style={{ fontSize: "30px" }}
             className="cover__image"
-            onClick={this.removeImage}
+            onClick={() => {
+              this.setState({ coverPicModal: true });
+            }}
           />
           {this.state.profile_pic ? (
             <Avatar
@@ -402,18 +407,7 @@ class Profile extends Component {
               alt="Profile"
             />
           )}
-          {/* <input
-            style={{ display: "none" }}
-            type="file"
-            id="file"
-            onChange={(e) => this.handleProfilePic(e)}
-          />
-          <label htmlFor="file">
-            <CameraAltRoundedIcon
-              className="profile__image"
-              style={{ color: "black" }}
-            />
-          </label> */}
+
           {this.state.picShowModal ? (
             <Link
               component={() => (
@@ -422,6 +416,12 @@ class Profile extends Component {
                   profile_picAsFile={this.state.profile_picAsFile}
                 />
               )}
+            ></Link>
+          ) : null}
+
+          {this.state.coverPicModal ? (
+            <Link
+              component={() => <AddCoverPic cover_pic={this.state.cover_pic} />}
             ></Link>
           ) : null}
 
