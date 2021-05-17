@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { withCookies } from "react-cookie";
 import ShowFollowers from "./ShowFollowers";
+import ContactInfo from "./ContactInfo";
 
 class OtherUserProfile extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class OtherUserProfile extends Component {
       showMoreLicense: false,
 
       showFollowers: false,
+      showContactInfo: false,
     };
   }
 
@@ -153,12 +155,14 @@ class OtherUserProfile extends Component {
               ) : null}
             </Typography>
 
-            <Link
-              className="profile__stat_connections mt-2"
-              to={"/contact-info"}
-            >
-              Contact info
+            <Link className="profile__stat_connections mt-2">
+              <span onClick={() => this.setState({ showContactInfo: true })}>
+                Contact info
+              </span>
             </Link>
+            {this.state.showContactInfo ? (
+              <ContactInfo user={this.state.user} onContactChange={(e) => this.setState({showContactInfo:e})} />
+            ) : null}
           </div>
         </div>
 
@@ -196,7 +200,7 @@ class OtherUserProfile extends Component {
               onChangeFollowers={(e) => this.setState({ showFollowers: e })}
             />
           ) : null}
-          <div className="pl-2">
+          <div className="pl-1">
             <span
               style={{
                 fontSize: "19px",
