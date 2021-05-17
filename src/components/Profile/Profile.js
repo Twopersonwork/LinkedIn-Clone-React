@@ -561,20 +561,17 @@ class Profile extends Component {
             ) : null}
           </div>
           <div>
-            <Link to={"/followers"}>
-              <span
-                className="profile__activity_followers"
-                style={{ marginTop: "-30px", marginBottom: "10px" }}
-              >
-                {this.state.no_of_followers} followers
-              </span>
-            </Link>
+            <span
+              className="profile__activity_followers"
+              style={{ marginTop: "-30px", marginBottom: "10px" }}
+            >
+              {this.state.no_of_followers} followers
+            </span>
           </div>
-          <div>
+          <div className="pl-2">
             <span
               style={{
                 fontSize: "19px",
-                paddingRight: "25px",
               }}
             >
               Posts you created, shared, or commented on in the last 90 days are
@@ -582,7 +579,13 @@ class Profile extends Component {
             </span>
           </div>
           <div>
-            <Link to={"/activity"} style={{ textDecoration: "none" }}>
+            <Link
+              to={{
+                pathname: "/activity",
+                state: this.props.cookies.get("auth-token").user.id,
+              }}
+              style={{ textDecoration: "none" }}
+            >
               <Button
                 className="mt-3"
                 style={{ width: "100%", marginBottom: "-9px" }}

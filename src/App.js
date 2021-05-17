@@ -18,6 +18,7 @@ import GenerateData from "./components/GenerateData";
 import Network from "./components/Network/Network";
 import NetworkLeft from "./components/Network/NetworkLeft";
 import UserContext from "./components/UserContext";
+import OtherUserProfile from "./components/Profile/OtherUserProfile";
 
 class App extends Component {
   constructor(props) {
@@ -44,7 +45,6 @@ class App extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
         this.setState({ user: resp });
       })
       .catch((error) => console.log(error));
@@ -82,11 +82,22 @@ class App extends Component {
                         path="/profile"
                         component={() => <Profile />}
                       />
-                      <Route exact path="/activity">
-                        <ActivityLeft />
-                        <ActivityMain />
-                        <ActivityRight />
-                      </Route>
+                      <Route
+                        exact
+                        path="/user_profile"
+                        component={(props) => <OtherUserProfile {...props} />}
+                      />
+                      <Route
+                        exact
+                        path="/activity"
+                        component={(props) => (
+                          <React.Fragment>
+                            <ActivityLeft {...props} />
+                            <ActivityMain {...props} />
+                            <ActivityRight />
+                          </React.Fragment>
+                        )}
+                      />
                       <Route exact path="/network">
                         <NetworkLeft />
                         <Network updateNework={this.updateNework} />
