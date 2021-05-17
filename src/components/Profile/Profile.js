@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Profile.css";
 import { Avatar, Typography, Button } from "@material-ui/core";
-import { Button1 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { BiPlus, BiEdit } from "react-icons/bi";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
@@ -10,13 +9,14 @@ import { withCookies } from "react-cookie";
 import About from "./About";
 import Education from "./Education";
 import License from "./License";
-import CameraAltRoundedIcon from "@material-ui/icons/CameraAltRounded";
 import AddProfilePic from "./AddProfilePic";
 import AddSkills from "./AddSkills";
 import EditSkill from "./EditSkill";
 import CreatePost from "../Feed/CreatePost";
 import CameraAltSharpIcon from "@material-ui/icons/CameraAltSharp";
 import AddCoverPic from "./AddCoverPic";
+import ShowFollowers from "./ShowFollowers";
+import ContactInfo from "./ContactInfo";
 
 class Profile extends Component {
   constructor(props) {
@@ -68,6 +68,10 @@ class Profile extends Component {
       //for display show more and show less button in license
       showMoreLicense: false,
 
+      // for display followers
+      showFollowers: false,
+      // for display contact information
+      showContactInfo: false,
       MAX_items: 3,
 
       createPost: false,
@@ -369,6 +373,7 @@ class Profile extends Component {
       .then((resp) => {
         console.log("comp response", resp);
         this.setState({
+          user: resp,
           profile_pic: resp.profile_pic,
           cover_pic: resp.cover_pic,
         });
@@ -488,14 +493,17 @@ class Profile extends Component {
               )}
             </Typography>
 
-            <Link
-              className="profile__stat_connections mt-2"
-              to={"/contact-info"}
-            >
-              <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+            <Link className="profile__stat_connections mt-2">
+              <span onClick={() => this.setState({ showContactInfo: true })}>
                 Contact info
               </span>
             </Link>
+            {this.state.showContactInfo ? (
+              <ContactInfo
+                user={this.state.user}
+                onContactChange={(e) => this.setState({ showContactInfo: e })}
+              />
+            ) : null}
 
             <div className="profile__stat">
               <Button style={open_to}>
@@ -577,10 +585,17 @@ class Profile extends Component {
           <div>
             <span
               className="profile__activity_followers"
-              style={{ marginTop: "-30px", marginBottom: "10px" }}
+              style={{ marginTop: "-10px", marginBottom: "10px" }}
+              onClick={() => this.setState({ showFollowers: true })}
             >
               {this.state.no_of_followers} followers
             </span>
+            {this.state.showFollowers ? (
+              <ShowFollowers
+                followers={this.state.user.followers}
+                onChangeFollowers={(e) => this.setState({ showFollowers: e })}
+              />
+            ) : null}
           </div>
           <div className="pl-2">
             <span

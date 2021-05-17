@@ -20,7 +20,6 @@ class ShowFollowers extends Component {
 
   componentDidMount() {
     if (this.props.followers) {
-      // var t = [];
       for (let index = 0; index < this.props.followers.length; index++) {
         fetch(
           `${process.env.REACT_APP_API_URL}/uapi/userDetail/${this.props.followers[index].user_id}/`,
@@ -33,15 +32,10 @@ class ShowFollowers extends Component {
         )
           .then((resp) => resp.json())
           .then((resp) => {
-            // t.push(resp);
             var joined = this.state.followers.concat([resp]);
             this.setState({ followers: joined });
-            // console.log(t);
           });
       }
-      // this.setState({ followers: t }, function () {
-      //   console.log(this.state.followers);
-      // });
     }
   }
 
