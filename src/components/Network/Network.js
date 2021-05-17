@@ -164,7 +164,7 @@ export class Network extends Component {
               <div style={{ display: "flex" }}>
                 {this.state.AlertUser.profile_pic ? (
                   <Avatar
-                    src="http://127.0.0.1:8000/media/profile_images/user.svg"
+                    src={this.state.AlertUser.profile_pic}
                     alt="Profile"
                   />
                 ) : (

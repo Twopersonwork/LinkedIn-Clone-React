@@ -8,16 +8,13 @@ class ActivityLeft extends Component {
     super(props);
 
     this.state = {
-      followers: "",
-      following: "",
+      user: "",
     };
   }
 
   componentDidMount() {
     fetch(
-      `${
-        process.env.REACT_APP_API_URL
-      }/uapi/users/${this.props.cookies.get("auth-token").user.id}/no_of_follow/`,
+      `${process.env.REACT_APP_API_URL}/uapi/users/${this.props.location.state}/`,
       {
         method: "GET",
         headers: {
@@ -28,8 +25,7 @@ class ActivityLeft extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        this.setState({ following: resp.no_following });
-        this.setState({ followers: resp.no_followers });
+        this.setState({ user: resp });
       })
       .catch((error) => console.log(error));
   }
@@ -46,9 +42,9 @@ class ActivityLeft extends Component {
             src="https://static.hollywoodreporter.com/sites/default/files/2019/03/avatar-publicity_still-h_2019-compressed.jpg"
             className="sidebar__avatar"
           ></Avatar>
-          <Link to={"/profile"}>
+          <Link to={{ pathname: "user_profile", state: this.state.user.id }}>
             <span style={{ fontWeight: "bold" }}>
-              {this.props.cookies.get("auth-token").user.username}
+              {this.state.user.username}
             </span>
           </Link>
         </div>
@@ -56,7 +52,9 @@ class ActivityLeft extends Component {
         <div className="sidebar__stats">
           <div className="sidebar__stat">
             <p>Followers</p>
-            <p className="sidebar__statNumber">{this.state.followers}</p>
+            <p className="sidebar__statNumber">
+              {this.state.user.followers ? this.state.user.followers.length : 0}
+            </p>
           </div>
         </div>
       </div>

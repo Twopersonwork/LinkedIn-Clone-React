@@ -15,6 +15,7 @@ class ActivityMain extends Component {
       activities_id: [],
       activities: [],
       activityDelete: true,
+      user: "",
     };
   }
   changeState = () => {
@@ -57,11 +58,8 @@ class ActivityMain extends Component {
   };
 
   getPost = () => {
-    console.log("component");
     fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
+      `${process.env.REACT_APP_API_URL}/uapi/users/${this.props.location.state}/`,
       {
         method: "GET",
         headers: {
@@ -74,6 +72,7 @@ class ActivityMain extends Component {
       .then((resp) => {
         this.setState(
           {
+            user: resp,
             posts: resp.posts,
             activities_id: resp.activities,
           },
@@ -106,7 +105,11 @@ class ActivityMain extends Component {
                 paddingLeft: "10px",
               }}
             >
-              Malav's Activity
+              {this.state.user.user_profile &&
+              this.state.user.user_profile.firstName
+                ? this.state.user.user_profile.firstName
+                : this.state.user.username}
+              's Activity
             </span>
           </div>
           <div style={{ display: "flex" }} className="mt-2">

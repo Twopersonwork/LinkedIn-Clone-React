@@ -46,7 +46,6 @@ export class UserCards extends Component {
       .catch((error) => console.log(error));
   };
   render() {
-    console.log("props user", this.props.user);
     if (this.state.show) {
       return (
         <div className="breakpoint">
@@ -59,20 +58,15 @@ export class UserCards extends Component {
               />
               {/* <Icon  /> */}
 
-              {this.props.user.profile_pic ? (
-                <Avatar
-                  style={{ width: "80px", height: "80px" }}
-                  src="http://127.0.0.1:8000/media/profile_images/user.svg"
-                  alt="Profile"
-                />
-              ) : (
-                <Avatar
-                  style={{ width: "80px", height: "80px" }}
-                  src="/images/user.svg"
-                  alt="Profile"
-                />
-              )}
-              <Link to={"/profile"}>
+              <Avatar
+                style={{ width: "80px", height: "80px" }}
+                src={this.props.user.profile_pic}
+                alt="Profile"
+              />
+
+              <Link
+                to={{ pathname: "user_profile", state: this.props.user.id }}
+              >
                 <span
                   style={{
                     fontWeight: "bold",
@@ -80,7 +74,9 @@ export class UserCards extends Component {
                     fontSize: "18px",
                   }}
                 >
-                  {this.props.user.username}
+                  {this.props.user.username.length <= 10
+                    ? this.props.user.username
+                    : this.props.user.username.slice(0, 10) + ".."}
                 </span>
               </Link>
 
