@@ -46,7 +46,6 @@
   width: 70px;
   height: 70px;
   border: 2px solid rgb(255, 255, 255);
-
 }
 
 .sidebar__top > .MuiAvatar-root {
@@ -125,10 +124,8 @@
   margin-top: 8px;
 }
 
-
 @media screen and (max-width: 750px) {
   .sidebar {
-      display: none;
+    display: none;
   }
-
 }

@@ -57,7 +57,7 @@ class Post extends Component {
     this.handleClose();
   };
   handleDelete = () => {
-    this.setState({deleteModal:false});
+    this.setState({ deleteModal: false });
     fetch(
       `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/`,
       {
@@ -352,7 +352,7 @@ class Post extends Component {
             function={this.submitLike}
             Icon={ThumbUpIcon}
             title="Like"
-            color={this.state.has_liked ? "blue" : "gray"}
+            color={this.state.has_liked ? "rgb(28, 133, 189)" : "gray"}
             post={post}
           />
           <InputOption

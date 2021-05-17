@@ -26,7 +26,7 @@ class Feed extends Component {
       update: false,
     };
   }
-  
+
   updatePost = () => {
     console.log("update");
     this.setState({ update: !this.state.update });
@@ -122,7 +122,7 @@ class Feed extends Component {
             onClick={this.createPost}
             className="feed__input"
           >
-            Start a Post
+            <span style={{ color: "gray" }}>Start a Post</span>
           </button>
           {/* </div> */}
           <div className="feed__inputOptions">

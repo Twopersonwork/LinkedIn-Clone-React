@@ -82,7 +82,7 @@ export class CreatePost extends Component {
               }}
               id="contained-modal-title-vcenter"
             >
-              Create a Post
+              <span>Create a post</span>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -108,13 +108,15 @@ export class CreatePost extends Component {
                   </span>
                 </div>
               </Form.Label>
-              <Form.Control
-                style={{ border: "none" }}
-                placeholder="What do you want to talk about?"
-                onChange={this.handleBody}
-                as="textarea"
-                rows={3}
-              />
+              <span>
+                <Form.Control
+                  style={{ border: "none", color: "black", fontSize: "18px" }}
+                  placeholder="What do you want to talk about?"
+                  onChange={this.handleBody}
+                  as="textarea"
+                  rows={3}
+                />
+              </span>
             </Form.Group>
 
             {this.state.image ? (
@@ -156,7 +158,7 @@ export class CreatePost extends Component {
               type="submit"
               onClick={this.submitPost}
             >
-              Post
+              <span style={{ fontWeight: "bold" }}>Post</span>
             </Button>
           </Modal.Footer>
         </Modal>
