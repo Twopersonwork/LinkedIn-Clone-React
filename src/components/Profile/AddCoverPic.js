@@ -11,7 +11,7 @@ export class AddProfilePic extends Component {
     super(props);
 
     this.state = {
-      modalCoverShow: true,
+      modalCoverShow: this.props.modalCoverShow,
       modalCoverDelete: false,
       cover_pic: this.props.cover_pic,
       cover_picAsFile: null,
@@ -109,7 +109,7 @@ export class AddProfilePic extends Component {
               }}
               id="contained-modal-title-vcenter"
             >
-              Cover Photo
+              <span>Cover Photo</span>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>

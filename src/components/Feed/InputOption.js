@@ -13,13 +13,14 @@ class InputOption extends Component {
 
   render() {
     // console.log("auth-user ", this.props.cookies.get("auth-user"));
-    const { Icon, title, color, text } = this.props;
+    const { Icon, title, color } = this.props;
     return (
       <div onClick={this.props.function} className="inputOption">
         <Icon style={{ color: color }} />
 
-        <span className="pl-2">{title}</span>
-        <span className="pl-2">{text}</span>
+        <span className="pl-2" style={{ color: color }}>
+          {title}
+        </span>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Profile.css";
 import { Avatar, Typography, Button } from "@material-ui/core";
+import { Button1 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { BiPlus, BiEdit } from "react-icons/bi";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
@@ -385,30 +386,20 @@ class Profile extends Component {
             style={{ fontSize: "30px" }}
             className="cover__image"
             onClick={() => {
-              this.setState({ coverPicModal: true });
+              this.setState({ coverPicModal: true, picShowModal: false });
             }}
           />
-          {this.state.profile_pic ? (
-            <Avatar
-              onClick={() => {
-                this.setState({ picShowModal: true });
-              }}
-              className="img_wrp"
-              src={this.state.profile_pic}
-              alt="Profile"
-            />
-          ) : (
-            <Avatar
-              onClick={() => {
-                this.setState({ picShowModal: true });
-              }}
-              className="post__image img_wrp"
-              src="/images/user.svg"
-              alt="Profile"
-            />
-          )}
 
-          {this.state.picShowModal ? (
+          <Avatar
+            onClick={() => {
+              this.setState({ picShowModal: true, coverPicModal: false });
+            }}
+            className="img_wrp"
+            src={this.state.profile_pic}
+            alt="Profile"
+          />
+
+          {this.state.picShowModal && !this.state.coverPicModal ? (
             <Link
               component={() => (
                 <AddProfilePic
@@ -419,18 +410,16 @@ class Profile extends Component {
             ></Link>
           ) : null}
 
-          {this.state.coverPicModal ? (
+          {this.state.coverPicModal && !this.state.picShowModal ? (
             <Link
-              component={() => <AddCoverPic cover_pic={this.state.cover_pic} />}
+              component={() => (
+                <AddCoverPic
+                  cover_pic={this.state.cover_pic}
+                  modalCoverShow={this.state.coverPicModal}
+                />
+              )}
             ></Link>
           ) : null}
-
-          {/* Create model for user,for add the profile info. */}
-          <BiEdit
-            className="ml-auto mr-4"
-            style={{ fontSize: "30px" }}
-            onClick={() => this.onProfileModal(true)}
-          />
 
           {/* For get User information */}
           {this.state.profileModalShow ? (
@@ -445,27 +434,45 @@ class Profile extends Component {
           ) : null}
 
           <div className="profile__stats" style={{ marginTop: "-10px" }}>
-            <div className="profile__stat">
+            <div className="profile__stat d-flex justify-content-between">
               <h4>
-                {this.state.profileCredentials.firstName
-                  ? this.state.profileCredentials.firstName
-                  : `${
-                      this.props.cookies.get("auth-token").user.username
-                    }`}{" "}
-                {this.state.profileCredentials.lastName}
+                {this.state.profileCredentials.firstName ? (
+                  <span style={{ fontWeight: "bold", fontSize: "100%" }}>
+                    {this.state.profileCredentials.firstName}
+                  </span>
+                ) : (
+                  <span style={{ fontWeight: "bold", fontSize: "100%" }}>
+                    {this.props.cookies.get("auth-token").user.username}
+                  </span>
+                )}{" "}
+                <span style={{ fontWeight: "bold", fontSize: "100%" }}>
+                  {this.state.profileCredentials.lastName}
+                </span>
               </h4>
+              {/* Create model for user,for add the profile info. */}
+              <BiEdit
+                className="ml-auto mr-4"
+                style={{ fontSize: "30px" }}
+                onClick={() => this.onProfileModal(true)}
+              />
             </div>
             <Typography className="profile__stat">
-              {this.state.profileCredentials.headLine}
+              <span>{this.state.profileCredentials.headLine}</span>
             </Typography>
+
             <Typography className="profile__stat">
               {this.state.profileCredentials.location ? (
                 <React.Fragment>
-                  {this.state.profileCredentials.location}
-                  {", "}
-                  {this.state.profileCredentials.country}
+                  <span className="text-muted" style={{ fontSize: "16px" }}>
+                    {this.state.profileCredentials.location}
+                    {","}
+
+                    {this.state.profileCredentials.country}
+                  </span>
                   <Typography className="profile__stat_connections">
-                    {this.state.no_of_followers} Connections
+                    <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                      {this.state.no_of_followers} Connections
+                    </span>
                   </Typography>
                 </React.Fragment>
               ) : (
@@ -473,7 +480,10 @@ class Profile extends Component {
                   className="profile__stat_connections"
                   style={{ marginLeft: "-20px" }}
                 >
-                  {this.state.no_of_followers} Connections
+                  <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                    {" "}
+                    {this.state.no_of_followers} Connections
+                  </span>
                 </Typography>
               )}
             </Typography>
@@ -482,13 +492,21 @@ class Profile extends Component {
               className="profile__stat_connections mt-2"
               to={"/contact-info"}
             >
-              Contact info
+              <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                Contact info
+              </span>
             </Link>
 
             <div className="profile__stat">
-              <Button style={profile_button}>Open To</Button>
-              <Button style={profile_button}>Add profile section</Button>
-              <Button style={profile_button}>More</Button>
+              <Button style={open_to}>
+                <span style={{ fontWeight: "bold" }}>Open to</span>
+              </Button>
+              <Button style={profile_button}>
+                <span style={{ fontWeight: "bold" }}>Add profile section</span>
+              </Button>
+              <Button style={profile_button}>
+                <span style={{ fontWeight: "bold" }}>More</span>
+              </Button>
             </div>
           </div>
         </div>
@@ -549,12 +567,8 @@ class Profile extends Component {
           <div className="profile__activity_header d-flex justify-content-between">
             <span style={{ fontSize: "25px" }}>Activity</span>
 
-            <Button
-              size="small"
-              style={{ marginTop: "-20px" }}
-              onClick={this.onCreatePost}
-            >
-              Start Post
+            <Button size="small" style={start_post} onClick={this.onCreatePost}>
+              <span style={{ fontWeight: "bold" }}>Start a post</span>
             </Button>
             {this.state.createPost ? (
               <Link component={() => <CreatePost />} />
@@ -585,9 +599,14 @@ class Profile extends Component {
             <Link to={"/activity"} style={{ textDecoration: "none" }}>
               <Button
                 className="mt-3"
-                style={{ width: "100%", marginBottom: "-9px" }}
+                style={{
+                  width: "100%",
+                  marginBottom: "-9px",
+                  color: "rgb(95, 95, 95)",
+                  textTransform: "none",
+                }}
               >
-                See all Activity
+                <span style={{ fontWeight: "bold" }}>See all Activity</span>
               </Button>
             </Link>
           </div>
@@ -747,10 +766,18 @@ class Profile extends Component {
             <Button
               className="mr-left"
               size="small"
-              style={{ marginTop: "-20px", marginRight: "20px" }}
+              // style={
+              //   ({
+              //     marginTop: "-20px",
+              //     marginRight: "20px",
+              //     textTransform: "none",
+              //   },
+              //   { start_post })
+              // }
+              style={add_activity}
               onClick={this.onSkillModal}
             >
-              Add a new skill
+              <span style={{ fontWeight: "bold" }}> Add a new skill</span>
             </Button>
             <BiEdit
               style={{ fontSize: "30px" }}
@@ -810,11 +837,45 @@ const profile_button = {
   paddingRight: "20px",
   marginTop: "10px",
   marginLeft: "10px",
+  borderRadius: "50px",
+  display: "flex",
+  color: "rgb(95, 95, 95)",
+  border: "solid 1px black",
+  textTransform: "none",
+};
+const start_post = {
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "-20px",
+  marginLeft: "10px",
+  display: "flex",
+  textTransform: "none",
+  color: "rgb(95, 95, 95)",
+  fontSize: "18px",
+};
+const add_activity = {
+  marginTop: "-20px",
+  marginRight: "20px",
+  // paddingLeft: "20px",
+  // paddingRight: "20px",
+  marginTop: "-20px",
+  // marginLeft: "10px",
+  display: "flex",
+  textTransform: "none",
+  color: "rgb(95, 95, 95)",
+  fontSize: "18px",
+};
+const open_to = {
+  textTransform: "none",
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "10px",
+  marginLeft: "10px",
   fontWeight: "bold",
   borderRadius: "50px",
   display: "flex",
-  color: "#0c66c2",
+  background: "#0c66c2",
+  color: "white",
   border: "solid 1px #0c66c2",
 };
-
 export default withCookies(Profile);
