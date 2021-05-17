@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import CameraAltRoundedIcon from "@material-ui/icons/CameraAltRounded";
-import { Avatar, Button } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import "./AddProfilePic.css";
 import { withCookies } from "react-cookie";
 
@@ -107,7 +107,7 @@ export class AddProfilePic extends Component {
               }}
               id="contained-modal-title-vcenter"
             >
-              Profile Photo
+              <span>Profile Photo</span>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -162,7 +162,7 @@ export class AddProfilePic extends Component {
               ) : null}
             </div>
             <Button onClick={this.handleProfilePic} style={post_button}>
-              Upload Photo
+              <span style={{ fontWeight: "bold" }}>Upload Photo</span>
             </Button>
           </Modal.Footer>
         </Modal>
@@ -222,18 +222,17 @@ export class AddProfilePic extends Component {
   }
 }
 const post_button = {
-  marginTop: "-10px",
-  paddingLeft: "10px",
-  paddingRight: "10px",
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "10px",
   marginLeft: "10px",
   fontWeight: "bold",
   borderRadius: "50px",
-  fontSize: "15px",
-  // display: "flex",
+  display: "flex",
   background: "#0c66c2",
   color: "white",
   border: "solid 1px #0c66c2",
-  //   width: "110px",
+  fontSize: "18px",
 };
 const delete_button = {
   paddingLeft: "20px",
