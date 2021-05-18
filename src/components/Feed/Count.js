@@ -28,7 +28,7 @@ class Count extends Component {
     for (var i = 0; i < this.props.post.likes.length; i++) {
       console.log(this.props.post.likes[i].user);
       fetch(
-        `http://127.0.0.1:8000/uapi/users/${this.props.post.likes[i].user}/`,
+        `${process.env.REACT_APP_API_URL}/uapi/users/${this.props.post.likes[i].user}/`,
         {
           method: "GET",
           headers: {

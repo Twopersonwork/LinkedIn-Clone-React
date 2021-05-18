@@ -88,16 +88,19 @@ class Post extends Component {
   };
   submitComment = () => {
     this.setState({ has_commented: false });
-    fetch(`http://127.0.0.1:8000/papi/posts/${this.props.post.id}/comment/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-      },
-      body: JSON.stringify({
-        comment: this.state.comment,
-      }),
-    })
+    fetch(
+      `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/comment/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+        body: JSON.stringify({
+          comment: this.state.comment,
+        }),
+      }
+    )
       .then((resp) => resp.json())
       .then((resp) => {
         if (resp.result) {
@@ -113,7 +116,7 @@ class Post extends Component {
   submitLike = () => {
     if (!this.state.has_liked) {
       fetch(
-        `http://127.0.0.1:8000/papi/posts/${this.props.post.id}/likePost/`,
+        `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/likePost/`,
         {
           method: "POST",
           headers: {
@@ -135,7 +138,7 @@ class Post extends Component {
         .catch((errors) => console.log(errors));
     } else {
       fetch(
-        `http://127.0.0.1:8000/papi/posts/${this.props.post.id}/dislikePost/`,
+        `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/dislikePost/`,
         {
           method: "DELETE",
           headers: {
@@ -154,7 +157,7 @@ class Post extends Component {
   };
 
   fetchUser = (id) => {
-    fetch(`http://127.0.0.1:8000/uapi/users/${id}/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/uapi/users/${id}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

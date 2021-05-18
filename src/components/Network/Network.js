@@ -20,7 +20,7 @@ export class Network extends Component {
 
   submitIgnore = (e) => {
     this.setState({ AlertUser: e, ignore: true, Alertshow: true });
-    fetch(`http://127.0.0.1:8000/uapi/waitFollow/${e.id}/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/uapi/waitFollow/${e.id}/`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export class Network extends Component {
     // console.log(e.id);
     this.setState({ AlertUser: e, Alertshow: true, ignore: false });
 
-    fetch(`http://127.0.0.1:8000/uapi/follow/${e.id}/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/uapi/follow/${e.id}/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export class Network extends Component {
       .then((resp) => resp.json())
       .catch((error) => console.log(error));
 
-    fetch(`http://127.0.0.1:8000/uapi/waitFollow/${e.id}/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/uapi/waitFollow/${e.id}/`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export class Network extends Component {
   getWaitFollowers = () => {
     this.setState({ waitFollowers: [] });
     fetch(
-      `http://127.0.0.1:8000/uapi/users/${
+      `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
       }/`,
       {
@@ -83,7 +83,7 @@ export class Network extends Component {
           if (this.state.user.waitFollowers.length > 0) {
             for (var i = 0; i < this.state.user.waitFollowers.length; i++) {
               fetch(
-                `http://127.0.0.1:8000/uapi/userDetail/${this.state.user.waitFollowers[i].user_id}/`,
+                `${process.env.REACT_APP_API_URL}/uapi/userDetail/${this.state.user.waitFollowers[i].user_id}/`,
                 {
                   method: "GET",
                   headers: {
@@ -196,14 +196,8 @@ export class Network extends Component {
               this.state.waitFollowers.map((user) => (
                 <div className="user">
                   <div className="user__header" style={{ display: "flex" }}>
-                    {user.profile_pic ? (
-                      <Avatar
-                        src="http://127.0.0.1:8000/media/profile_images/user.svg"
-                        alt="Profile"
-                      />
-                    ) : (
-                      <Avatar src="/images/user.svg" alt="Profile" />
-                    )}
+                    <Avatar src={user.profile_pic} alt="Profile" />
+
                     <span className="ml-2 " style={{ fontWeight: "bold" }}>
                       {user.username}
                     </span>

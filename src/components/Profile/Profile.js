@@ -359,7 +359,7 @@ class Profile extends Component {
     this.updateSkills();
     console.log("called comp");
     fetch(
-      `http://127.0.0.1:8000/uapi/users/${
+      `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
       }/`,
       {

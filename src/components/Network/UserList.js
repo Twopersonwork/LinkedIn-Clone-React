@@ -20,7 +20,7 @@ export class UserList extends Component {
 
     // console.log("wait", this.props.following);
 
-    fetch(`http://127.0.0.1:8000/uapi/userDetail/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/uapi/userDetail/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

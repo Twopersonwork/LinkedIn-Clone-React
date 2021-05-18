@@ -18,7 +18,7 @@ class Sidebar extends Component {
   componentDidMount() {
     // console.log(this.props.cookies.get("username"));
     fetch(
-      `http://127.0.0.1:8000/uapi/users/${
+      `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
       }/`,
       {
