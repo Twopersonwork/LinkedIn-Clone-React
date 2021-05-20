@@ -17,6 +17,7 @@ import CameraAltSharpIcon from "@material-ui/icons/CameraAltSharp";
 import AddCoverPic from "./AddCoverPic";
 import ShowFollowers from "./ShowFollowers";
 import ContactInfo from "./ContactInfo";
+import { trackPromise } from "react-promise-tracker";
 
 class Profile extends Component {
   constructor(props) {
@@ -231,117 +232,132 @@ class Profile extends Component {
 
   // for get the user followers
   getUserFollowers = () => {
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/follow/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        // console.log(resp)
-        this.setState({ no_of_followers: resp.followers.length });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/follow/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          // console.log(resp)
+          this.setState({ no_of_followers: resp.followers.length });
+        })
+    ).catch((error) => console.log(error));
   };
 
   // for update the about
   updateAbout = () => {
     // console.log("This is about.");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/profile/about/${this.props.cookies.get(
-        "about-id"
-      )}/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        this.setState({ AboutCredentials: resp });
-        this.setState({ aboutModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${
+          process.env.REACT_APP_API_URL
+        }/profile/about/${this.props.cookies.get("about-id")}/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          this.setState({ AboutCredentials: resp });
+          this.setState({ aboutModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   // for update the education
   updateEducation = () => {
     // console.log("This is Education.");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        console.log(resp.user_education);
-        this.setState({ EducationCredentials: resp.user_education });
-        this.setState({ educationModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp.user_education);
+          this.setState({ EducationCredentials: resp.user_education });
+          this.setState({ educationModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   updateLicense = () => {
     // console.log("This is License.");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        console.log(resp.user_license);
-        this.setState({ LicenseCredentials: resp.user_license });
-        this.setState({ licenseModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp.user_license);
+          this.setState({ LicenseCredentials: resp.user_license });
+          this.setState({ licenseModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   updateSkills = () => {
     // console.log("this is updateskill");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        // console.log("skill", resp.user_skills);
-        this.setState({ SkillCredentials: resp.user_skills });
-        this.setState({ skillsModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          // console.log("skill", resp.user_skills);
+          this.setState({ SkillCredentials: resp.user_skills });
+          this.setState({ skillsModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   componentDidMount = () => {
@@ -358,27 +374,28 @@ class Profile extends Component {
     // for update the skills data
     this.updateSkills();
     console.log("called comp");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        console.log("comp response", resp);
-        this.setState({
-          user: resp,
-          profile_pic: resp.profile_pic,
-          cover_pic: resp.cover_pic,
-        });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log("comp response", resp);
+          this.setState({
+            user: resp,
+            profile_pic: resp.profile_pic,
+            cover_pic: resp.cover_pic,
+          });
+        })
+    ).catch((error) => console.log(error));
   };
 
   render() {

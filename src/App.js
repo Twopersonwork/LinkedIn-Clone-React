@@ -17,7 +17,7 @@ import ActivityRight from "./components/Profile/ActivityRight";
 import GenerateData from "./components/GenerateData";
 import Network from "./components/Network/Network";
 import NetworkLeft from "./components/Network/NetworkLeft";
-import UserContext from "./components/UserContext";
+import UserContext from "./components/userContext";
 import OtherUserProfile from "./components/Profile/OtherUserProfile";
 
 class App extends Component {
@@ -98,6 +98,7 @@ class App extends Component {
                           </React.Fragment>
                         )}
                       />
+
                       <Route exact path="/network">
                         <NetworkLeft />
                         <Network updateNework={this.updateNework} />

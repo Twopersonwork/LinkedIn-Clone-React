@@ -90,19 +90,11 @@ class OtherUserProfile extends Component {
         <div className="profile__top">
           <img src={this.state.user.cover_pic} alt="background" />
 
-          {this.state.user.profile_pic ? (
-            <Avatar
-              className="img_wrp"
-              src={this.state.user.profile_pic}
-              alt="Profile"
-            />
-          ) : (
-            <Avatar
-              className="post__image img_wrp"
-              src="/images/user.svg"
-              alt="Profile"
-            />
-          )}
+          <Avatar
+            className="img_wrp"
+            src={this.state.user.profile_pic}
+            alt="Profile"
+          />
 
           <div className="profile__stats" style={{ marginTop: "-10px" }}>
             <div className="profile__stat">
@@ -161,7 +153,10 @@ class OtherUserProfile extends Component {
               </span>
             </Link>
             {this.state.showContactInfo ? (
-              <ContactInfo user={this.state.user} onContactChange={(e) => this.setState({showContactInfo:e})} />
+              <ContactInfo
+                user={this.state.user}
+                onContactChange={(e) => this.setState({ showContactInfo: e })}
+              />
             ) : null}
           </div>
         </div>

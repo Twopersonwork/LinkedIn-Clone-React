@@ -4,6 +4,7 @@ import { Container, Row } from "react-bootstrap";
 import { Typography, Button, Card, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withCookies } from "react-cookie";
+import { trackPromise } from "react-promise-tracker";
 
 class Login extends Component {
   constructor(props) {
@@ -28,38 +29,42 @@ class Login extends Component {
   };
 
   login = (e) => {
-    fetch(`${process.env.REACT_APP_API_URL}/auth/`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(this.state.credentials),
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        if (resp.token) {
-          this.props.cookies.set("auth-token", resp);
-          console.log(resp.token);
-          if (resp.user.user_profile) {
-            this.props.cookies.set("profile-id", resp.user.user_profile.id);
-          }
-          if (resp.user.user_about) {
-            this.props.cookies.set("about-id", resp.user.user_about.id);
-          }
-          if (resp.user.user_education) {
-            this.props.cookies.set("education-id", resp.user.user_education.id);
-          }
-          if (resp.user.user_license) {
-            this.props.cookies.set("license-id", resp.user.user_license.id);
-          }
-          window.location.href = "/";
-        } else if (resp.user_not_found) {
-          this.setState({ emailError: resp.user_not_found });
-        } else if (resp.chk_uname_or_pwd) {
-          this.setState({ passwordError: resp.chk_uname_or_pwd });
-        }
+    trackPromise(
+      fetch(`${process.env.REACT_APP_API_URL}/auth/`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(this.state.credentials),
       })
-      .catch((error) => console.log(error));
+        .then((resp) => resp.json())
+        .then((resp) => {
+          if (resp.token) {
+            this.props.cookies.set("auth-token", resp);
+            console.log(resp.token);
+            if (resp.user.user_profile) {
+              this.props.cookies.set("profile-id", resp.user.user_profile.id);
+            }
+            if (resp.user.user_about) {
+              this.props.cookies.set("about-id", resp.user.user_about.id);
+            }
+            if (resp.user.user_education) {
+              this.props.cookies.set(
+                "education-id",
+                resp.user.user_education.id
+              );
+            }
+            if (resp.user.user_license) {
+              this.props.cookies.set("license-id", resp.user.user_license.id);
+            }
+            window.location.href = "/";
+          } else if (resp.user_not_found) {
+            this.setState({ emailError: resp.user_not_found });
+          } else if (resp.chk_uname_or_pwd) {
+            this.setState({ passwordError: resp.chk_uname_or_pwd });
+          }
+        })
+    ).catch((error) => console.log(error));
 
     e.preventDefault();
   };

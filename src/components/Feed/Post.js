@@ -230,9 +230,23 @@ class Post extends Component {
           )}
 
           <div className="post__info">
-            <span style={{ fontWeight: "bold" }}>
-              {this.state.user.username}
-            </span>
+            {this.state.user.id ==
+            this.props.cookies.get("auth-token").user.id ? (
+              <Link to={{ pathname: "profile" }} style={{ color: "black" }}>
+                <span style={{ fontWeight: "bold" }}>
+                  {this.state.user.username}
+                </span>
+              </Link>
+            ) : (
+              <Link
+                to={{ pathname: "user_profile", state: this.state.user.id }}
+                style={{ color: "black" }}
+              >
+                <span style={{ fontWeight: "bold" }}>
+                  {this.state.user.username}
+                </span>
+              </Link>
+            )}
             <br />
             <span className="text-muted" style={{ fontSize: "17px" }}>
               {this.state.user.firstName}
@@ -241,10 +255,13 @@ class Post extends Component {
               {this.state.user.lastName}
             </span>
           </div>
-          <MoreHorizIcon
-            style={{ marginLeft: "auto", color: "gray" }}
-            onClick={(e) => this.moreOptions(e)}
-          />
+          {this.state.user.id ==
+          this.props.cookies.get("auth-token").user.id ? (
+            <MoreHorizIcon
+              style={{ marginLeft: "auto", color: "gray" }}
+              onClick={(e) => this.moreOptions(e)}
+            />
+          ) : null}
           <Menu
             style={{ borderRadius: "50%" }}
             id="simple-menu"

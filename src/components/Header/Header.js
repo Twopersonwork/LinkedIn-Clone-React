@@ -5,7 +5,7 @@ import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core/styles";
 
 import React, { Component } from "react";
-import UserContext from "../UserContext";
+import UserContext from "../userContext";
 
 const styles = (theme) => ({
   customBadge: {
@@ -81,7 +81,7 @@ class Header extends Component {
               <NavList>
                 <Link to={"/network"}>
                   <UserContext.Consumer>
-                    {(props) =>
+                    {(props) => (
                       <Badge
                         classes={{ badge: classes.customBadge }}
                         style={{ paddingLeft: "35px" }}
@@ -91,7 +91,7 @@ class Header extends Component {
                             : null
                         }
                       />
-                    }
+                    )}
                   </UserContext.Consumer>
 
                   <img
@@ -152,7 +152,11 @@ class Header extends Component {
                 }
               >
                 <Link to={"/"}>
-                  <img src="/images/user.svg" alt="" />
+                  <UserContext.Consumer>
+                    {(props) => {
+                      return <img src={props.user.profile_pic} alt="" />;
+                    }}
+                  </UserContext.Consumer>
                   <span>Me</span>
                   {/* <img src="/images/down-icon.svg" alt="" /> */}
                 </Link>
