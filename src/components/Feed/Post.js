@@ -17,6 +17,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
+import UserContext from "../userContext";
 
 class Post extends Component {
   constructor(props) {
@@ -387,12 +388,11 @@ class Post extends Component {
 
         {this.state.showComment ? (
           <div style={{ display: "flex" }} className="mt-3">
-            {this.state.user.profile_pic ? (
-              <Avatar src={this.state.user.profile_pic} alt="Profile" />
-            ) : (
-              <Avatar src="/images/user.svg" alt="Profile" />
-            )}
-
+            <UserContext.Consumer>
+              {(props) => {
+                return <Avatar src={props.user.profile_pic} alt="Profile" />;
+              }}
+            </UserContext.Consumer>
             <input
               placeholder="Add a comment..."
               value={this.state.comment}
