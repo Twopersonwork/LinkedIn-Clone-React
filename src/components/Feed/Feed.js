@@ -114,6 +114,7 @@ class Feed extends Component {
   }
 
   render() {
+    console.log("tokrn ", this.props.cookies.get("auth-token"));
     return (
       <div className="feed">
         <div className="feed__inputContainer">
