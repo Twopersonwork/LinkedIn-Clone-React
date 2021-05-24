@@ -1,25 +1,35 @@
 import React, { Component } from "react";
-import { Button, TextField } from "@material-ui/core";
-import { Modal } from "react-bootstrap";
+import { TextField } from "@material-ui/core";
+import { Modal, Button } from "react-bootstrap";
 import { withCookies } from "react-cookie";
 import { Autocomplete } from "@material-ui/lab";
+import "./AddSkills.css";
 
 class AddSkills extends Component {
   constructor(props) {
     super(props);
+    this.textField = React.createRef();
 
     this.state = {
       modalShow: true,
       skills: [],
+      placeholder: "Add Skills",
       user: this.props.cookies.get("auth-token").user.id,
     };
   }
 
   handle = (e, v) => {
-    console.log(v);
-    this.setState({
-      skills: v,
-    });
+    this.setState(
+      {
+        skills: v,
+      },
+      function () {
+        console.log(this.state.skills);
+        if (this.state.skills.length > 0) {
+          this.setState({ placeholder: "" });
+        }
+      }
+    );
   };
 
   AddSkill = (e) => {
@@ -61,7 +71,11 @@ class AddSkills extends Component {
           style={{ background: "rgba(0,0,0,0.3)" }}
           className="fade"
         >
-          <Modal.Header closeButton>Add Skills</Modal.Header>
+          <Modal.Header closeButton>
+            <Modal.Title style={{ fontSize: "1.2rem" }}>
+              <span>Add Skills</span>
+            </Modal.Title>
+          </Modal.Header>
           <Modal.Body>
             <Autocomplete
               multiple
@@ -73,15 +87,16 @@ class AddSkills extends Component {
                 <TextField
                   {...params}
                   variant="standard"
-                  label="Skills"
-                  placeholder="Add Skill"
+                  id="list"
+                  ref={this.textField}
+                  placeholder={this.state.placeholder}
                   value={this.state.skills}
                 />
               )}
             />
             <Modal.Footer>
               <Button onClick={this.AddSkill} style={save_button} type="submit">
-                Add
+                <span style={{ fontWeight: "bold" }}>Add</span>
               </Button>
             </Modal.Footer>
           </Modal.Body>
@@ -152,7 +167,7 @@ const skillsName = [
   { skill: "Node" },
   { skill: "Agile" },
   { skill: "Problem Solving" },
-  { skill: "Object Oriendted Programmin" },
+  { skill: "Object Oriendted Programming" },
 ];
 
 export default withCookies(AddSkills);

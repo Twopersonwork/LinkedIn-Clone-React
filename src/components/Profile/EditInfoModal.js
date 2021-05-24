@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Avatar, Button, TextField } from "@material-ui/core";
-import { Modal } from "react-bootstrap";
-import "./EditIntroModal.css";
+import { Avatar, TextField } from "@material-ui/core";
+import { Modal, Button } from "react-bootstrap";
+import "./EditInfoModal.css";
 import { withCookies } from "react-cookie";
+import UserContext from "../userContext";
 
 class EditinfoModal extends Component {
   constructor(props) {
@@ -19,10 +20,12 @@ class EditinfoModal extends Component {
         industry: "",
         location: "",
         user: this.props.cookies.get("auth-token").user.id,
+        profile_pic: "",
+        cover_pic: "",
       },
     };
   }
-  
+
   inputChanged = (event) => {
     console.log(event.target.value);
     let cred = this.state.credentials;
@@ -30,11 +33,11 @@ class EditinfoModal extends Component {
     this.setState({ credentials: cred });
   };
 
-    // for hide the modal
-    onhide = () => {
-      this.setState({ modelShow: false });
-      this.props.onProfileModal(false);
-    };
+  // for hide the modal
+  onhide = () => {
+    this.setState({ modelShow: false });
+    this.props.onProfileModal(false);
+  };
 
   createProfile = (e) => {
     fetch(`${process.env.REACT_APP_API_URL}/profile/user_profile/`, {
@@ -104,6 +107,8 @@ class EditinfoModal extends Component {
             credentials: {
               firstName: resp.user_profile.firstName,
               lastName: resp.user_profile.lastName,
+              profile_pic: resp.profile_pic,
+              cover_pic: resp.cover_pic,
               headLine: resp.user_profile.headLine,
               education: resp.user_profile.education,
               country: resp.user_profile.country,
@@ -136,14 +141,29 @@ class EditinfoModal extends Component {
         centered
         onHide={this.onhide}
       >
-        <Modal.Header closeButton>Edit intro</Modal.Header>
+        <Modal.Header closeButton>
+          <Modal.Title
+            style={{
+              fontSize: "1.2rem",
+            }}
+          >
+            <span>Edit intro</span>
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body className="profile__modal">
-          <img
-            src="https://resi.ze-robot.com/dl/4k/4k-desktop-wallpaper.-1920%C3%971200.jpg"
-            alt="background"
-          />
-          <Avatar src="https://static.hollywoodreporter.com/sites/default/files/2019/03/avatar-publicity_still-h_2019-compressed.jpg"></Avatar>
-          <div style={{ display: "flex  " }}>
+          <UserContext.Consumer>
+            {(props) => {
+              return <img src={props.user.cover_pic} alt="Profile" />;
+            }}
+          </UserContext.Consumer>
+          <UserContext.Consumer>
+            {(props) => {
+              return <Avatar src={props.user.profile_pic} alt="Profile" />;
+            }}
+          </UserContext.Consumer>
+          {/* <img src={this.state.cover_pic} alt="background" />
+          <Avatar src={this.state.profile_pic}></Avatar> */}
+          <div style={{ display: "flex" }}>
             <TextField
               className="mt-3 mb-5 mr-2"
               variant="outlined"
@@ -157,8 +177,9 @@ class EditinfoModal extends Component {
               onChange={this.inputChanged}
               required
             />
+
             <TextField
-              className="mt-3 mb-5 "
+              className="mt-3 mb-5"
               variant="outlined"
               size="small"
               type="text"
@@ -238,7 +259,7 @@ class EditinfoModal extends Component {
               style={save_button}
               type="submit"
             >
-              save
+              <span style={{ fontWeight: "bold" }}>Save</span>
             </Button>
           ) : (
             <Button
@@ -246,7 +267,7 @@ class EditinfoModal extends Component {
               style={save_button}
               type="submit"
             >
-              Save
+              <span style={{ fontWeight: "bold" }}>Save</span>
             </Button>
           )}
         </Modal.Footer>

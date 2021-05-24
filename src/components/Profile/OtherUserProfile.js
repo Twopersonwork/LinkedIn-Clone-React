@@ -6,6 +6,7 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { withCookies } from "react-cookie";
 import ShowFollowers from "./ShowFollowers";
 import ContactInfo from "./ContactInfo";
+import { trackPromise } from "react-promise-tracker";
 
 class OtherUserProfile extends Component {
   constructor(props) {
@@ -68,20 +69,21 @@ class OtherUserProfile extends Component {
   };
 
   componentDidMount() {
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${this.props.location.state}/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        this.setState({ user: resp });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${this.props.location.state}/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          this.setState({ user: resp });
+        })
+    ).catch((error) => console.log(error));
   }
 
   render() {
@@ -90,36 +92,41 @@ class OtherUserProfile extends Component {
         <div className="profile__top">
           <img src={this.state.user.cover_pic} alt="background" />
 
-          {this.state.user.profile_pic ? (
-            <Avatar
-              className="img_wrp"
-              src={this.state.user.profile_pic}
-              alt="Profile"
-            />
-          ) : (
-            <Avatar
-              className="post__image img_wrp"
-              src="/images/user.svg"
-              alt="Profile"
-            />
-          )}
+          <Avatar
+            className="img_wrp"
+            src={this.state.user.profile_pic}
+            alt="Profile"
+          />
 
           <div className="profile__stats" style={{ marginTop: "-10px" }}>
             <div className="profile__stat">
-              <h4>
-                {this.state.user.user_profile
-                  ? this.state.user.user_profile.firstName
-                    ? this.state.user.user_profile.firstName +
-                      " " +
-                      this.state.user.user_profile.lastName
-                    : this.state.user.username
-                  : this.state.user.username}
-              </h4>
+              <span style={{ fontWeight: "bold", fontSize: "100%" }}>
+                {" "}
+                <h4>
+                  {this.state.user.user_profile ? (
+                    this.state.user.user_profile.firstName ? (
+                      <span style={{ fontWeight: "bold", fontSize: "100%" }}>
+                        {this.state.user.user_profile.firstName +
+                          " " +
+                          this.state.user.user_profile.lastName}
+                      </span>
+                    ) : (
+                      <span style={{ fontWeight: "bold", fontSize: "100%" }}>
+                        {this.state.user.username}
+                      </span>
+                    )
+                  ) : (
+                    <span style={{ fontWeight: "bold", fontSize: "100%" }}>
+                      {this.state.user.username}
+                    </span>
+                  )}
+                </h4>
+              </span>
             </div>
             {this.state.user.user_profile ? (
               this.state.user.user_profile.headLine ? (
                 <Typography className="profile__stat">
-                  {this.state.user.user_profile.headLine}
+                  <span>{this.state.user.user_profile.headLine}</span>
                 </Typography>
               ) : null
             ) : null}
@@ -128,17 +135,26 @@ class OtherUserProfile extends Component {
               {this.state.user.user_profile ? (
                 this.state.user.user_profile.location ? (
                   <React.Fragment>
-                    {this.state.user.user_profile.location}
-                    {", "}
-                    {this.state.user.user_profile.country
-                      ? this.state.user.user_profile.country
-                      : null}
+                    <span className="text-muted" style={{ fontSize: "16px" }}>
+                      {this.state.user.user_profile.location}
+                      {", "}
+                    </span>
+                    {this.state.user.user_profile.country ? (
+                      <span className="text-muted" style={{ fontSize: "16px" }}>
+                        {this.state.user.user_profile.country}
+                      </span>
+                    ) : null}
                     <Typography className="profile__stat_connections">
-                      {this.state.user.followers &&
-                      this.state.user.followers.length > 500
-                        ? "500+"
-                        : this.state.user.followers.length}{" "}
-                      Connections
+                      <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                        {this.state.user.followers &&
+                        this.state.user.followers.length > 500
+                          ? "500+"
+                          : this.state.user.followers.length}{" "}
+                        {this.state.user.followers &&
+                        this.state.user.followers.length > 1
+                          ? "Connections"
+                          : "Connection"}
+                      </span>
                     </Typography>
                   </React.Fragment>
                 ) : (
@@ -146,22 +162,43 @@ class OtherUserProfile extends Component {
                     className="profile__stat_connections"
                     style={{ marginLeft: "-20px" }}
                   >
-                    {this.state.user.followers &&
-                    this.state.user.followers.length > 500
-                      ? "500+"
-                      : this.state.user.followers.length}{" "}
+                    <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                      {this.state.user.followers &&
+                      this.state.user.followers.length > 500
+                        ? "500+"
+                        : this.state.user.followers.length}{" "}
+                      {this.state.user.followers &&
+                      this.state.user.followers.length > 1
+                        ? "Connections"
+                        : "Connection"}
+                    </span>
                   </Typography>
                 )
               ) : null}
             </Typography>
 
             <Link className="profile__stat_connections mt-2">
-              <span onClick={() => this.setState({ showContactInfo: true })}>
+              <span
+                style={{ fontWeight: "bold", fontSize: "16px" }}
+                onClick={() => this.setState({ showContactInfo: true })}
+              >
                 Contact info
               </span>
             </Link>
             {this.state.showContactInfo ? (
-              <ContactInfo user={this.state.user} onContactChange={(e) => this.setState({showContactInfo:e})} />
+              this.state.user.user_profile ? (
+                <ContactInfo
+                  user={this.state.user.user_profile}
+                  email={this.state.user.email}
+                  onContactChange={(e) => this.setState({ showContactInfo: e })}
+                />
+              ) : (
+                <ContactInfo
+                  user={this.state.user}
+                  email={this.state.user.email}
+                  onContactChange={(e) => this.setState({ showContactInfo: e })}
+                />
+              )
             ) : null}
           </div>
         </div>
@@ -191,7 +228,10 @@ class OtherUserProfile extends Component {
               onClick={() => this.setState({ showFollowers: true })}
             >
               {this.state.user.followers ? this.state.user.followers.length : 0}{" "}
-              followers
+              {this.state.user.followers &&
+              this.state.user.followers.length == 1
+                ? "follower"
+                : "followers"}
             </span>
           </div>
           {this.state.showFollowers ? (
@@ -217,9 +257,14 @@ class OtherUserProfile extends Component {
             >
               <Button
                 className="mt-3"
-                style={{ width: "100%", marginBottom: "-9px" }}
+                style={{
+                  width: "100%",
+                  marginBottom: "-9px",
+                  color: "rgb(95, 95, 95)",
+                  textTransform: "none",
+                }}
               >
-                See all Activity
+                <span style={{ fontWeight: "bold" }}>See all Activity</span>
               </Button>
             </Link>
           </div>
@@ -237,7 +282,13 @@ class OtherUserProfile extends Component {
               : this.getRenderEducation().map((education) => (
                   <div>
                     <div className="profile__education_header d-flex justify-content-between">
-                      <span style={{ fontWeight: "bold", fontSize: "25px" }}>
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: "25px",
+                          textTransform: "uppercase",
+                        }}
+                      >
                         {education.school}
                       </span>
                     </div>
@@ -260,7 +311,27 @@ class OtherUserProfile extends Component {
             {this.state.user.user_education &&
             this.state.user.user_education.length > 2 ? (
               <Button style={{ width: "100%" }} onClick={this.toggleEducation}>
-                {this.state.showMoreEducation ? "Show Less" : "Show More"}
+                {this.state.showMoreEducation ? (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      color: "rgb(95, 95, 95)",
+                    }}
+                  >
+                    Show Less
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      color: "rgb(95, 95, 95)",
+                    }}
+                  >
+                    Show More
+                  </span>
+                )}
                 {this.state.showMoreEducation ? (
                   <FiChevronUp className="ml-2" />
                 ) : (
@@ -284,7 +355,7 @@ class OtherUserProfile extends Component {
               : this.getRenderLicense().map((license) => (
                   <div>
                     <div className="profile__education_header d-flex justify-content-between">
-                      <span style={{ fontWeight: "bold", fontSize: "25px" }}>
+                      <span style={{ fontWeight: "bold", fontSize: "20px" }}>
                         {license.name}
                       </span>
                     </div>
@@ -312,7 +383,27 @@ class OtherUserProfile extends Component {
             {this.state.user.user_license &&
             this.state.user.user_license.length > 2 ? (
               <Button style={{ width: "100%" }} onClick={this.toggleLicense}>
-                {this.state.showMoreLicense ? "Show Less" : "Show More"}
+                {this.state.showMoreLicense ? (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      color: "rgb(95, 95, 95)",
+                    }}
+                  >
+                    Show Less
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      color: "rgb(95, 95, 95)",
+                    }}
+                  >
+                    Show More
+                  </span>
+                )}
                 {this.state.showMoreLicense ? (
                   <FiChevronUp className="ml-2" />
                 ) : (
@@ -331,22 +422,47 @@ class OtherUserProfile extends Component {
             </span>
           </div>
 
-          {this.getRenderSkills() === null
+          {this.getRenderSkills() == null
             ? null
             : this.getRenderSkills().map((skill) => (
-                <div>
-                  <div className="profile__skills_header d-flex justify-content-between">
-                    <span style={{ fontSize: "25px", fontWeight: "500" }}>
-                      {skill.skill}
-                    </span>
-                  </div>
+                <div className="profile__skills_name">
+                  <span
+                    className="profile__skills_content"
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {skill.skill}
+                  </span>
+                  <hr />
                 </div>
               ))}
 
           {this.state.user.user_skills &&
           this.state.user.user_skills.length > 2 ? (
             <Button style={{ width: "100%" }} onClick={this.toggleSkill}>
-              {this.state.showMoreSkill ? "Show Less" : "Show More"}
+              {this.state.showMoreSkill ? (
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    textTransform: "none",
+                    color: "rgb(95, 95, 95)",
+                  }}
+                >
+                  Show Less
+                </span>
+              ) : (
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    textTransform: "none",
+                    color: "rgb(95, 95, 95)",
+                  }}
+                >
+                  Show More
+                </span>
+              )}
               {this.state.showMoreSkill ? (
                 <FiChevronUp className="ml-2" />
               ) : (

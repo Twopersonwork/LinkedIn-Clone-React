@@ -37,7 +37,7 @@ class Comments extends Component {
   };
 
   fetchUser = (id) => {
-    fetch(`http://127.0.0.1:8000/uapi/users/${id}/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/uapi/users/${id}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

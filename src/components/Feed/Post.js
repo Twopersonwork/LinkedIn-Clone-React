@@ -17,6 +17,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
+import UserContext from "../userContext";
 
 class Post extends Component {
   constructor(props) {
@@ -88,16 +89,19 @@ class Post extends Component {
   };
   submitComment = () => {
     this.setState({ has_commented: false });
-    fetch(`http://127.0.0.1:8000/papi/posts/${this.props.post.id}/comment/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-      },
-      body: JSON.stringify({
-        comment: this.state.comment,
-      }),
-    })
+    fetch(
+      `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/comment/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+        body: JSON.stringify({
+          comment: this.state.comment,
+        }),
+      }
+    )
       .then((resp) => resp.json())
       .then((resp) => {
         if (resp.result) {
@@ -113,7 +117,7 @@ class Post extends Component {
   submitLike = () => {
     if (!this.state.has_liked) {
       fetch(
-        `http://127.0.0.1:8000/papi/posts/${this.props.post.id}/likePost/`,
+        `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/likePost/`,
         {
           method: "POST",
           headers: {
@@ -135,7 +139,7 @@ class Post extends Component {
         .catch((errors) => console.log(errors));
     } else {
       fetch(
-        `http://127.0.0.1:8000/papi/posts/${this.props.post.id}/dislikePost/`,
+        `${process.env.REACT_APP_API_URL}/papi/posts/${this.props.post.id}/dislikePost/`,
         {
           method: "DELETE",
           headers: {
@@ -154,7 +158,7 @@ class Post extends Component {
   };
 
   fetchUser = (id) => {
-    fetch(`http://127.0.0.1:8000/uapi/users/${id}/`, {
+    fetch(`${process.env.REACT_APP_API_URL}/uapi/users/${id}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -227,9 +231,23 @@ class Post extends Component {
           )}
 
           <div className="post__info">
-            <span style={{ fontWeight: "bold" }}>
-              {this.state.user.username}
-            </span>
+            {this.state.user.id ==
+            this.props.cookies.get("auth-token").user.id ? (
+              <Link to={{ pathname: "profile" }} style={{ color: "black" }}>
+                <span style={{ fontWeight: "bold" }}>
+                  {this.state.user.username}
+                </span>
+              </Link>
+            ) : (
+              <Link
+                to={{ pathname: "user_profile", state: this.state.user.id }}
+                style={{ color: "black" }}
+              >
+                <span style={{ fontWeight: "bold" }}>
+                  {this.state.user.username}
+                </span>
+              </Link>
+            )}
             <br />
             <span className="text-muted" style={{ fontSize: "17px" }}>
               {this.state.user.firstName}
@@ -238,10 +256,13 @@ class Post extends Component {
               {this.state.user.lastName}
             </span>
           </div>
-          <MoreHorizIcon
-            style={{ marginLeft: "auto", color: "gray" }}
-            onClick={(e) => this.moreOptions(e)}
-          />
+          {this.state.user.id ==
+          this.props.cookies.get("auth-token").user.id ? (
+            <MoreHorizIcon
+              style={{ marginLeft: "auto", color: "gray" }}
+              onClick={(e) => this.moreOptions(e)}
+            />
+          ) : null}
           <Menu
             style={{ borderRadius: "50%" }}
             id="simple-menu"
@@ -367,12 +388,11 @@ class Post extends Component {
 
         {this.state.showComment ? (
           <div style={{ display: "flex" }} className="mt-3">
-            {this.state.user.profile_pic ? (
-              <Avatar src={this.state.user.profile_pic} alt="Profile" />
-            ) : (
-              <Avatar src="/images/user.svg" alt="Profile" />
-            )}
-
+            <UserContext.Consumer>
+              {(props) => {
+                return <Avatar src={props.user.profile_pic} alt="Profile" />;
+              }}
+            </UserContext.Consumer>
             <input
               placeholder="Add a comment..."
               value={this.state.comment}

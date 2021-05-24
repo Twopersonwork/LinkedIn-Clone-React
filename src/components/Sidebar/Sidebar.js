@@ -3,7 +3,7 @@ import { FaHashtag } from "react-icons/fa";
 import "./Sidebar.css";
 import { withCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-
+import UserContext from "../userContext";
 import React, { Component } from "react";
 
 class Sidebar extends Component {
@@ -12,27 +12,8 @@ class Sidebar extends Component {
 
     this.state = {
       profile_pic: "",
+      cover_pic: "",
     };
-  }
-
-  componentDidMount() {
-    // console.log(this.props.cookies.get("username"));
-    fetch(
-      `http://127.0.0.1:8000/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        this.setState({ profile_pic: resp.profile_pic });
-      })
-      .catch((error) => console.log(error));
   }
 
   recentItem = (topic) => (
@@ -46,19 +27,21 @@ class Sidebar extends Component {
     return (
       <div className="sidebar">
         <div className="sidebar__top">
-          <img
-            src="https://resi.ze-robot.com/dl/4k/4k-desktop-wallpaper.-1920%C3%971200.jpg"
-            alt="background"
-          />
-          {this.state.profile_pic ? (
-            <Avatar src={this.state.profile_pic} alt="Profile" />
-          ) : (
-            <Avatar
-              className="post__image"
-              src="/images/user.svg"
-              alt="Profile"
-            />
-          )}
+          <UserContext.Consumer>
+            {(props) => {
+              return <img src={props.user.cover_pic} alt="background" />;
+            }}
+          </UserContext.Consumer>
+          <UserContext.Consumer>
+            {(props) => {
+              return (
+                <Avatar
+                  src={props.user.profile_pic}
+                  className="sidebar__avatar"
+                ></Avatar>
+              );
+            }}
+          </UserContext.Consumer>
           <Link to={"/profile"}>
             <span style={{ fontWeight: "bold" }}>
               {this.props.cookies.get("auth-token").user.username}

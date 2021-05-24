@@ -35,7 +35,7 @@ export class AddProfilePic extends Component {
         this.state.profile_picAsFile.name
       );
     }
-    console.log(this.props.cookies.get("auth-token").token);
+    console.log(this.state.profile_picAsFile);
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
@@ -79,6 +79,7 @@ export class AddProfilePic extends Component {
   };
 
   render() {
+    console.log(this.state.modalShow);
     return (
       <div className="p-auto">
         <Modal

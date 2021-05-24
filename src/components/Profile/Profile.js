@@ -17,6 +17,7 @@ import CameraAltSharpIcon from "@material-ui/icons/CameraAltSharp";
 import AddCoverPic from "./AddCoverPic";
 import ShowFollowers from "./ShowFollowers";
 import ContactInfo from "./ContactInfo";
+import { trackPromise } from "react-promise-tracker";
 
 class Profile extends Component {
   constructor(props) {
@@ -135,6 +136,8 @@ class Profile extends Component {
       skillsModalShow: false,
 
       EditSkillsModalShow: false,
+      createPost: false,
+      showFollowers: false,
     });
   };
 
@@ -148,6 +151,20 @@ class Profile extends Component {
       licenseModalShow: false,
       skillsModalShow: false,
       EditSkillsModalShow: false,
+      createPost: false,
+      showFollowers: false,
+    });
+  };
+  onShowFollower = (e) => {
+    this.setState({
+      showFollowers: e,
+      aboutModalShow: false,
+      profileModalShow: false,
+      educationModalShow: false,
+      licenseModalShow: false,
+      skillsModalShow: false,
+      EditSkillsModalShow: false,
+      createPost: false,
     });
   };
 
@@ -161,6 +178,8 @@ class Profile extends Component {
       licenseModalShow: false,
       skillsModalShow: false,
       EditSkillsModalShow: false,
+      createPost: false,
+      showFollowers: false,
     });
 
     // when user create education this becomes true
@@ -177,6 +196,8 @@ class Profile extends Component {
       profileModalShow: false,
       skillsModalShow: false,
       EditSkillsModalShow: false,
+      createPost: false,
+      showFollowers: false,
     });
 
     // when user create license this becomes true
@@ -192,6 +213,8 @@ class Profile extends Component {
       licenseModalShow: false,
       profileModalShow: false,
       EditSkillsModalShow: false,
+      createPost: false,
+      showFollowers: false,
     });
   };
 
@@ -204,144 +227,164 @@ class Profile extends Component {
       licenseModalShow: false,
       profileModalShow: false,
       skillsModalShow: false,
+      createPost: false,
+      showFollowers: false,
     });
   };
   // for update the user credentials.
   updateProfile = () => {
     // console.log("This is update profiel");
-    fetch(
-      `${
-        process.env.REACT_APP_API_URL
-      }/profile/user_profile/${this.props.cookies.get("profile-id")}/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        this.setState({ profileCredentials: resp });
-        this.setState({ profileModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${
+          process.env.REACT_APP_API_URL
+        }/profile/user_profile/${this.props.cookies.get("profile-id")}/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          this.setState({ profileCredentials: resp });
+          this.setState({ profileModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   // for get the user followers
   getUserFollowers = () => {
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/follow/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        // console.log(resp)
-        this.setState({ no_of_followers: resp.followers.length });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/follow/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          // console.log(resp)
+          this.setState({ no_of_followers: resp.followers.length });
+        })
+    ).catch((error) => console.log(error));
   };
 
   // for update the about
   updateAbout = () => {
     // console.log("This is about.");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/profile/about/${this.props.cookies.get(
-        "about-id"
-      )}/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        this.setState({ AboutCredentials: resp });
-        this.setState({ aboutModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${
+          process.env.REACT_APP_API_URL
+        }/profile/about/${this.props.cookies.get("about-id")}/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          this.setState({ AboutCredentials: resp });
+          this.setState({ aboutModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   // for update the education
   updateEducation = () => {
     // console.log("This is Education.");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        console.log(resp.user_education);
-        this.setState({ EducationCredentials: resp.user_education });
-        this.setState({ educationModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp.user_education);
+          this.setState({ EducationCredentials: resp.user_education });
+          this.setState({ educationModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   updateLicense = () => {
     // console.log("This is License.");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        console.log(resp.user_license);
-        this.setState({ LicenseCredentials: resp.user_license });
-        this.setState({ licenseModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp.user_license);
+          this.setState({ LicenseCredentials: resp.user_license });
+          this.setState({ licenseModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   updateSkills = () => {
     // console.log("this is updateskill");
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        // console.log("skill", resp.user_skills);
-        this.setState({ SkillCredentials: resp.user_skills });
-        this.setState({ skillsModalShow: false });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          // console.log("skill", resp.user_skills);
+          this.setState({ SkillCredentials: resp.user_skills });
+          this.setState({ skillsModalShow: false });
+        })
+    ).catch((error) => console.log(error));
   };
 
   componentDidMount = () => {
@@ -358,30 +401,32 @@ class Profile extends Component {
     // for update the skills data
     this.updateSkills();
     console.log("called comp");
-    fetch(
-      `http://127.0.0.1:8000/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        console.log("comp response", resp);
-        this.setState({
-          user: resp,
-          profile_pic: resp.profile_pic,
-          cover_pic: resp.cover_pic,
-        });
-      })
-      .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log("comp response", resp);
+          this.setState({
+            user: resp,
+            profile_pic: resp.profile_pic,
+            cover_pic: resp.cover_pic,
+          });
+        })
+    ).catch((error) => console.log(error));
   };
 
   render() {
+    console.log(this.state.no_of_followers);
     return (
       <div className="profile">
         <div className="profile__top">
@@ -475,9 +520,18 @@ class Profile extends Component {
                     {this.state.profileCredentials.country}
                   </span>
                   <Typography className="profile__stat_connections">
-                    <span style={{ fontWeight: "bold", fontSize: "16px" }}>
-                      {this.state.no_of_followers} Connections
-                    </span>
+                    {this.state.no_of_followers > 1 ? (
+                      <span
+                        onClick={() => this.setState({ showFollowers: true })}
+                        style={{ fontWeight: "bold", fontSize: "16px" }}
+                      >
+                        {this.state.no_of_followers} Connections
+                      </span>
+                    ) : (
+                      <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                        {this.state.no_of_followers} Connection
+                      </span>
+                    )}
                   </Typography>
                 </React.Fragment>
               ) : (
@@ -485,16 +539,24 @@ class Profile extends Component {
                   className="profile__stat_connections"
                   style={{ marginLeft: "-20px" }}
                 >
-                  <span style={{ fontWeight: "bold", fontSize: "16px" }}>
-                    {" "}
-                    {this.state.no_of_followers} Connections
-                  </span>
+                  {this.state.no_of_followers > 1 ? (
+                    <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                      {this.state.no_of_followers} Connections
+                    </span>
+                  ) : (
+                    <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                      {this.state.no_of_followers} Connection
+                    </span>
+                  )}
                 </Typography>
               )}
             </Typography>
 
             <Link className="profile__stat_connections mt-2">
-              <span onClick={() => this.setState({ showContactInfo: true })}>
+              <span
+                style={{ fontWeight: "bold", fontSize: "16px" }}
+                onClick={() => this.setState({ showContactInfo: true })}
+              >
                 Contact info
               </span>
             </Link>
@@ -575,7 +637,11 @@ class Profile extends Component {
           <div className="profile__activity_header d-flex justify-content-between">
             <span style={{ fontSize: "25px" }}>Activity</span>
 
-            <Button size="small" style={start_post} onClick={this.onCreatePost}>
+            <Button
+              size="small"
+              style={start_post}
+              onClick={() => this.setState({ createPost: true })}
+            >
               <span style={{ fontWeight: "bold" }}>Start a post</span>
             </Button>
             {this.state.createPost ? (
@@ -586,14 +652,14 @@ class Profile extends Component {
             <span
               className="profile__activity_followers"
               style={{ marginTop: "-10px", marginBottom: "10px" }}
-              onClick={() => this.setState({ showFollowers: true })}
+              onClick={this.onShowFollower}
             >
               {this.state.no_of_followers} followers
             </span>
             {this.state.showFollowers ? (
               <ShowFollowers
                 followers={this.state.user.followers}
-                onChangeFollowers={(e) => this.setState({ showFollowers: e })}
+                onChangeFollowers={(e) => this.onShowFollower(e)}
               />
             ) : null}
           </div>
@@ -657,7 +723,13 @@ class Profile extends Component {
             {this.getRenderEducation().map((education) => (
               <div>
                 <div className="profile__education_header d-flex justify-content-between">
-                  <span style={{ fontWeight: "bold", fontSize: "25px" }}>
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                      textTransform: "uppercase",
+                    }}
+                  >
                     {education.school}
                   </span>
                   <BiEdit
@@ -689,7 +761,27 @@ class Profile extends Component {
             ))}
             {this.state.EducationCredentials.length > 3 ? (
               <Button style={{ width: "100%" }} onClick={this.toggleEducation}>
-                {this.state.showMoreEducation ? "Show Less" : "Show More"}
+                {this.state.showMoreEducation ? (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      color: "rgb(95, 95, 95)",
+                    }}
+                  >
+                    Show Less
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      color: "rgb(95, 95, 95)",
+                    }}
+                  >
+                    Show More
+                  </span>
+                )}
                 {this.state.showMoreEducation ? (
                   <FiChevronUp className="ml-2" />
                 ) : (
@@ -728,7 +820,7 @@ class Profile extends Component {
             {this.getRenderLicense().map((license) => (
               <div>
                 <div className="profile__education_header d-flex justify-content-between">
-                  <span style={{ fontWeight: "bold", fontSize: "25px" }}>
+                  <span style={{ fontWeight: "bold", fontSize: "20px" }}>
                     {license.name}
                   </span>
                   <BiEdit
@@ -764,7 +856,27 @@ class Profile extends Component {
             ))}
             {this.state.LicenseCredentials.length > 3 ? (
               <Button style={{ width: "100%" }} onClick={this.toggleLicense}>
-                {this.state.showMoreLicense ? "Show Less" : "Show More"}
+                {this.state.showMoreLicense ? (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      color: "rgb(95, 95, 95)",
+                    }}
+                  >
+                    Show Less
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      color: "rgb(95, 95, 95)",
+                    }}
+                  >
+                    Show More
+                  </span>
+                )}
                 {this.state.showMoreLicense ? (
                   <FiChevronUp className="ml-2" />
                 ) : (
@@ -797,10 +909,12 @@ class Profile extends Component {
             >
               <span style={{ fontWeight: "bold" }}> Add a new skill</span>
             </Button>
-            <BiEdit
-              style={{ fontSize: "30px" }}
-              onClick={this.onEditSkillModal}
-            />
+            {this.state.SkillCredentials.length > 0 ? (
+              <BiEdit
+                style={{ fontSize: "30px" }}
+                onClick={this.onEditSkillModal}
+              />
+            ) : null}
             {this.state.skillsModalShow ? (
               <Link
                 component={() => (
@@ -826,17 +940,42 @@ class Profile extends Component {
           </div>
 
           {this.getRenderSkills().map((skill) => (
-            <div>
-              <div className="profile__skills_header d-flex justify-content-between">
-                <span style={{ fontSize: "25px", fontWeight: "500" }}>
-                  {skill.skill}
-                </span>
-              </div>
+            <div className="profile__skills_name">
+              <span
+                className="profile__skills_content"
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+              >
+                {skill.skill}
+              </span>
+              <hr />
             </div>
           ))}
           {this.state.SkillCredentials.length > 3 ? (
             <Button style={{ width: "100%" }} onClick={this.toggleSkill}>
-              {this.state.showMoreSkill ? "Show Less" : "Show More"}
+              {this.state.showMoreSkill ? (
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    textTransform: "none",
+                    color: "rgb(95, 95, 95)",
+                  }}
+                >
+                  Show Less
+                </span>
+              ) : (
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    textTransform: "none",
+                    color: "rgb(95, 95, 95)",
+                  }}
+                >
+                  Show More
+                </span>
+              )}
               {this.state.showMoreSkill ? (
                 <FiChevronUp className="ml-2" />
               ) : (

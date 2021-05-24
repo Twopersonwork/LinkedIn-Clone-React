@@ -89,20 +89,11 @@ export class CreatePost extends Component {
             <Form.Group controlId="exampleForm.ControlTextarea1">
               <Form.Label>
                 <div className="post__header">
-                  {this.props.cookies.get("auth-token").user.profile_pic ? (
-                    <Avatar
-                      src={
-                        this.props.cookies.get("auth-token").user.profile_pic
-                      }
-                      alt="Profile"
-                    />
-                  ) : (
-                    <Avatar
-                      className="post__image"
-                      src="/images/user.svg"
-                      alt="Profile"
-                    />
-                  )}
+                  <Avatar
+                    src={this.props.cookies.get("auth-token").user.profile_pic}
+                    alt="Profile"
+                  />
+
                   <span className="ml-2" style={{ fontWeight: "bold" }}>
                     {this.props.cookies.get("auth-token").user.username}
                   </span>

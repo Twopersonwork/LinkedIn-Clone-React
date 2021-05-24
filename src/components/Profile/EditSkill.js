@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "@material-ui/core";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import { withCookies } from "react-cookie";
 import { BiTrash } from "react-icons/bi";
 
@@ -16,7 +15,7 @@ class EditSkill extends Component {
   }
 
   deleteSkill = (id) => {
-      console.log(id)
+    console.log(id);
     fetch(`${process.env.REACT_APP_API_URL}/profile/skills/${id}/`, {
       method: "DELETE",
       headers: {
@@ -25,7 +24,7 @@ class EditSkill extends Component {
       },
     })
       .then((resp) => {
-          console.log(resp)
+        console.log(resp);
         this.props.updateSkills();
       })
 
@@ -44,12 +43,16 @@ class EditSkill extends Component {
         style={{ background: "rgba(0,0,0,0.3)" }}
         className="fade"
       >
-        <Modal.Header closeButton>Edit Skills</Modal.Header>
+        <Modal.Header closeButton>
+          <Modal.Title style={{ fontSize: "1.2rem" }}>
+            <span>Edit Skills</span>
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body>
           {this.state.credentials.map((cred) => (
             <div>
               <div style={{ display: "flex" }}>
-                <span style={{ fontSize: "28px" }}>{cred.skill}</span>
+                <span style={{ fontSize: "20px" }}>{cred.skill}</span>
                 <BiTrash
                   className="ml-auto mt-2"
                   onClick={() => this.deleteSkill(cred.id)}
@@ -60,8 +63,12 @@ class EditSkill extends Component {
           ))}
         </Modal.Body>
         <Modal.Footer>
-          <Button style={save_button} type="submit" onClick={() => this.setState({modalShow:false})}>
-            Save
+          <Button
+            style={save_button}
+            type="submit"
+            onClick={() => this.setState({ modalShow: false })}
+          >
+            <span style={{ fontWeight: "bold" }}>Save</span>
           </Button>
         </Modal.Footer>
       </Modal>

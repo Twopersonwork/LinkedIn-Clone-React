@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { Modal } from "react-bootstrap";
 import { withCookies } from "react-cookie";
+import "./License.css";
 
 class License extends Component {
   constructor(props) {
@@ -173,7 +174,13 @@ class License extends Component {
         style={{ background: "rgba(0,0,0,0.2)" }}
         className="fade"
       >
-        <Modal.Header closeButton>Edit license or certification</Modal.Header>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <span style={{ fontSize: "1.2rem" }}>
+              Edit license or certification
+            </span>
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body className="profile__modal">
           {/* name */}
           <TextField
@@ -269,17 +276,21 @@ class License extends Component {
               style={save_button}
               type="submit"
             >
-              Save
+              <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                Save
+              </span>
             </Button>
           ) : (
             <React.Fragment>
               <Button
                 onClick={this.deleteModalDisplay}
-                style={save_button}
+                style={delete_button}
                 type="submit"
                 className="mr-auto"
               >
-                Delete
+                <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                  Delete
+                </span>
               </Button>
               <Button
                 onClick={this.editLicense}
@@ -287,15 +298,18 @@ class License extends Component {
                 type="submit"
                 className="ml-auto"
               >
-                save
+                <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                  Save
+                </span>
               </Button>
             </React.Fragment>
           )}
         </Modal.Footer>
         {this.state.deleteModalShow ? (
           <Modal
+            className="mine"
             show={this.state.deleteModalShow}
-            size="small"
+            size="sm"
             aria-labelledby="contained-modal-title-vcenter"
             centered
             onHide={() => this.setState({ deleteModalShow: false })}
@@ -303,30 +317,38 @@ class License extends Component {
             className="fade"
           >
             <Modal.Header closeButton>
-              Delete license or certification
+              <Modal.Title>
+                <span style={{ fontSize: "1.1rem" }}>
+                  Delete license or certification
+                </span>
+              </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
               <span>
                 Are you sure you want to delete {this.state.credentials.name} ?
               </span>
-              <Modal.Footer>
-                <Button
-                  onClick={() => this.setState({ deleteModalShow: false })}
-                  style={save_button}
-                  type="submit"
-                >
-                  No Thanks
-                </Button>
-                <Button
-                  onClick={this.deleteLicense}
-                  style={save_button}
-                  type="submit"
-                >
-                  Delete
-                </Button>
-              </Modal.Footer>
             </Modal.Body>
+            <Modal.Footer>
+              <Button
+                onClick={() => this.setState({ deleteModalShow: false })}
+                style={cancel_button}
+                type="submit"
+              >
+                <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                  No thanks
+                </span>
+              </Button>
+              <Button
+                onClick={this.deleteLicense}
+                style={save_button}
+                type="submit"
+              >
+                <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                  Delete
+                </span>
+              </Button>
+            </Modal.Footer>
           </Modal>
         ) : null}
       </Modal>
@@ -345,6 +367,34 @@ const save_button = {
   background: "#0c66c2",
   color: "white",
   border: "solid 1px #0c66c2",
+  fontSize: "20px",
+};
+
+const delete_button = {
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "10px",
+  marginLeft: "10px",
+  borderRadius: "50px",
+  display: "flex",
+  color: "rgb(95, 95, 95)",
+  border: "solid 1px black",
+  textTransform: "none",
+  fontSize: "20px",
+};
+
+const cancel_button = {
+  // paddingLeft: "20px",
+  // paddingRight: "20px",
+  marginTop: "10px",
+  // marginLeft: "10px",
+  fontWeight: "bold",
+  borderRadius: "50px",
+  display: "flex",
+  background: "white",
+  color: "rgba(0,0,0,0.6)",
+  border: "solid 1px black",
+  fontSize: "20px",
 };
 
 export default withCookies(License);

@@ -20,13 +20,16 @@ export class UserCards extends Component {
     this.setState({ show: false });
   };
   submitFollow = () => {
-    fetch(`http://127.0.0.1:8000/uapi/follow/${this.props.user.id}/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_API_URL}/uapi/follow/${this.props.user.id}/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
       .then((resp) => resp.json())
       .then((resp) => {
         console.log(resp);
@@ -34,13 +37,16 @@ export class UserCards extends Component {
       })
       .catch((error) => console.log(error));
 
-    fetch(`http://127.0.0.1:8000/uapi/waitFollow/${this.props.user.id}/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_API_URL}/uapi/waitFollow/${this.props.user.id}/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
       .then((resp) => resp.json())
       .then((resp) => console.log(resp))
       .catch((error) => console.log(error));

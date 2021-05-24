@@ -34,15 +34,12 @@ class ActivityLeft extends Component {
     return (
       <div className="sidebar">
         <div className="sidebar__top">
-          <img
-            src="https://resi.ze-robot.com/dl/4k/4k-desktop-wallpaper.-1920%C3%971200.jpg"
-            alt="background"
-          />
+          <img src={this.state.user.cover_pic} alt="background" />
           <Avatar
-            src="https://static.hollywoodreporter.com/sites/default/files/2019/03/avatar-publicity_still-h_2019-compressed.jpg"
+            src={this.state.user.profile_pic}
             className="sidebar__avatar"
           ></Avatar>
-          <Link to={{ pathname: "user_profile", state: this.state.user.id }}>
+          <Link to={{ pathname: "profile", state: this.state.user.id }}>
             <span style={{ fontWeight: "bold" }}>
               {this.state.user.username}
             </span>
