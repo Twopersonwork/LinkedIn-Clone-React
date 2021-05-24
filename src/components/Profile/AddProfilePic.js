@@ -79,6 +79,7 @@ export class AddProfilePic extends Component {
   };
 
   render() {
+    console.log(this.state.modalShow);
     return (
       <div className="p-auto">
         <Modal

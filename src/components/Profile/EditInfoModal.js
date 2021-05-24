@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Avatar, Button, TextField } from "@material-ui/core";
-import { Modal } from "react-bootstrap";
-import "./EditIntroModal.css";
+import { Avatar, TextField } from "@material-ui/core";
+import { Modal, Button } from "react-bootstrap";
+import "./EditInfoModal.css";
 import { withCookies } from "react-cookie";
 import UserContext from "../userContext";
 
@@ -141,7 +141,15 @@ class EditinfoModal extends Component {
         centered
         onHide={this.onhide}
       >
-        <Modal.Header closeButton>Edit intro</Modal.Header>
+        <Modal.Header closeButton>
+          <Modal.Title
+            style={{
+              fontSize: "1.2rem",
+            }}
+          >
+            <span>Edit intro</span>
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body className="profile__modal">
           <UserContext.Consumer>
             {(props) => {
@@ -155,7 +163,7 @@ class EditinfoModal extends Component {
           </UserContext.Consumer>
           {/* <img src={this.state.cover_pic} alt="background" />
           <Avatar src={this.state.profile_pic}></Avatar> */}
-          <div style={{ display: "flex  " }}>
+          <div style={{ display: "flex" }}>
             <TextField
               className="mt-3 mb-5 mr-2"
               variant="outlined"
@@ -169,8 +177,9 @@ class EditinfoModal extends Component {
               onChange={this.inputChanged}
               required
             />
+
             <TextField
-              className="mt-3 mb-5 "
+              className="mt-3 mb-5"
               variant="outlined"
               size="small"
               type="text"
@@ -250,7 +259,7 @@ class EditinfoModal extends Component {
               style={save_button}
               type="submit"
             >
-              save
+              <span style={{ fontWeight: "bold" }}>Save</span>
             </Button>
           ) : (
             <Button
@@ -258,7 +267,7 @@ class EditinfoModal extends Component {
               style={save_button}
               type="submit"
             >
-              Save
+              <span style={{ fontWeight: "bold" }}>Save</span>
             </Button>
           )}
         </Modal.Footer>

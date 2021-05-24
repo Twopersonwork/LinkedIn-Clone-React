@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./Login.css";
 import { Container, Row } from "react-bootstrap";
-import { Typography, Button, Card, TextField } from "@material-ui/core";
+import { Typography, Card, TextField } from "@material-ui/core";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { withCookies } from "react-cookie";
 import { trackPromise } from "react-promise-tracker";
@@ -57,6 +58,7 @@ class Login extends Component {
             if (resp.user.user_license) {
               this.props.cookies.set("license-id", resp.user.user_license.id);
             }
+            window.location.reload();
             window.location.href = "/";
           } else if (resp.user_not_found) {
             this.setState({ emailError: resp.user_not_found });
@@ -130,6 +132,7 @@ class Login extends Component {
               <Link to={"/forget_password"}>
                 <span style={{ color: "#0c66c2" }}>Forget password ?</span>
               </Link>
+
               <Button
                 type="submit"
                 variant="contained"
@@ -142,7 +145,7 @@ class Login extends Component {
                   marginTop: "10px",
                 }}
               >
-                Sign In
+                <span>Sign In</span>
               </Button>
             </form>
           </Card>

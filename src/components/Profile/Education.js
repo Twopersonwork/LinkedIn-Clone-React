@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import { Modal } from "react-bootstrap";
 import { withCookies } from "react-cookie";
+import "./Education.css";
 
 class Education extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Education extends Component {
       },
     };
   }
-  
+
   inputChanged = (event) => {
     console.log(event.target.value);
     let cred = this.state.credentials;
@@ -155,7 +156,11 @@ class Education extends Component {
         centered
         onHide={this.onhide}
       >
-        <Modal.Header closeButton>Edit Education</Modal.Header>
+        <Modal.Header closeButton>
+          <Modal.Title style={{ fontSize: "1.2rem" }}>
+            <span>Edit Education</span>
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body className="profile__modal">
           {/* School */}
           <TextField
@@ -242,17 +247,19 @@ class Education extends Component {
               style={save_button}
               type="submit"
             >
-              Save
+              <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                Save
+              </span>
             </Button>
           ) : (
             <React.Fragment>
               <Button
                 onClick={this.deleteModalDisplay}
-                style={save_button}
+                style={delete_button}
                 type="submit"
                 className="mr-auto"
               >
-                Delete
+                <span style={{ fontWeight: "bold" }}>Delete</span>
               </Button>
               <Button
                 onClick={this.editEducation}
@@ -260,7 +267,9 @@ class Education extends Component {
                 type="submit"
                 className="ml-auto"
               >
-                save
+                <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                  Save
+                </span>
               </Button>
             </React.Fragment>
           )}
@@ -269,37 +278,42 @@ class Education extends Component {
         {this.state.deleteModalShow ? (
           <Modal
             show={this.state.deleteModalShow}
-            size="small"
+            size="sm"
             aria-labelledby="contained-modal-title-vcenter"
             centered
             onHide={() => this.setState({ deleteModalShow: false })}
             style={{ background: "rgba(0,0,0,0.3)" }}
             className="fade"
           >
-            <Modal.Header closeButton>Delete Education</Modal.Header>
+            <Modal.Header closeButton>
+              <Modal.Title style={{ fontSize: "1.2rem" }}>
+                <span>Delete?</span>
+              </Modal.Title>
+            </Modal.Header>
 
             <Modal.Body>
-              <span>
-                Are you sure you want to delete {this.state.credentials.school}{" "}
-                ?
-              </span>
-              <Modal.Footer>
-                <Button
-                  onClick={() => this.setState({ deleteModalShow: false })}
-                  style={save_button}
-                  type="submit"
-                >
-                  No Thanks
-                </Button>
-                <Button
-                  onClick={this.deleteEducation}
-                  style={save_button}
-                  type="submit"
-                >
-                  Delete
-                </Button>
-              </Modal.Footer>
+              <span>Are you sure you want to delete this education?</span>
             </Modal.Body>
+            <Modal.Footer>
+              <Button
+                onClick={() => this.setState({ deleteModalShow: false })}
+                style={cancel_button}
+                type="submit"
+              >
+                <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                  Cancel
+                </span>
+              </Button>
+              <Button
+                onClick={this.deleteEducation}
+                style={save_button}
+                type="submit"
+              >
+                <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                  Delete
+                </span>
+              </Button>
+            </Modal.Footer>
           </Modal>
         ) : null}
       </Modal>
@@ -320,4 +334,29 @@ const save_button = {
   border: "solid 1px #0c66c2",
 };
 
+const delete_button = {
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "10px",
+  marginLeft: "10px",
+  borderRadius: "50px",
+  display: "flex",
+  color: "rgb(95, 95, 95)",
+  border: "solid 1px black",
+  textTransform: "none",
+};
+
+const cancel_button = {
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  marginTop: "10px",
+  marginLeft: "10px",
+  fontWeight: "bold",
+  borderRadius: "50px",
+  display: "flex",
+  background: "white",
+  color: "rgba(0,0,0,0.6)",
+  border: "solid 1px black",
+  fontSize: "16px",
+};
 export default withCookies(Education);

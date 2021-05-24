@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Button, TextareaAutosize } from "@material-ui/core";
-import { Modal } from "react-bootstrap";
+import { TextareaAutosize } from "@material-ui/core";
+import { Modal, Button } from "react-bootstrap";
 import { withCookies } from "react-cookie";
+import "./About.css";
 
 class About extends Component {
   constructor(props) {
@@ -116,9 +117,14 @@ class About extends Component {
         centered
         onHide={this.onhide}
       >
-        <Modal.Header closeButton>Edit About</Modal.Header>
+        <Modal.Header closeButton>
+          <Modal.Title style={{ fontSize: "1.2rem" }}>
+            <span>Edit About</span>
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body className="profile__modal">
           {/* About */}
+
           <TextareaAutosize
             rowsMax={4}
             rowsMin={4}
@@ -138,7 +144,7 @@ class About extends Component {
         <Modal.Footer>
           {this.props.cookies.get("about-id") ? (
             <Button onClick={this.editAbout} style={save_button} type="submit">
-              save
+              <span style={{ fontWeight: "bold" }}>Save</span>
             </Button>
           ) : (
             <Button
@@ -146,7 +152,7 @@ class About extends Component {
               style={save_button}
               type="submit"
             >
-              Save
+              <span style={{ fontWeight: "bold" }}>Save</span>
             </Button>
           )}
         </Modal.Footer>

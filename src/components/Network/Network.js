@@ -4,6 +4,7 @@ import { withCookies } from "react-cookie";
 import "./Network.css";
 import UserList from "./UserList";
 import { Alert } from "react-bootstrap";
+import { trackPromise } from "react-promise-tracker";
 
 export class Network extends Component {
   constructor(props) {
@@ -64,50 +65,53 @@ export class Network extends Component {
 
   getWaitFollowers = () => {
     this.setState({ waitFollowers: [] });
-    fetch(
-      `${process.env.REACT_APP_API_URL}/uapi/users/${
-        this.props.cookies.get("auth-token").user.id
-      }/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        this.setState({ user: resp }, function () {
-          // console.log(this.state.waitFollowers);
-          if (this.state.user.waitFollowers.length > 0) {
-            for (var i = 0; i < this.state.user.waitFollowers.length; i++) {
-              fetch(
-                `${process.env.REACT_APP_API_URL}/uapi/userDetail/${this.state.user.waitFollowers[i].user_id}/`,
-                {
-                  method: "GET",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Token ${
-                      this.props.cookies.get("auth-token").token
-                    }`,
-                  },
-                }
-              )
-                .then((resp) => resp.json())
-                .then((resp) => {
-                  console.log(resp);
-                  var joined = this.state.waitFollowers.concat([resp]);
-                  this.setState({ waitFollowers: joined });
-                })
-                .catch((error) => console.log(error));
+    trackPromise(
+      fetch(
+        `${process.env.REACT_APP_API_URL}/uapi/users/${
+          this.props.cookies.get("auth-token").user.id
+        }/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${
+              this.props.cookies.get("auth-token").token
+            }`,
+          },
+        }
+      )
+        .then((resp) => resp.json())
+        .then((resp) => {
+          this.setState({ user: resp }, function () {
+            // console.log(this.state.waitFollowers);
+            if (this.state.user.waitFollowers.length > 0) {
+              for (var i = 0; i < this.state.user.waitFollowers.length; i++) {
+                fetch(
+                  `${process.env.REACT_APP_API_URL}/uapi/userDetail/${this.state.user.waitFollowers[i].user_id}/`,
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Token ${
+                        this.props.cookies.get("auth-token").token
+                      }`,
+                    },
+                  }
+                )
+                  .then((resp) => resp.json())
+                  .then((resp) => {
+                    console.log(resp);
+                    var joined = this.state.waitFollowers.concat([resp]);
+                    this.setState({ waitFollowers: joined });
+                  })
+                  .catch((error) => console.log(error));
+              }
+            } else {
+              this.setState({ waitFollowers: [] });
             }
-          } else {
-            this.setState({ waitFollowers: [] });
-          }
-        });
-      })
-      .catch((error) => console.log(error));
+          });
+        })
+    ).catch((error) => console.log(error));
   };
 
   componentDidMount() {
