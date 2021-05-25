@@ -18,6 +18,7 @@ import AddCoverPic from "./AddCoverPic";
 import ShowFollowers from "./ShowFollowers";
 import ContactInfo from "./ContactInfo";
 import { trackPromise } from "react-promise-tracker";
+import UserContext from "../userContext";
 
 class Profile extends Component {
   constructor(props) {
@@ -219,7 +220,7 @@ class Profile extends Component {
   };
 
   onEditSkillModal = () => {
-    console.log("ll");
+    // console.log("ll");
     this.setState({
       EditSkillsModalShow: true,
       aboutModalShow: false,
@@ -328,7 +329,7 @@ class Profile extends Component {
       )
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log(resp.user_education);
+          // console.log(resp.user_education);
           this.setState({ EducationCredentials: resp.user_education });
           this.setState({ educationModalShow: false });
         })
@@ -354,7 +355,7 @@ class Profile extends Component {
       )
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log(resp.user_license);
+          // console.log(resp.user_license);
           this.setState({ LicenseCredentials: resp.user_license });
           this.setState({ licenseModalShow: false });
         })
@@ -400,7 +401,6 @@ class Profile extends Component {
     this.updateLicense();
     // for update the skills data
     this.updateSkills();
-    console.log("called comp");
     trackPromise(
       fetch(
         `${process.env.REACT_APP_API_URL}/uapi/users/${
@@ -415,7 +415,7 @@ class Profile extends Component {
       )
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log("comp response", resp);
+          // console.log("comp response", resp);
           this.setState({
             user: resp,
             profile_pic: resp.profile_pic,
@@ -426,7 +426,7 @@ class Profile extends Component {
   };
 
   render() {
-    console.log(this.state.no_of_followers);
+    // console.log(this.state.no_of_followers);
     return (
       <div className="profile">
         <div className="profile__top">
@@ -561,10 +561,35 @@ class Profile extends Component {
               </span>
             </Link>
             {this.state.showContactInfo ? (
-              <ContactInfo
-                user={this.state.user}
-                onContactChange={(e) => this.setState({ showContactInfo: e })}
-              />
+              this.state.profileCredentials ? (
+                <UserContext.Consumer>
+                  {(props) => {
+                    return (
+                      <ContactInfo
+                        user={this.state.profileCredentials}
+                        email={props.user.email}
+                        onContactChange={(e) =>
+                          this.setState({ showContactInfo: e })
+                        }
+                      />
+                    );
+                  }}
+                </UserContext.Consumer>
+              ) : (
+                <UserContext.Consumer>
+                  {(props) => {
+                    return (
+                      <ContactInfo
+                        user={props.user}
+                        email={props.user.email}
+                        onContactChange={(e) =>
+                          this.setState({ showContactInfo: e })
+                        }
+                      />
+                    );
+                  }}
+                </UserContext.Consumer>
+              )
             ) : null}
 
             <div className="profile__stat">

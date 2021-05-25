@@ -1,7 +1,9 @@
+/* Network Main */
 .network {
-  flex: 0.5;
+  flex: 0.71;
   margin: 45px 20px;
   width: 100%;
+  margin-left: 20px;
 }
 
 .network__inputContainer {
@@ -19,4 +21,88 @@
   border-radius: 10px;
   max-height: 100%;
   margin-bottom: -10px;
+}
+
+
+/* Network Left */
+.network_left {
+  position: sticky;
+  top: 80px;
+  flex: 0.2;
+  border-radius: 10px;
+  text-align: center;
+  height: fit-content;
+  margin-top: 45px;
+}
+
+.network_left__avatar {
+  margin-bottom: 10px;
+}
+
+.network_left__top > h2 {
+  font-size: 14px;
+}
+
+.network_left__top > h4 {
+  color: gray;
+  font-size: 12px;
+}
+
+.network_left__top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: white;
+  padding-bottom: 10px;
+}
+.network_left__top > img {
+  margin-bottom: -35px;
+  width: 100%;
+  height: 60px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover;
+}
+
+.network_left__top > .MuiAvatar-colorDefault {
+  background-color: #70b5f9;
+  width: 70px;
+  height: 70px;
+  border: 2px solid rgb(255, 255, 255);
+}
+
+.network_left__top > .MuiAvatar-root {
+  width: 70px;
+  height: 70px;
+  border: 2px solid rgb(255, 255, 255);
+}
+
+.network_left__stat {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.network_left__stat > p {
+  color: gray;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.network_left__stats {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid lightgray;
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.network_left__statNumber {
+  font-weight: bold;
+  color: #0a66c2 !important;
 }

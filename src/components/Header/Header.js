@@ -7,10 +7,11 @@ import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import UserContext from "../userContext";
 
+
 const styles = (theme) => ({
   customBadge: {
-    color: "white",
     backgroundColor: "rgb(205, 64, 30)",
+    color: "rgb(205, 64, 30)",
   },
 });
 
@@ -30,6 +31,8 @@ class Header extends Component {
     this.props.cookies.remove("profile");
     this.props.cookies.remove("profile-id");
     this.props.cookies.remove("about-id");
+    this.props.cookies.remove("education-id");
+    this.props.cookies.remove("license-id");
   };
 
   thisClicked = () => {
@@ -110,13 +113,16 @@ class Header extends Component {
                     {(props) => (
                       <Badge
                         classes={{ badge: classes.customBadge }}
-                        style={{ paddingLeft: "35px" }}
+                        // color="error"
+                        style={{ paddingLeft: "35px", color: "white" }}
                         badgeContent={
                           props.user.waitFollowers
                             ? props.user.waitFollowers.length
                             : null
                         }
-                      />
+                      >
+                        {/* <span class="badge badge-pill yellow blue-text">0</span> */}
+                      </Badge>
                     )}
                   </UserContext.Consumer>
                   {window.location.pathname.slice(1) == "network" ? (
@@ -246,35 +252,6 @@ class Header extends Component {
           </Nav>
         </Content>
       </Container>
-      // <div className="header">
-      //   <div className="header__left">
-      //       <img
-      //         src="https://www.flaticon.com/svg/static/icons/svg/174/174857.svg"
-      //         alt="linkedin logo"
-      //         onClick={() => window.location.href="/"}
-      //       />
-
-      //     <div className="header__search">
-      //       <SearchIcon style={{ color: "black" }} />
-      //       <input type="text" placeholder="Search" />
-      //     </div>
-      //   </div>
-
-      //   <div className="header__right">
-      //     <HeaderOption Icon={HomeIcon} title="Home" />
-      //     <HeaderOption Icon={SupervisorAccountIcon} title="My Network" />
-      //     <HeaderOption Icon={BusinessCenterIcon} title="Jobs" />
-      //     <HeaderOption Icon={ChatIcon} title="Messaging" />
-      //     <HeaderOption Icon={NotificationsIcon} title="Notifications" />
-      //     <Link to={"/"}>
-      //       <HeaderOption
-      //         avatar={true}
-      //         title="Log Out"
-      //         onClick={this.removeallCookies}
-      //       />
-      //     </Link>
-      //   </div>
-      // </div>
     );
   }
 }
@@ -414,7 +391,7 @@ const NavList = styled.li`
 
 const SignOut = styled.div`
   position: absolute;
-  top: 45px;
+  top: 60px;
   background: white;
   border-radius: 0 0 5px 5px;
   width: 100px;

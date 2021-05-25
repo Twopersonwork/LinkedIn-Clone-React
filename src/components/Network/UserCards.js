@@ -16,9 +16,11 @@ export class UserCards extends Component {
       show: true,
     };
   }
+
   removeImage = () => {
     this.setState({ show: false });
   };
+
   submitFollow = () => {
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/follow/${this.props.user.id}/`,
@@ -32,7 +34,7 @@ export class UserCards extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         this.setState({ pending: true });
       })
       .catch((error) => console.log(error));
@@ -51,6 +53,7 @@ export class UserCards extends Component {
       .then((resp) => console.log(resp))
       .catch((error) => console.log(error));
   };
+
   render() {
     if (this.state.show) {
       return (
@@ -113,6 +116,7 @@ export class UserCards extends Component {
     }
   }
 }
+
 const connect_button = {
   fontWeight: "bold",
   borderRadius: "50px",

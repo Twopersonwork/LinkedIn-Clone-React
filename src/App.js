@@ -19,6 +19,7 @@ import Network from "./components/Network/Network";
 import NetworkLeft from "./components/Network/NetworkLeft";
 import UserContext from "./components/userContext";
 import OtherUserProfile from "./components/Profile/OtherUserProfile";
+import ProfileRight from "./components/Profile/ProfileRight";
 
 class App extends Component {
   constructor(props) {
@@ -80,8 +81,13 @@ class App extends Component {
                       <Route
                         exact
                         path="/profile"
-                        component={() => <Profile />}
-                      />
+                        component={(props) => (
+                          <React.Fragment>
+                            <Profile />
+                            <ProfileRight {...props} />
+                          </React.Fragment>
+                        )}
+                      ></Route>
                       <Route
                         exact
                         path="/user_profile"

@@ -199,7 +199,7 @@ class OtherUserProfile extends Component {
                   onContactChange={(e) => this.setState({ showContactInfo: e })}
                 />
               )
-            ) : null}
+            ) : null} 
           </div>
         </div>
 
