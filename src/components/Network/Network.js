@@ -4,7 +4,6 @@ import { withCookies } from "react-cookie";
 import "./Network.css";
 import UserList from "./UserList";
 import { Alert } from "react-bootstrap";
-import { trackPromise } from "react-promise-tracker";
 
 export class Network extends Component {
   constructor(props) {
@@ -36,7 +35,6 @@ export class Network extends Component {
   };
 
   submitAccept = (e) => {
-    // console.log(e.id);
     this.setState({ AlertUser: e, Alertshow: true, ignore: false });
 
     fetch(`${process.env.REACT_APP_API_URL}/uapi/follow/${e.id}/`, {
@@ -65,53 +63,48 @@ export class Network extends Component {
 
   getWaitFollowers = () => {
     this.setState({ waitFollowers: [] });
-    trackPromise(
-      fetch(
-        `${process.env.REACT_APP_API_URL}/uapi/users/${
-          this.props.cookies.get("auth-token").user.id
-        }/`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${
-              this.props.cookies.get("auth-token").token
-            }`,
-          },
-        }
-      )
-        .then((resp) => resp.json())
-        .then((resp) => {
-          this.setState({ user: resp }, function () {
-            // console.log(this.state.waitFollowers);
-            if (this.state.user.waitFollowers.length > 0) {
-              for (var i = 0; i < this.state.user.waitFollowers.length; i++) {
-                fetch(
-                  `${process.env.REACT_APP_API_URL}/uapi/userDetail/${this.state.user.waitFollowers[i].user_id}/`,
-                  {
-                    method: "GET",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Token ${
-                        this.props.cookies.get("auth-token").token
-                      }`,
-                    },
-                  }
-                )
-                  .then((resp) => resp.json())
-                  .then((resp) => {
-                    console.log(resp);
-                    var joined = this.state.waitFollowers.concat([resp]);
-                    this.setState({ waitFollowers: joined });
-                  })
-                  .catch((error) => console.log(error));
-              }
-            } else {
-              this.setState({ waitFollowers: [] });
+    fetch(
+      `${process.env.REACT_APP_API_URL}/uapi/users/${
+        this.props.cookies.get("auth-token").user.id
+      }/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${this.props.cookies.get("auth-token").token}`,
+        },
+      }
+    )
+      .then((resp) => resp.json())
+      .then((resp) => {
+        this.setState({ user: resp }, function () {
+          if (this.state.user.waitFollowers.length > 0) {
+            for (var i = 0; i < this.state.user.waitFollowers.length; i++) {
+              fetch(
+                `${process.env.REACT_APP_API_URL}/uapi/userDetail/${this.state.user.waitFollowers[i].user_id}/`,
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${
+                      this.props.cookies.get("auth-token").token
+                    }`,
+                  },
+                }
+              )
+                .then((resp) => resp.json())
+                .then((resp) => {
+                  var joined = this.state.waitFollowers.concat([resp]);
+                  this.setState({ waitFollowers: joined });
+                })
+                .catch((error) => console.log(error));
             }
-          });
-        })
-    ).catch((error) => console.log(error));
+          } else {
+            this.setState({ waitFollowers: [] });
+          }
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   componentDidMount() {
@@ -119,10 +112,6 @@ export class Network extends Component {
   }
 
   render() {
-    console.log("render called");
-
-    // console.log(this.state.waitFollowers);
-
     return (
       <div className="network">
         <div className="upper_network__inputContainer">
@@ -225,17 +214,14 @@ export class Network extends Component {
               ))}
           </div>
         </div>
-        {this.state.user
-          ? (console.log("wait foloo", this.state.waitFollowers),
-            (
-              <UserList
-                followers={this.state.user.followers}
-                following={this.state.user.following}
-                waitFollowers={this.state.user.waitFollowers}
-                user={this.state.user}
-              />
-            ))
-          : null}
+        {this.state.user ? (
+          <UserList
+            followers={this.state.user.followers}
+            following={this.state.user.following}
+            waitFollowers={this.state.user.waitFollowers}
+            user={this.state.user}
+          />
+        ) : null}
       </div>
     );
   }
@@ -243,7 +229,6 @@ export class Network extends Component {
 const save_button = {
   paddingLeft: "20px",
   paddingRight: "20px",
-  //   marginTop: "10px",
   marginLeft: "10px",
   fontWeight: "bold",
   borderRadius: "50px",
