@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import { MdDone } from "react-icons/md";
 import { Avatar, Button } from "@material-ui/core";
 import { withCookies } from "react-cookie";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = (theme) => ({
+  button: {
+    textTransform: "none",
+    marginTop: "10px",
+  },
+});
 
 class UserCardRight extends Component {
   constructor(props) {
@@ -14,7 +22,6 @@ class UserCardRight extends Component {
   }
 
   submitFollow = (e) => {
-    // console.log(e);
     fetch(`${process.env.REACT_APP_API_URL}/uapi/follow/${e}/`, {
       method: "POST",
       headers: {
@@ -40,6 +47,7 @@ class UserCardRight extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div className="profile_right__article">
         <div className="profile_right__articleLeft">
@@ -67,21 +75,21 @@ class UserCardRight extends Component {
           {this.state.pending ? (
             <Button
               onClick={() => this.submitFollow(this.props.user.id)}
-              className="mt-2"
+              className={classes.button}
               style={pending_button}
               size="small"
             >
               <MdDone style={{ fontSize: "20px", marginRight: "2px" }} />{" "}
-              Pending
+              <span style={{ fontWeight: "bold" }}>Pending</span>
             </Button>
           ) : (
             <Button
               onClick={() => this.submitFollow(this.props.user.id)}
-              className="mt-2"
+              className={classes.button}
               size="small"
               style={connect_button}
             >
-              Connect
+              <span style={{ fontWeight: "bold" }}>Connect</span>
             </Button>
           )}
         </div>
@@ -91,21 +99,19 @@ class UserCardRight extends Component {
 }
 
 const connect_button = {
-  fontWeight: "bold",
   borderRadius: "50px",
-  fontSize: "15px",
+  fontSize: "17px",
   display: "flex",
   background: "white",
-  color: "grey",
-  border: "solid 1px grey",
+  color: "rgb(95, 95, 102)",
+  border: "solid 1px rgb(95, 95, 102)",
   maxWidth: "100%",
   cursor: "pointer",
   minWidth: "40%",
 };
 const pending_button = {
-  fontWeight: "bold",
   borderRadius: "50px",
-  fontSize: "15px",
+  fontSize: "17px",
   display: "flex",
   background: "white",
   color: "gray",
@@ -115,4 +121,6 @@ const pending_button = {
   minWidth: "40%",
 };
 
-export default withCookies(UserCardRight);
+export default withStyles(styles, { withTheme: true })(
+  withCookies(UserCardRight)
+);
