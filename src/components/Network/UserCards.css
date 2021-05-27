@@ -40,7 +40,6 @@
   display: flex;
 }
 
-
 .breakpoint {
   /* One column for smartphones */
   max-width: 100%;
