@@ -210,14 +210,29 @@ export class Network extends Component {
                       onClick={() => this.submitIgnore(user)}
                       className="ml-auto"
                     >
-                      Ignore
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          textTransform: "none",
+                          color: "rgb(84, 89, 95)",
+                        }}
+                      >
+                        Ignore
+                      </span>
                     </Button>
                     <Button
                       onClick={() => this.submitAccept(user)}
                       className="ml-2"
                       style={save_button}
                     >
-                      Accept
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          textTransform: "none",
+                        }}
+                      >
+                        Accept
+                      </span>
                     </Button>
                   </div>
                   <hr />
@@ -241,19 +256,15 @@ export class Network extends Component {
   }
 }
 const save_button = {
-  paddingLeft: "20px",
-  paddingRight: "20px",
-  //   marginTop: "10px",
-  marginLeft: "10px",
   fontWeight: "bold",
   borderRadius: "50px",
-  fontSize: "14px",
+  fontSize: "16px",
   display: "flex",
   background: "white",
   color: "#0c66c2",
   border: "solid 1px #0c66c2",
-  width: "80px",
-  height: "40px",
+  cursor: "pointer",
+  padding: "0px 12px 0px 12px",
 };
 
 export default withCookies(Network);

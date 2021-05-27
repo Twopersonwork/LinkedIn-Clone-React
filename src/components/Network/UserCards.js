@@ -89,19 +89,23 @@ export class UserCards extends Component {
               {this.state.pending ? (
                 <Button
                   onClick={this.submitFollow}
-                  className="but mt-3"
+                  className="mt-3"
                   style={pending_button}
                 >
                   <MdDone style={{ fontSize: "20px", marginRight: "2px" }} />{" "}
-                  Pending
+                  <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                    Pending
+                  </span>
                 </Button>
               ) : (
                 <Button
                   onClick={this.submitFollow}
-                  className="but mt-3"
+                  className="mt-3"
                   style={connect_button}
                 >
-                  Connect
+                  <span style={{ fontWeight: "bold", textTransform: "none" }}>
+                    Connect
+                  </span>
                 </Button>
               )}
             </div>
@@ -116,13 +120,13 @@ export class UserCards extends Component {
 const connect_button = {
   fontWeight: "bold",
   borderRadius: "50px",
-  fontSize: "12px",
+  fontSize: "16px",
   display: "flex",
   background: "white",
   color: "#0c66c2",
   border: "solid 1px #0c66c2",
-  maxWidth: "100%",
   cursor: "pointer",
+  padding: "0px 12px 2px 12px",
 };
 const pending_button = {
   fontWeight: "bold",
@@ -134,6 +138,7 @@ const pending_button = {
   border: "solid 1px gray",
   maxWidth: "100%",
   cursor: "pointer",
+  padding: "0px 12px 2px 12px",
 };
 
 export default withCookies(UserCards);

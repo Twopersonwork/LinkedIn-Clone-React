@@ -18,6 +18,7 @@ import AddCoverPic from "./AddCoverPic";
 import ShowFollowers from "./ShowFollowers";
 import ContactInfo from "./ContactInfo";
 import { trackPromise } from "react-promise-tracker";
+import UserContext from "../userContext";
 
 class Profile extends Component {
   constructor(props) {
@@ -560,11 +561,42 @@ class Profile extends Component {
                 Contact info
               </span>
             </Link>
-            {this.state.showContactInfo ? (
+            {/* {this.state.showContactInfo ? (
               <ContactInfo
                 user={this.state.user}
                 onContactChange={(e) => this.setState({ showContactInfo: e })}
               />
+            ) : null} */}
+            {this.state.showContactInfo ? (
+              this.state.profileCredentials ? (
+                <UserContext.Consumer>
+                  {(props) => {
+                    return (
+                      <ContactInfo
+                        user={this.state.profileCredentials}
+                        email={props.user.email}
+                        onContactChange={(e) =>
+                          this.setState({ showContactInfo: e })
+                        }
+                      />
+                    );
+                  }}
+                </UserContext.Consumer>
+              ) : (
+                <UserContext.Consumer>
+                  {(props) => {
+                    return (
+                      <ContactInfo
+                        user={props.user}
+                        email={props.user.email}
+                        onContactChange={(e) =>
+                          this.setState({ showContactInfo: e })
+                        }
+                      />
+                    );
+                  }}
+                </UserContext.Consumer>
+              )
             ) : null}
 
             <div className="profile__stat">
