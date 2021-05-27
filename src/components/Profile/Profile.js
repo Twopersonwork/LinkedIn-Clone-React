@@ -220,7 +220,7 @@ class Profile extends Component {
   };
 
   onEditSkillModal = () => {
-    console.log("ll");
+    // console.log("ll");
     this.setState({
       EditSkillsModalShow: true,
       aboutModalShow: false,
@@ -329,7 +329,7 @@ class Profile extends Component {
       )
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log(resp.user_education);
+          // console.log(resp.user_education);
           this.setState({ EducationCredentials: resp.user_education });
           this.setState({ educationModalShow: false });
         })
@@ -355,7 +355,7 @@ class Profile extends Component {
       )
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log(resp.user_license);
+          // console.log(resp.user_license);
           this.setState({ LicenseCredentials: resp.user_license });
           this.setState({ licenseModalShow: false });
         })
@@ -401,7 +401,6 @@ class Profile extends Component {
     this.updateLicense();
     // for update the skills data
     this.updateSkills();
-    console.log("called comp");
     trackPromise(
       fetch(
         `${process.env.REACT_APP_API_URL}/uapi/users/${
@@ -416,7 +415,7 @@ class Profile extends Component {
       )
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log("comp response", resp);
+          // console.log("comp response", resp);
           this.setState({
             user: resp,
             profile_pic: resp.profile_pic,
@@ -427,7 +426,7 @@ class Profile extends Component {
   };
 
   render() {
-    console.log(this.state.no_of_followers);
+    // console.log(this.state.no_of_followers);
     return (
       <div className="profile">
         <div className="profile__top">
@@ -561,12 +560,6 @@ class Profile extends Component {
                 Contact info
               </span>
             </Link>
-            {/* {this.state.showContactInfo ? (
-              <ContactInfo
-                user={this.state.user}
-                onContactChange={(e) => this.setState({ showContactInfo: e })}
-              />
-            ) : null} */}
             {this.state.showContactInfo ? (
               this.state.profileCredentials ? (
                 <UserContext.Consumer>

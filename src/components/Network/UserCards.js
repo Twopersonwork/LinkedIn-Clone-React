@@ -6,6 +6,14 @@ import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = (theme) => ({
+  button: {
+    textTransform: "none",
+    marginTop: "20px",
+  },
+});
 
 export class UserCards extends Component {
   constructor(props) {
@@ -16,9 +24,11 @@ export class UserCards extends Component {
       show: true,
     };
   }
+
   removeImage = () => {
     this.setState({ show: false });
   };
+
   submitFollow = () => {
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/follow/${this.props.user.id}/`,
@@ -32,7 +42,7 @@ export class UserCards extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         this.setState({ pending: true });
       })
       .catch((error) => console.log(error));
@@ -51,7 +61,9 @@ export class UserCards extends Component {
       .then((resp) => console.log(resp))
       .catch((error) => console.log(error));
   };
+
   render() {
+    const { classes } = this.props;
     if (this.state.show) {
       return (
         <div className="breakpoint">
@@ -89,23 +101,19 @@ export class UserCards extends Component {
               {this.state.pending ? (
                 <Button
                   onClick={this.submitFollow}
-                  className="mt-3"
+                  className={classes.button}
                   style={pending_button}
                 >
                   <MdDone style={{ fontSize: "20px", marginRight: "2px" }} />{" "}
-                  <span style={{ fontWeight: "bold", textTransform: "none" }}>
-                    Pending
-                  </span>
+                  <span style={{ fontWeight: "bold" }}>Pending</span>
                 </Button>
               ) : (
                 <Button
                   onClick={this.submitFollow}
-                  className="mt-3"
+                  className={classes.button}
                   style={connect_button}
                 >
-                  <span style={{ fontWeight: "bold", textTransform: "none" }}>
-                    Connect
-                  </span>
+                  <span style={{ fontWeight: "bold" }}>Connect</span>
                 </Button>
               )}
             </div>
@@ -117,8 +125,9 @@ export class UserCards extends Component {
     }
   }
 }
+
 const connect_button = {
-  fontWeight: "bold",
+  width: "77%",
   borderRadius: "50px",
   fontSize: "16px",
   display: "flex",
@@ -127,18 +136,20 @@ const connect_button = {
   border: "solid 1px #0c66c2",
   cursor: "pointer",
   padding: "0px 12px 2px 12px",
-};
-const pending_button = {
-  fontWeight: "bold",
-  borderRadius: "50px",
-  fontSize: "12px",
-  display: "flex",
-  background: "white",
-  color: "gray",
-  border: "solid 1px gray",
-  maxWidth: "100%",
-  cursor: "pointer",
-  padding: "0px 12px 2px 12px",
+  marginBottom: "10px",
 };
 
-export default withCookies(UserCards);
+const pending_button = {
+  width: "77%",
+  borderRadius: "50px",
+  fontSize: "16px",
+  display: "flex",
+  background: "white",
+  color: "grey",
+  border: "solid 1px grey",
+  cursor: "pointer",
+  padding: "0px 12px 2px 12px",
+  marginBottom: "10px",
+};
+
+export default withStyles(styles, { withTheme: true })(withCookies(UserCards));

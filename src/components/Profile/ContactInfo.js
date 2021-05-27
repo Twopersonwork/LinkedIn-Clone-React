@@ -16,6 +16,7 @@ class ContactInfo extends Component {
     this.props.onContactChange(false);
   };
   render() {
+    console.log(this.props);
     return (
       <div>
         <Modal
@@ -65,6 +66,7 @@ class ContactInfo extends Component {
                 Email
               </span>
             </div>
+            {/* {this.props.user} */}
 
             <span style={{ marginLeft: "40px" }}>{this.props.email}</span>
           </Modal.Body>

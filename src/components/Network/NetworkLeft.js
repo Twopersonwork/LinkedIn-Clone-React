@@ -55,8 +55,8 @@ class ActivityLeft extends Component {
 
   render() {
     return (
-      <div className="sidebar" style={{ marginTop: "45px" }}>
-        <div className="sidebar__top">
+      <div className="network_left" style={{ marginTop: "45px" }}>
+        <div className="network_left__top">
           <UserContext.Consumer>
             {(props) => {
               return <img src={props.user.cover_pic} alt="background" />;
@@ -67,7 +67,7 @@ class ActivityLeft extends Component {
               return (
                 <Avatar
                   src={props.user.profile_pic}
-                  className="sidebar__avatar"
+                  className="network_left__avatar"
                 ></Avatar>
               );
             }}
@@ -80,11 +80,10 @@ class ActivityLeft extends Component {
           </Link>
         </div>
 
-        <div className="sidebar__stats">
-          <span>Manage my network</span>
-          <div className="sidebar__stat">
+        <div className="network_left__stats">
+          <div className="network_left__stat">
             <p>Followers</p>
-            <p className="sidebar__statNumber">{this.state.followers}</p>
+            <p className="network_left__statNumber">{this.state.followers}</p>
           </div>
         </div>
       </div>

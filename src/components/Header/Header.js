@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core/styles";
-
 import React, { Component } from "react";
 import UserContext from "../userContext";
+import "./Header.css";
 
 const styles = (theme) => ({
   customBadge: {
-    color: "white",
     backgroundColor: "rgb(205, 64, 30)",
+    color: "white",
+    fontFamily:
+      "-apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto,Helvetica Neue, Fira Sans, Ubuntu, Oxygen, Oxygen Sans, Cantarell,Droid Sans, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,Lucida Grande, Helvetica, Arial, sans-serif",
+    fontWeight: "bold",
   },
 });
 
@@ -30,6 +33,8 @@ class Header extends Component {
     this.props.cookies.remove("profile");
     this.props.cookies.remove("profile-id");
     this.props.cookies.remove("about-id");
+    this.props.cookies.remove("education-id");
+    this.props.cookies.remove("license-id");
   };
 
   thisClicked = () => {
@@ -105,20 +110,26 @@ class Header extends Component {
               </NavList>
 
               <NavList>
+                <UserContext.Consumer>
+                  {(props) => (
+                    <Badge
+                      classes={{ badge: classes.customBadge }}
+                      style={{
+                        paddingLeft: "20px",
+                        bottom: "20px",
+                        left: "55px",
+                      }}
+                      badgeContent={
+                        props.user.waitFollowers
+                          ? props.user.waitFollowers.length
+                          : 0
+                      }
+                    >
+                      {/* <span class="badge badge-pill yellow blue-text">0</span> */}
+                    </Badge>
+                  )}
+                </UserContext.Consumer>
                 <Link onClick={this.thisClicked} to={"/network"}>
-                  <UserContext.Consumer>
-                    {(props) => (
-                      <Badge
-                        classes={{ badge: classes.customBadge }}
-                        style={{ paddingLeft: "35px" }}
-                        badgeContent={
-                          props.user.waitFollowers
-                            ? props.user.waitFollowers.length
-                            : null
-                        }
-                      />
-                    )}
-                  </UserContext.Consumer>
                   {window.location.pathname.slice(1) == "network" ? (
                     <svg
                       onClick={this.thisClicked}
@@ -139,15 +150,8 @@ class Header extends Component {
                       <path d="m12 16v6h-9v-6c0-1.7 1.3-3 3-3h3c1.7 0 3 1.3 3 3zm5.5-3c1.9 0 3.5-1.6 3.5-3.5s-1.6-3.5-3.5-3.5-3.5 1.6-3.5 3.5 1.6 3.5 3.5 3.5zm1 2h-2c-1.4 0-2.5 1.1-2.5 2.5v4.5h7v-4.5c0-1.4-1.1-2.5-2.5-2.5zm-11-13c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5 4.5-2 4.5-4.5-2-4.5-4.5-4.5z"></path>
                     </svg>
                   )}
-                  <NavList
-                    className={
-                      window.location.pathname.slice(1) == "network"
-                        ? "active"
-                        : null
-                    }
-                  >
-                    <span onClick={this.thisClicked}>My Network</span>
-                  </NavList>
+
+                  <span onClick={this.thisClicked}>My Network</span>
                 </Link>
               </NavList>
 
@@ -246,35 +250,6 @@ class Header extends Component {
           </Nav>
         </Content>
       </Container>
-      // <div className="header">
-      //   <div className="header__left">
-      //       <img
-      //         src="https://www.flaticon.com/svg/static/icons/svg/174/174857.svg"
-      //         alt="linkedin logo"
-      //         onClick={() => window.location.href="/"}
-      //       />
-
-      //     <div className="header__search">
-      //       <SearchIcon style={{ color: "black" }} />
-      //       <input type="text" placeholder="Search" />
-      //     </div>
-      //   </div>
-
-      //   <div className="header__right">
-      //     <HeaderOption Icon={HomeIcon} title="Home" />
-      //     <HeaderOption Icon={SupervisorAccountIcon} title="My Network" />
-      //     <HeaderOption Icon={BusinessCenterIcon} title="Jobs" />
-      //     <HeaderOption Icon={ChatIcon} title="Messaging" />
-      //     <HeaderOption Icon={NotificationsIcon} title="Notifications" />
-      //     <Link to={"/"}>
-      //       <HeaderOption
-      //         avatar={true}
-      //         title="Log Out"
-      //         onClick={this.removeallCookies}
-      //       />
-      //     </Link>
-      //   </div>
-      // </div>
     );
   }
 }
@@ -414,7 +389,7 @@ const NavList = styled.li`
 
 const SignOut = styled.div`
   position: absolute;
-  top: 45px;
+  top: 60px;
   background: white;
   border-radius: 0 0 5px 5px;
   width: 100px;

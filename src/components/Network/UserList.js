@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Avatar, Button } from "@material-ui/core";
 import { withCookies } from "react-cookie";
 import UserCards from "./UserCards";
 import { Container, Grid } from "@material-ui/core";
@@ -17,10 +16,6 @@ export class UserList extends Component {
   }
 
   componentDidMount() {
-    // console.log("wait", this.props.waitFollowers);
-    // console.log("wait", this.props.followers);
-
-    // console.log("wait", this.props.following);
     trackPromise(
       fetch(`${process.env.REACT_APP_API_URL}/uapi/userDetail/`, {
         method: "GET",
@@ -31,7 +26,6 @@ export class UserList extends Component {
         .then((resp) => resp.json())
         .then((resp) => {
           this.setState({ resp_user: resp }, function () {
-            //   console.log(this.state.resp_user);
             var copy = [];
             for (var i = 0; i < this.state.resp_user.length; i++) {
               if (
