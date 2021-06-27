@@ -25,6 +25,9 @@ class Widgets extends Component {
           <h2>Linkedin News</h2>
           <InfoOutlinedIcon />
         </div>
+        <div style={{textAlign:"center",color:"gray"}}>
+            <span>This is Dummy Data</span>
+        </div>
         {this.newsArticle(
           "Elon Musk is now the richest person in the world",
           "Top news - 4296 readers"

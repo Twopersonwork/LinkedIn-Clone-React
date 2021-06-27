@@ -147,10 +147,10 @@ class Login extends Component {
               >
                 Agree & Join
               </Button>
-              <span className="hr-sect" style={{ color: "#000" }}>
+              {/* <span className="hr-sect" style={{ color: "#000" }}>
                 or
-              </span>
-              <Button
+              </span> */}
+              {/* <Button
                 variant="contained"
                 style={{
                   borderRadius: "50px",
@@ -163,7 +163,7 @@ class Login extends Component {
               >
                 <img src={logo} className="pr-3" alt="google icon" />
                 Join with Google
-              </Button>
+              </Button> */}
             </Form>
             <Typography align="center" className="mt-3">
               Already on LinkedIn?
