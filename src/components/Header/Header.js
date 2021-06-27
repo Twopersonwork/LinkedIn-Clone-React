@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import UserContext from "../userContext";
 import "./Header.css";
+import ReactTooltip from "react-tooltip";
 
 const styles = (theme) => ({
   customBadge: {
@@ -109,26 +110,30 @@ class Header extends Component {
                 </Link>
               </NavList>
 
-              <NavList>
-                <UserContext.Consumer>
-                  {(props) => (
-                    <Badge
-                      classes={{ badge: classes.customBadge }}
-                      style={{
-                        paddingLeft: "20px",
-                        bottom: "20px",
-                        left: "55px",
-                      }}
-                      badgeContent={
-                        props.user.waitFollowers
-                          ? props.user.waitFollowers.length
-                          : 0
-                      }
-                    >
-                      {/* <span class="badge badge-pill yellow blue-text">0</span> */}
-                    </Badge>
-                  )}
-                </UserContext.Consumer>
+              <UserContext.Consumer>
+                {(props) => (
+                  <Badge
+                    classes={{ badge: classes.customBadge }}
+                    style={{
+                      paddingLeft: "20px",
+                      bottom: "20px",
+                      left: "55px",
+                    }}
+                    badgeContent={
+                      props.user.waitFollowers
+                        ? props.user.waitFollowers.length
+                        : 0
+                    }
+                  >
+                    {/* <span class="badge badge-pill yellow blue-text">0</span> */}
+                  </Badge>
+                )}
+              </UserContext.Consumer>
+              <NavList
+                className={
+                  window.location.pathname.slice(1) == "network" ? "active" : null
+                }
+              >
                 <Link onClick={this.thisClicked} to={"/network"}>
                   {window.location.pathname.slice(1) == "network" ? (
                     <svg
@@ -155,14 +160,30 @@ class Header extends Component {
                 </Link>
               </NavList>
 
+              {/* This is for tool tip in everyicon in header */}
+              <ReactTooltip id="registerTip" place="bottom" effect="solid">
+                This feature is dummy
+              </ReactTooltip>
+
               <NavList
               // className={
               //   window.location.pathname.slice(1) == "/#" ? "active" : null
               // }
               >
-                <Link onClick={(event) => event.preventDefault()}>
-                  <img src="/images/nav-jobs.svg" alt="" />
-                  <span onClick={this.thisClicked}>Jobs</span>
+                <Link data-tip data-for="registerTip" onClick={(event) => event.preventDefault()}>
+                  <img
+                    src="/images/nav-jobs.svg"
+                    data-tip
+                    data-for="registerTip"
+                    alt=""
+                  />
+                  <span
+                    onClick={this.thisClicked}
+                    data-tip
+                    data-for="registerTip"
+                  >
+                    Jobs
+                  </span>
                 </Link>
               </NavList>
 
@@ -171,9 +192,11 @@ class Header extends Component {
               //   window.location.pathname.slice(1) == "/#" ? "active" : null
               // }
               >
-                <Link onClick={(event) => event.preventDefault()}>
-                  <img src="/images/nav-messaging.svg" alt="" />
-                  <span>Messaging</span>
+                <Link data-tip data-for="registerTip" onClick={(event) => event.preventDefault()}>
+                  <img src="/images/nav-messaging.svg" data-tip data-for="registerTip" alt="" />
+                  <span data-tip data-for="registerTip">
+                    Messaging
+                  </span>
                 </Link>
               </NavList>
 
@@ -182,9 +205,16 @@ class Header extends Component {
               //   window.location.pathname.slice(1) == "/#" ? "active" : null
               // }
               >
-                <Link onClick={(event) => event.preventDefault()}>
-                  <img src="/images/nav-notifications.svg" alt="" />
-                  <span>Notifications</span>
+                <Link data-tip data-for="registerTip" onClick={(event) => event.preventDefault()}>
+                  <img
+                    src="/images/nav-notifications.svg"
+                    data-tip
+                    data-for="registerTip"
+                    alt=""
+                  />
+                  <span data-tip data-for="registerTip">
+                    Notifications
+                  </span>
                 </Link>
               </NavList>
               <User>
@@ -239,8 +269,13 @@ class Header extends Component {
               </User>
               <Work>
                 <Link to={"/"}>
-                  <img src="/images/nav-work.svg" alt="" />
-                  <span>
+                  <img
+                    src="/images/nav-work.svg"
+                    data-tip
+                    data-for="registerTip"
+                    alt=""
+                  />
+                  <span data-tip data-for="registerTip">
                     Work
                     <img src="/images/down-icon.svg" alt="" />
                   </span>
