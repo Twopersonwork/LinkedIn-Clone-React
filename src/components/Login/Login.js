@@ -74,7 +74,7 @@ class Login extends Component {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "-80px",
+            marginTop:"15%",
             paddingBottom: "10%",
           }}
         >
