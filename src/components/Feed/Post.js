@@ -378,7 +378,7 @@ class Post extends Component {
           />
           <InputOption
             Icon={ChatOutlinedIcon}
-            function={this.modalShowComment}
+            click={this.modalShowComment}
             title="Comment"
             color="gray"
           />
