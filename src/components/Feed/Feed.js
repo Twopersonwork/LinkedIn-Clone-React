@@ -11,6 +11,7 @@ import React, { Component } from "react";
 import { withCookies } from "react-cookie";
 import CreatePost from "./CreatePost";
 import { trackPromise } from "react-promise-tracker";
+// import {OverlayTrigger,Tooltip} from "react-bootstrap"
 
 class Feed extends Component {
   constructor(props) {
@@ -140,12 +141,19 @@ class Feed extends Component {
               Icon={SubscriptionsIcon}
               title="Video"
               color="#7FC15E"
+              tooltip="present"
             />
-            <InputOption Icon={EventNoteIcon} title="Event" color="#E7A33E" />
+            <InputOption
+              Icon={EventNoteIcon}
+              title="Event"
+              color="#E7A33E"
+              tooltip="present"
+            />
             <InputOption
               Icon={CalendarViewDayIcon}
               title="Write article"
               color="#F5987E"
+              tooltip="present"
             />
           </div>
         </div>

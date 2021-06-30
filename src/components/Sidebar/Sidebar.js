@@ -50,6 +50,9 @@ class Sidebar extends Component {
         </div>
 
         <div className="sidebar__stats">
+          <div style={{textAlign:"center",color:"gray"}}>
+            <span>This is Dummy Data</span>
+          </div>
           <div className="sidebar__stat">
             <p>Who viewed your profile</p>
             <p className="sidebar__statNumber">126</p>
@@ -62,6 +65,9 @@ class Sidebar extends Component {
 
         <div className="sidebar__bottom">
           <p>Recent</p>
+          <div style={{textAlign:"center",color:"gray"}}>
+            <span>This is Dummy Data</span>
+          </div>
           {this.recentItem("programming")}
           {this.recentItem("jobs")}
           {/* {this.recentItem('fintech')}

@@ -70,18 +70,11 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <Row>
-          <img
-            className="linkedin-img-login"
-            src="https://www.logo.wine/a/logo/LinkedIn/LinkedIn-Logo.wine.svg"
-            alt="linkedin logo"
-          />
-        </Row>
         <Row
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "-80px",
+            marginTop:"15%",
             paddingBottom: "10%",
           }}
         >
@@ -125,9 +118,6 @@ class Login extends Component {
                 required
                 className="mb-3"
               />
-              <Link to={"/forget_password"}>
-                <span style={{ color: "#0c66c2" }}>Forget password ?</span>
-              </Link>
 
               <Button
                 type="submit"
