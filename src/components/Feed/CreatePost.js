@@ -8,7 +8,6 @@ import { AiFillCloseCircle } from "react-icons/ai";
 export class CreatePost extends Component {
   constructor(props) {
     super(props);
-    console.log("caallledd");
     this.state = {
       modalPost: true,
       body: "",
@@ -17,7 +16,6 @@ export class CreatePost extends Component {
     };
   }
   removeImage = () => {
-    console.log("clicked");
     this.setState({
       image: "",
       imageAsFile: null,
@@ -26,7 +24,6 @@ export class CreatePost extends Component {
 
   handleBody = (e) =>
     this.setState({ body: e.target.value }, function () {
-      console.log(this.state.body);
     });
 
   submitPost = () => {
@@ -41,7 +38,7 @@ export class CreatePost extends Component {
       );
     }
 
-    console.log(this.props.cookies.get("auth-token").token);
+    // console.log(this.props.cookies.get("auth-token").token);
     fetch(`${process.env.REACT_APP_API_URL}/papi/create_post/`, {
       method: "POST",
       headers: {
@@ -56,7 +53,7 @@ export class CreatePost extends Component {
           this.props.closemodalPost(false);
         });
 
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => console.log(err));
   };

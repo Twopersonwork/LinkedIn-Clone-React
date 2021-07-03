@@ -8,7 +8,7 @@ export class GenerateData extends Component {
 
       form_data.set("body", `post-${index}`);
 
-      console.log(this.props.cookies.get("auth-token").token);
+      // console.log(this.props.cookies.get("auth-token").token);
       fetch(`${process.env.REACT_APP_API_URL}/papi/create_post/`, {
         method: "POST",
         headers: {

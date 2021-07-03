@@ -16,7 +16,7 @@ class ContactInfo extends Component {
     this.props.onContactChange(false);
   };
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div>
         <Modal

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Modal } from "react-bootstrap";
 import CameraAltRoundedIcon from "@material-ui/icons/CameraAltRounded";
-import { Avatar, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import "./AddProfilePic.css";
 import { withCookies } from "react-cookie";
 
@@ -35,7 +35,7 @@ export class AddProfilePic extends Component {
         this.state.cover_picAsFile.name
       );
     }
-    console.log(this.props.cookies.get("auth-token").token);
+    // console.log(this.props.cookies.get("auth-token").token);
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
@@ -52,7 +52,7 @@ export class AddProfilePic extends Component {
       .then((res) => {
         this.setState({ modalCoverShow: false });
         window.location.reload();
-        console.log("response", res);
+        // console.log("response", res);
       })
       .catch((err) => console.log(err));
   };
@@ -73,17 +73,17 @@ export class AddProfilePic extends Component {
       .then((res) => {
         this.setState({ modalCoverDelete: false, modalCoverShow: false });
         window.location.reload();
-        console.log("response", res);
+        // console.log("response", res);
       })
       .catch((err) => console.log(err));
   };
 
   render() {
-    console.log(
-      this.props.cover_pic.split("/")[
-        this.props.cover_pic.split("/").length - 2
-      ]
-    );
+    // console.log(
+    //   this.props.cover_pic.split("/")[
+    //     this.props.cover_pic.split("/").length - 2
+    //   ]
+    // );
     return (
       <div className="p-auto">
         <Modal
@@ -133,11 +133,11 @@ export class AddProfilePic extends Component {
                     cover_picAsFile: e.target.files[0],
                   },
                   function () {
-                    console.log(
-                      "file",
-                      e.target.files[0],
-                      URL.createObjectURL(e.target.files[0])
-                    );
+                    // console.log(
+                    //   "file",
+                    //   e.target.files[0],
+                    //   URL.createObjectURL(e.target.files[0])
+                    // );
                   }
                 )
               }
@@ -154,7 +154,7 @@ export class AddProfilePic extends Component {
             <div className="mr-auto ml-3">
               {this.props.cover_pic.split("/")[
                 this.props.cover_pic.split("/").length - 2
-              ] != "defaults" ? (
+              ] !== "defaults" ? (
                 <React.Fragment>
                   <DeleteIcon className="ml-2" onClick={this.removeImage} />
                   <div>

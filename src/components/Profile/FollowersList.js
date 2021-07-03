@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Avatar } from "@material-ui/core";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withCookies } from "react-cookie";
 
 class FollowersList extends Component {

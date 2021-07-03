@@ -35,7 +35,7 @@ export class AddProfilePic extends Component {
         this.state.profile_picAsFile.name
       );
     }
-    console.log(this.state.profile_picAsFile);
+    // console.log(this.state.profile_picAsFile);
     fetch(
       `${process.env.REACT_APP_API_URL}/uapi/users/${
         this.props.cookies.get("auth-token").user.id
@@ -52,7 +52,7 @@ export class AddProfilePic extends Component {
       .then((res) => {
         this.setState({ modalShow: false });
         window.location.reload();
-        console.log("response", res);
+        // console.log("response", res);
       })
       .catch((err) => console.log(err));
   };
@@ -73,13 +73,13 @@ export class AddProfilePic extends Component {
       .then((res) => {
         this.setState({ modalDelete: false, modalShow: false });
         window.location.reload();
-        console.log("response", res);
+        // console.log("response", res);
       })
       .catch((err) => console.log(err));
   };
 
   render() {
-    console.log(this.state.modalShow);
+    // console.log(this.state.modalShow);
     return (
       <div className="p-auto">
         <Modal
@@ -132,11 +132,11 @@ export class AddProfilePic extends Component {
                     profile_picAsFile: e.target.files[0],
                   },
                   function () {
-                    console.log(
-                      "file",
-                      e.target.files[0],
-                      URL.createObjectURL(e.target.files[0])
-                    );
+                    // console.log(
+                    //   "file",
+                    //   e.target.files[0],
+                    //   URL.createObjectURL(e.target.files[0])
+                    // );
                   }
                 )
               }
@@ -153,7 +153,7 @@ export class AddProfilePic extends Component {
             <div className="mr-auto ml-3">
               {this.props.profile_pic.split("/")[
                 this.props.profile_pic.split("/").length - 2
-              ] != "defaults" ? (
+              ] !== "defaults" ? (
                 <React.Fragment>
                   <DeleteIcon className="ml-2" onClick={this.removeImage} />
                   <div>

@@ -24,7 +24,7 @@ class AddSkills extends Component {
         skills: v,
       },
       function () {
-        console.log(this.state.skills);
+        // console.log(this.state.skills);
         if (this.state.skills.length > 0) {
           this.setState({ placeholder: "" });
         }
@@ -34,7 +34,7 @@ class AddSkills extends Component {
 
   AddSkill = (e) => {
     for (let index = 0; index < this.state.skills.length; index++) {
-      console.log(this.state.skills);
+      // console.log(this.state.skills);
       fetch(`${process.env.REACT_APP_API_URL}/profile/skills/`, {
         method: "POST",
         headers: {
@@ -48,7 +48,7 @@ class AddSkills extends Component {
       })
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log(resp);
+          // console.log(resp);
           //   this.props.cookies.set("license-id", resp.id);
           this.props.updateSkills();
         })

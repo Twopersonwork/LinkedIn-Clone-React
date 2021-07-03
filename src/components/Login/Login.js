@@ -5,7 +5,7 @@ import { Typography, Card, TextField } from "@material-ui/core";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { withCookies } from "react-cookie";
-import { trackPromise } from "react-promise-tracker";
+// import { trackPromise } from "react-promise-tracker";
 
 class Login extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class Login extends Component {
   }
 
   inputChanged = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     let cred = this.state.credentials;
     cred[event.target.name] = event.target.value;
     this.setState({ credentials: cred });
@@ -41,7 +41,7 @@ class Login extends Component {
       .then((resp) => {
         if (resp.token) {
           this.props.cookies.set("auth-token", resp);
-          console.log(resp.token);
+          // console.log(resp.token);
           if (resp.user.user_profile) {
             this.props.cookies.set("profile-id", resp.user.user_profile.id);
           }

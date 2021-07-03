@@ -42,7 +42,7 @@ class ActivityMain extends Component {
       )
         .then((resp) => resp.json())
         .then((resp) => {
-          console.log(resp);
+          // console.log(resp);
           var joined = this.state.activities.concat([resp]);
           this.setState({ activities: joined });
         })
