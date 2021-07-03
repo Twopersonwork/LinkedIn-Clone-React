@@ -29,7 +29,7 @@ export class UserList extends Component {
             var copy = [];
             for (var i = 0; i < this.state.resp_user.length; i++) {
               if (
-                this.props.user.id != this.state.resp_user[i].id &&
+                this.props.user.id !== this.state.resp_user[i].id &&
                 !this.props.followers.some(
                   (e) => e.user_id === this.state.resp_user[i].id
                 ) &&

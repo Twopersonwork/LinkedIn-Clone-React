@@ -29,7 +29,7 @@ class Feed extends Component {
   }
 
   updatePost = () => {
-    console.log("update");
+    // console.log("update");
     this.setState({ update: !this.state.update });
   };
   submitPost = () => {
@@ -115,7 +115,7 @@ class Feed extends Component {
   }
 
   render() {
-    console.log("tokrn ", this.props.cookies.get("auth-token"));
+    // console.log("tokrn ", this.props.cookies.get("auth-token"));
     return (
       <div className="feed">
         <div className="feed__inputContainer">

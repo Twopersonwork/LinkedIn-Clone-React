@@ -33,7 +33,7 @@ class ProfileRight extends Component {
           if (user.user.followers && user.user.following) {
             for (var i = 0; i < this.state.resp_user.length; i++) {
               if (
-                user.user.id != this.state.resp_user[i].id &&
+                user.user.id !== this.state.resp_user[i].id &&
                 !user.user.followers.some(
                   (e) => e.user_id === this.state.resp_user[i].id
                 ) &&

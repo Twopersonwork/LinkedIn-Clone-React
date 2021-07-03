@@ -39,9 +39,9 @@ class Header extends Component {
   };
 
   thisClicked = () => {
-    console.log(window.location.pathname);
+    // console.log(window.location.pathname);
 
-    console.log(window.location.href.split("/"));
+    // console.log(window.location.href.split("/"));
     this.setState({
       loc: window.location.href.split("/")[
         window.location.href.split("/").length - 1
@@ -71,7 +71,7 @@ class Header extends Component {
             <NavListWrap>
               <NavList>
                 <Link onClick={this.thisClicked} to={"/"}>
-                  {window.location.pathname.slice(1) == "" ? (
+                  {window.location.pathname.slice(1) === "" ? (
                     <svg
                       onClick={this.thisClicked}
                       xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ class Header extends Component {
 
                   <NavList
                     className={
-                      window.location.pathname.slice(1) == "" ? "active" : null
+                      window.location.pathname.slice(1) === "" ? "active" : null
                     }
                   >
                     {/* <img
@@ -131,13 +131,13 @@ class Header extends Component {
               </UserContext.Consumer>
               <NavList
                 className={
-                  window.location.pathname.slice(1) == "network"
+                  window.location.pathname.slice(1) === "network"
                     ? "active"
                     : null
                 }
               >
                 <Link onClick={this.thisClicked} to={"/network"}>
-                  {window.location.pathname.slice(1) == "network" ? (
+                  {window.location.pathname.slice(1) === "network" ? (
                     <svg
                       onClick={this.thisClicked}
                       xmlns="http://www.w3.org/2000/svg"
@@ -176,6 +176,7 @@ class Header extends Component {
                   data-tip
                   data-for="registerTip"
                   onClick={(event) => event.preventDefault()}
+                  to={"/"}
                 >
                   <img
                     src="/images/nav-jobs.svg"
@@ -202,6 +203,7 @@ class Header extends Component {
                   data-tip
                   data-for="registerTip"
                   onClick={(event) => event.preventDefault()}
+                  to={"/"}
                 >
                   <img
                     src="/images/nav-messaging.svg"
@@ -224,6 +226,7 @@ class Header extends Component {
                   data-tip
                   data-for="registerTip"
                   onClick={(event) => event.preventDefault()}
+                  to={"/"}
                 >
                   <img
                     src="/images/nav-notifications.svg"
@@ -239,12 +242,12 @@ class Header extends Component {
               <User>
                 <NavList
                   className={
-                    window.location.pathname.slice(1) == "profile"
+                    window.location.pathname.slice(1) === "profile"
                       ? "active"
                       : null
                   }
                 >
-                  {window.location.pathname.slice(1) == "profile" ? (
+                  {window.location.pathname.slice(1) === "profile" ? (
                     <Link onClick={(event) => event.preventDefault()}>
                       <UserContext.Consumer>
                         {(props) => {

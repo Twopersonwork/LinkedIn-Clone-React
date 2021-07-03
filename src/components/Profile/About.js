@@ -18,7 +18,7 @@ class About extends Component {
   }
 
   inputChanged = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     let cred = this.state.credentials;
     cred[event.target.name] = event.target.value;
     this.setState({ credentials: cred });
@@ -41,7 +41,7 @@ class About extends Component {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         this.props.cookies.set("about-id", resp.id);
         this.props.updateAbout();
       })
@@ -67,7 +67,7 @@ class About extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         this.setState({ modelShow: false });
         this.props.updateAbout();
       })

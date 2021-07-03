@@ -2,7 +2,6 @@ import "./Register.css";
 import React, { Component } from "react";
 import { Container, Form, Row, Card } from "react-bootstrap";
 import { Typography, Button, TextField } from "@material-ui/core";
-import logo from "./google.png";
 import { Link, Redirect } from "react-router-dom";
 
 class Login extends Component {
@@ -41,7 +40,7 @@ class Login extends Component {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         if (resp.response) {
           this.setState({ responseMsg: resp.response });
         } else if (resp.email) {

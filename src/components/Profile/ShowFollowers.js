@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
-import { withCookies } from "react-cookie";
+// import { withCookies } from "react-cookie";
 import FollowersList from "./FollowersList";
 
 class ShowFollowers extends Component {
@@ -40,7 +40,7 @@ class ShowFollowers extends Component {
   }
 
   render() {
-    console.log(this.state.followers.length);
+    // console.log(this.state.followers.length);
     return (
       <div>
         <Modal

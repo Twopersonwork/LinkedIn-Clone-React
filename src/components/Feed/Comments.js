@@ -25,7 +25,6 @@ class Comments extends Component {
     }
   }
   moreOptions = (e) => {
-    console.log("more clicked");
     this.setState({
       anchorEl: e.currentTarget,
     });
