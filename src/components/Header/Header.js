@@ -116,7 +116,7 @@ class Header extends Component {
                     classes={{ badge: classes.customBadge }}
                     style={{
                       paddingLeft: "20px",
-                      bottom: "20px",
+                      bottom: "-6px",
                       left: "55px",
                     }}
                     badgeContent={
@@ -131,7 +131,9 @@ class Header extends Component {
               </UserContext.Consumer>
               <NavList
                 className={
-                  window.location.pathname.slice(1) == "network" ? "active" : null
+                  window.location.pathname.slice(1) == "network"
+                    ? "active"
+                    : null
                 }
               >
                 <Link onClick={this.thisClicked} to={"/network"}>
@@ -170,7 +172,11 @@ class Header extends Component {
               //   window.location.pathname.slice(1) == "/#" ? "active" : null
               // }
               >
-                <Link data-tip data-for="registerTip" onClick={(event) => event.preventDefault()}>
+                <Link
+                  data-tip
+                  data-for="registerTip"
+                  onClick={(event) => event.preventDefault()}
+                >
                   <img
                     src="/images/nav-jobs.svg"
                     data-tip
@@ -192,8 +198,17 @@ class Header extends Component {
               //   window.location.pathname.slice(1) == "/#" ? "active" : null
               // }
               >
-                <Link data-tip data-for="registerTip" onClick={(event) => event.preventDefault()}>
-                  <img src="/images/nav-messaging.svg" data-tip data-for="registerTip" alt="" />
+                <Link
+                  data-tip
+                  data-for="registerTip"
+                  onClick={(event) => event.preventDefault()}
+                >
+                  <img
+                    src="/images/nav-messaging.svg"
+                    data-tip
+                    data-for="registerTip"
+                    alt=""
+                  />
                   <span data-tip data-for="registerTip">
                     Messaging
                   </span>
@@ -205,7 +220,11 @@ class Header extends Component {
               //   window.location.pathname.slice(1) == "/#" ? "active" : null
               // }
               >
-                <Link data-tip data-for="registerTip" onClick={(event) => event.preventDefault()}>
+                <Link
+                  data-tip
+                  data-for="registerTip"
+                  onClick={(event) => event.preventDefault()}
+                >
                   <img
                     src="/images/nav-notifications.svg"
                     data-tip
