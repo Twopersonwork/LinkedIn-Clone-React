@@ -16,7 +16,7 @@ class InputOption extends Component {
     // console.log("auth-user ", this.props.cookies.get("auth-user"));
     const { Icon, title, color, tooltip } = this.props;
     return (
-      <div onClick={this.props.function} className="inputOption">
+      <div onClick={this.props.click} className="inputOption">
         <Icon
           style={{ color: color }}
           data-tip

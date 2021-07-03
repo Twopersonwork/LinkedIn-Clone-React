@@ -370,7 +370,7 @@ class Post extends Component {
         </div>
         <div className="post__buttons">
           <InputOption
-            function={this.submitLike}
+            click={this.submitLike}
             Icon={ThumbUpIcon}
             title="Like"
             color={this.state.has_liked ? "rgb(28, 133, 189)" : "gray"}
@@ -378,7 +378,7 @@ class Post extends Component {
           />
           <InputOption
             Icon={ChatOutlinedIcon}
-            function={this.modalShowComment}
+            click={this.modalShowComment}
             title="Comment"
             color="gray"
           />

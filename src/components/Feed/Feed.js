@@ -128,7 +128,14 @@ class Feed extends Component {
           </button>
           {/* </div> */}
           <div className="feed__inputOptions">
-            <InputOption Icon={ImageIcon} title="Photo" color="#70B5F9" />
+            <InputOption
+              click={() => {
+                this.setState({ modalPost: true });
+              }}
+              Icon={ImageIcon}
+              title="Photo"
+              color="#70B5F9"
+            />
 
             <InputOption
               Icon={SubscriptionsIcon}
@@ -136,7 +143,12 @@ class Feed extends Component {
               color="#7FC15E"
               tooltip="present"
             />
-            <InputOption Icon={EventNoteIcon} title="Event" color="#E7A33E" tooltip="present"/>
+            <InputOption
+              Icon={EventNoteIcon}
+              title="Event"
+              color="#E7A33E"
+              tooltip="present"
+            />
             <InputOption
               Icon={CalendarViewDayIcon}
               title="Write article"
