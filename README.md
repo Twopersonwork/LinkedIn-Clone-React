@@ -2,7 +2,7 @@
 
 ## Build :
 
-#### After cloning Run :
+#### 1. After cloning Run :
 
 ```
 npm install
