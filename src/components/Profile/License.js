@@ -53,7 +53,7 @@ class License extends Component {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         this.props.cookies.set("license-id", resp.id);
         this.props.updateLicense();
       })
@@ -78,7 +78,7 @@ class License extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         if (!resp.name) {
           if (resp.issue_date) {
             this.setState({ issue_date_error: resp.issue_date });
@@ -152,7 +152,7 @@ class License extends Component {
   };
 
   deleteModalDisplay = () => {
-    console.log("hell");
+    // console.log("hell");
     this.setState({ deleteModalShow: true });
   };
 
@@ -163,7 +163,7 @@ class License extends Component {
   }
 
   render() {
-    console.log(this.state.deleteModalShow);
+    // console.log(this.state.deleteModalShow);
     return (
       <Modal
         show={this.state.modelShow}
@@ -307,7 +307,6 @@ class License extends Component {
         </Modal.Footer>
         {this.state.deleteModalShow ? (
           <Modal
-            className="mine"
             show={this.state.deleteModalShow}
             size="sm"
             aria-labelledby="contained-modal-title-vcenter"

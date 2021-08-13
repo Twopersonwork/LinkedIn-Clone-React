@@ -13,7 +13,6 @@ import Login from "./components/Login/Login";
 import Profile from "./components/Profile/Profile";
 import ActivityLeft from "./components/Profile/ActivityLeft";
 import ActivityMain from "./components/Profile/ActivityMain";
-import ActivityRight from "./components/Profile/ActivityRight";
 import GenerateData from "./components/GenerateData";
 import Network from "./components/Network/Network";
 import NetworkLeft from "./components/Network/NetworkLeft";
@@ -24,6 +23,7 @@ import ProfileRight from "./components/Profile/ProfileRight";
 class App extends Component {
   constructor(props) {
     super(props);
+    // console.log(process.env);
 
     this.state = {
       user: [],
@@ -100,7 +100,6 @@ class App extends Component {
                           <React.Fragment>
                             <ActivityLeft {...props} />
                             <ActivityMain {...props} />
-                            <ActivityRight />
                           </React.Fragment>
                         )}
                       />

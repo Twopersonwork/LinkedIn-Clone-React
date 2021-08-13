@@ -23,7 +23,7 @@ class Education extends Component {
   }
 
   inputChanged = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     let cred = this.state.credentials;
     cred[event.target.name] = event.target.value;
     this.setState({ credentials: cred });
@@ -47,7 +47,7 @@ class Education extends Component {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         this.props.cookies.set("education-id", resp.id);
         this.props.updateEducation();
       })
@@ -72,7 +72,7 @@ class Education extends Component {
     )
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         this.setState({ modelShow: false });
         this.props.updateEducation();
       })

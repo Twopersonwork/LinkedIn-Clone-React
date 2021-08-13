@@ -26,7 +26,7 @@ class Count extends Component {
     this.setState({ users: [] });
 
     for (var i = 0; i < this.props.post.likes.length; i++) {
-      console.log(this.props.post.likes[i].user);
+      // console.log(this.props.post.likes[i].user);
       fetch(
         `${process.env.REACT_APP_API_URL}/uapi/users/${this.props.post.likes[i].user}/`,
         {

@@ -38,7 +38,6 @@ class Post extends Component {
     };
   }
   moreOptions = (e) => {
-    console.log("more clicked");
     this.setState({
       anchorEl: e.currentTarget,
     });
@@ -70,7 +69,7 @@ class Post extends Component {
       }
     )
       .then((resp) => {
-        console.log(this.props.activityDelete);
+        // console.log(this.props.activityDelete);
         if (this.props.activityDelete) {
           this.props.activityUpdate();
 
@@ -84,7 +83,7 @@ class Post extends Component {
     this.handleClose();
   };
   handleComment = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     this.setState({ comment: e.target.value });
   };
   submitComment = () => {

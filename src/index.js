@@ -12,7 +12,7 @@ const LoadingIndicator = (props) => {
     promiseInProgress && (
       <div class="loading-scr">
         <div class="loading-animation">
-          <img src="/images/home-logo.svg" alt="Linkedin logo" class="logo" />
+          <img class="logo" src="/images/home-logo.svg" alt="Linkedin logo"/>
           <div class="load-bar"></div>
         </div>
       </div>

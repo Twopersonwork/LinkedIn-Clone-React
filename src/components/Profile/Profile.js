@@ -1040,7 +1040,6 @@ const add_activity = {
   marginRight: "20px",
   // paddingLeft: "20px",
   // paddingRight: "20px",
-  marginTop: "-20px",
   // marginLeft: "10px",
   display: "flex",
   textTransform: "none",

@@ -15,7 +15,7 @@ class EditSkill extends Component {
   }
 
   deleteSkill = (id) => {
-    console.log(id);
+    // console.log(id);
     fetch(`${process.env.REACT_APP_API_URL}/profile/skills/${id}/`, {
       method: "DELETE",
       headers: {
@@ -24,7 +24,7 @@ class EditSkill extends Component {
       },
     })
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         this.props.updateSkills();
       })
 
@@ -32,7 +32,7 @@ class EditSkill extends Component {
   };
 
   render() {
-    console.log(this.props.SkillCredentials);
+    // console.log(this.props.SkillCredentials);
     return (
       <Modal
         show={this.state.modalShow}

@@ -199,7 +199,7 @@ class OtherUserProfile extends Component {
                   onContactChange={(e) => this.setState({ showContactInfo: e })}
                 />
               )
-            ) : null} 
+            ) : null}
           </div>
         </div>
 
@@ -229,7 +229,7 @@ class OtherUserProfile extends Component {
             >
               {this.state.user.followers ? this.state.user.followers.length : 0}{" "}
               {this.state.user.followers &&
-              this.state.user.followers.length == 1
+              this.state.user.followers.length === 1
                 ? "follower"
                 : "followers"}
             </span>
@@ -476,16 +476,16 @@ class OtherUserProfile extends Component {
   }
 }
 
-const profile_button = {
-  paddingLeft: "20px",
-  paddingRight: "20px",
-  marginTop: "10px",
-  marginLeft: "10px",
-  fontWeight: "bold",
-  borderRadius: "50px",
-  display: "flex",
-  color: "#0c66c2",
-  border: "solid 1px #0c66c2",
-};
+// const profile_button = {
+//   paddingLeft: "20px",
+//   paddingRight: "20px",
+//   marginTop: "10px",
+//   marginLeft: "10px",
+//   fontWeight: "bold",
+//   borderRadius: "50px",
+//   display: "flex",
+//   color: "#0c66c2",
+//   border: "solid 1px #0c66c2",
+// };
 
 export default withCookies(OtherUserProfile);
