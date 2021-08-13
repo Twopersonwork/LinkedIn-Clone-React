@@ -24,7 +24,6 @@ import ProfileRight from "./components/Profile/ProfileRight";
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log(process.env);
 
     this.state = {
       user: [],
