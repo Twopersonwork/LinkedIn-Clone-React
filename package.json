@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
-    "react": "^18.2.0",
+    "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-cookie": "^4.0.3",
     "react-cookies": "^0.1.1",
@@ -26,10 +26,10 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start --openssl-legacy-provider",
-    "build": "react-scripts build --openssl-legacy-provider",
-    "test": "react-scripts test --openssl-legacy-provider",
-    "eject": "react-scripts eject --openssl-legacy-provider"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
