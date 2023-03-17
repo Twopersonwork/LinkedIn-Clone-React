@@ -15,7 +15,7 @@ npm install
 #### 3. Run the react app.
 
 ```
-npm run
+npm start
 ```
 
 #### It will run at localhost:3000 by default.
@@ -37,8 +37,9 @@ npm run
 
 - https://github.com/CleverProgrammers/cp-linkedin-clone
 
-## Demo : [Our Work](https://ditto-linkedin.herokuapp.com/)
+## Demo : [Our Work](https://ditto-linkedin.vercel.app/)
 
 ```
 Use any credentials to use the web app.
+[NOTE] It may load more, be patient.
 ```
